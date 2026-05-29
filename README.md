@@ -1,38 +1,33 @@
-# EEG Motor Imagery Decoding with EEGNet
+# EEG 运动想象解码：cross-subject 的难题
 
-这是一个用 PyTorch + Braindecode 在 PhysioNet motor imagery 数据集上做运动想象解码的项目。目标是探索 cross-subject BCI 的真实表现以及 fine-tuning 的有效性。
+这个项目用 PhysioNet 的运动想象 EEG 数据和 EEGNet，做想象左手 / 右手的分类。
 
-## 实验结果
+我先复刻了 baseline：在单个被试自己的数据上训练和测试，能到 **67%**。
 
-四方案对比：
+但我没停在这。我想知道——换一个模型没见过的人，还行不行？结果**崩到了 52%**，基本就是瞎猜。
 
-| 方案 | 准确率 |
-|------|--------|
-| 方案 2：cross-subject 直接用 | 52.0% |
-| 方案 3：全模型 fine-tune（5 被试平均） | 52.0% ± 4.9% |
-| 方案 4：只调最后一层（5 被试平均） | 45.7% ± 4.8% |
-| 随机猜测 baseline | 50.0% |
+这个项目记录的就是：为什么换个人就崩，以及我试着救它的过程。
 
-## 主要发现
+## 实验过程
 
-- Cross-subject variability 真实存在；
-- Naive fine-tune 在 10-trial calibration 下因 few-shot overfitting 失败；
-- 只调最后一层（参数从 2930 减到 802）仍然不够，因为参数数仍远大于样本数。
+**第一步：单被试**
+用一个人的数据训练和测试，做到 67%。pipeline 很标准：滤波留 8–30 Hz（运动相关的频段）→ 切成 epoch → 喂给 EEGNet。
 
-## 环境
+**第二步：换人（cross-subject）**
+用 40 个人训练，在没见过的新人上测。掉到 52%。
 
-- Python 3.12
-- PyTorch 2.12
-- Braindecode 1.5.1
-- MNE 1.12.1
+## 为什么换人就崩
 
-## 运行方式
+每个人大脑的"方言"不一样——同样是想象动手，不同人的脑电模式有差异。模型在 40 个人身上学到的规律，换个新人就不适用了。
 
-```bash
-source venv/bin/activate
-jupyter notebook eeg_motor_imagery_v1.ipynb
-```
+## 试着救它：fine-tune
 
-## 作者
+我试了用新人的少量数据（10 个 trial）去微调模型，想让它适应新人。结果没救成（45–52%）。原因是样本太少、模型参数太多——10 个样本根本喂不饱，模型直接过拟合了。
 
-李一恒（yihengli23@gmail.com）
+## 接下来能怎么办
+
+真正的出路可能是大规模预训练：让模型见过几千个人的数据，新人来了大概率"似曾相识"。这是近几年 BENDR、BIOT 这些工作的方向。我受限于数据量（PhysioNet 只有 109 人）没法验证，这是接下来想试的。
+
+## 我学到了什么
+
+cross-subject 不是我没调好，是这个领域本来就难的问题。比起一个虚高的单被试数字，我更想搞清楚它为什么崩、能怎么救。
