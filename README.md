@@ -47,3 +47,4 @@ cross-subject 不是我没调好，是这个领域本来就难的问题。比起
 读 BCI 领域文献并连接到自己的实验,笔记放在 [`paper_notes/`](paper_notes/):
 
 - [用"听口音"的方式解决脑机接口的跨人难题](paper_notes/resttl_resting_state_transfer.md) — 读 Subject-Adaptive Transfer Learning Using Resting State EEG (MICCAI 2024)
+- [把"想说的话"从脑子里读出来——以及它没解决的那堵老墙](paper_notes/willett2023_speech_bci.md) — 读 Willett et al. 2023, A high-performance speech neuroprosthesis (Nature)
