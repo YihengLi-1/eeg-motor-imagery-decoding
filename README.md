@@ -41,3 +41,9 @@
 ## 我学到了什么
 
 cross-subject 不是我没调好，是这个领域本来就难的问题。比起一个虚高的单被试数字，我更想搞清楚它为什么崩、能怎么救。
+
+## 论文阅读笔记
+
+读 BCI 领域文献并连接到自己的实验,笔记放在 [`paper_notes/`](paper_notes/):
+
+- [用"听口音"的方式解决脑机接口的跨人难题](paper_notes/resttl_resting_state_transfer.md) — 读 Subject-Adaptive Transfer Learning Using Resting State EEG (MICCAI 2024)
