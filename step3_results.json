@@ -1,0 +1,38 @@
+{
+  "experiment": "LaBraM (probe / full-FT) vs EEGNet — cross-subject left/right-hand MI",
+  "config": {
+    "dataset": "PhysioNet eegbci, runs [4,8,12] (left vs right hand imagery)",
+    "n_clean_subjects": 50,
+    "split_by_subject_seed42": {"train": 35, "val": 5, "test": 10},
+    "test_subjects": [14, 18, 20, 26, 27, 31, 33, 40, 46, 49],
+    "preprocessing": "8-30Hz bandpass -> resample 200Hz -> 5s window (-1..4) = 1000 samples -> x1e6 uV",
+    "identical_pipeline_for_all_3_models": true,
+    "leakage_controls": "split by subject; same split for all 3; early-stop on val subjects only; test touched once; only fixed x1e6 scaling",
+    "device": "mps"
+  },
+  "summary_mean_std_over_10_test_subjects": {
+    "EEGNet_end_to_end":   {"acc_mean": 0.496, "acc_std": 0.065, "kappa_mean": -0.012, "kappa_std": 0.125},
+    "LaBraM_linear_probe": {"acc_mean": 0.509, "acc_std": 0.042, "kappa_mean":  0.015, "kappa_std": 0.084},
+    "LaBraM_full_finetune":{"acc_mean": 0.500, "acc_std": 0.072, "kappa_mean":  0.001, "kappa_std": 0.142},
+    "random_baseline":     {"acc": 0.500, "kappa": 0.0}
+  },
+  "per_subject_accuracy": {
+    "14": {"EEGNet": 0.400, "LaBraM_probe": 0.511, "LaBraM_fullFT": 0.511},
+    "18": {"EEGNet": 0.511, "LaBraM_probe": 0.489, "LaBraM_fullFT": 0.444},
+    "20": {"EEGNet": 0.578, "LaBraM_probe": 0.533, "LaBraM_fullFT": 0.400},
+    "26": {"EEGNet": 0.511, "LaBraM_probe": 0.489, "LaBraM_fullFT": 0.378},
+    "27": {"EEGNet": 0.556, "LaBraM_probe": 0.578, "LaBraM_fullFT": 0.556},
+    "31": {"EEGNet": 0.467, "LaBraM_probe": 0.578, "LaBraM_fullFT": 0.578},
+    "33": {"EEGNet": 0.600, "LaBraM_probe": 0.511, "LaBraM_fullFT": 0.556},
+    "40": {"EEGNet": 0.467, "LaBraM_probe": 0.467, "LaBraM_fullFT": 0.467},
+    "46": {"EEGNet": 0.400, "LaBraM_probe": 0.444, "LaBraM_fullFT": 0.600},
+    "49": {"EEGNet": 0.467, "LaBraM_probe": 0.489, "LaBraM_fullFT": 0.511}
+  },
+  "training_notes": {
+    "EEGNet": "early stop ep18, best_val 0.538",
+    "LaBraM_probe": "early stop ep9, best_val 0.564; NO overfit (train ~0.52-0.56)",
+    "LaBraM_fullFT": "early stop ep12, best_val 0.529; CLEAR OVERFIT: train_acc 0.872@ep5 -> 0.927@ep10 while val ~0.48 and test 0.50"
+  },
+  "headline": "All three models sit at chance (~50%) on cross-subject left/right-hand MI. LaBraM does not beat EEGNet here; full fine-tuning overfits the 35-subject training set and still generalizes at chance.",
+  "pending_caveat": "Filter fixed at 8-30Hz to match the EEGNet baseline; LaBraM was pretrained broadband (0.1-75Hz). A broadband sensitivity run for LaBraM is recommended before concluding LaBraM cannot help."
+}
