@@ -3,3 +3,7 @@ __pycache__/
 .ipynb_checkpoints/
 .DS_Store
 *.pyc
+
+# 实验缓存 & 日志(可重新生成,体积大)
+*.log
+*.pkl
