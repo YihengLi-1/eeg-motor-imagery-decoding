@@ -1,87 +1,64 @@
-# EEG 运动想象解码：cross-subject 的难题
+# Cross-Subject EEG Motor-Imagery Decoding
 
-这个项目用 PhysioNet 的运动想象 EEG 数据和 EEGNet，做想象左手 / 右手的分类。
+This project asks a harder question than within-subject classification: **can a model decode left- vs. right-hand motor imagery for people it never saw during training?**
 
-我先复刻了 baseline：在单个被试自己的数据上训练和测试，能到 **67%**。
+Using PhysioNet EEG Motor Movement/Imagery data, I built subject-disjoint experiments comparing EEGNet with the pretrained LaBraM foundation model. The main lesson was not simply that a larger model performed better—it was that matching a pretrained model's original input distribution changed the experimental conclusion.
 
-但我没停在这。我想知道——换一个模型没见过的人，还行不行？结果**崩到了 52%**，基本就是瞎猜。
+> 中文研究记录：[README.zh-CN.md](README.zh-CN.md)  
+> Full matched-comparison notes: [FINDINGS_labram_vs_eegnet.md](FINDINGS_labram_vs_eegnet.md)
 
-这个项目记录的就是：为什么换个人就崩，以及我试着救它的过程。
+## Results at a glance
 
-## 实验结果
+The matched comparison used separate training data, a **5-subject validation cohort**, and a **10-subject held-out test cohort**.
 
-所有结果都是**多次运行的平均 ± 标准差**，不是单次最好成绩。
+| Model and protocol | Held-out result |
+|---|---:|
+| EEGNet, 8–30 Hz | 49.6% ± 6.5% |
+| LaBraM linear probe, 8–30 Hz | 50.9% ± 4.2% |
+| LaBraM full fine-tune, 8–30 Hz | 50.0% ± 7.2% |
+| **LaBraM full fine-tune, 0.1–75 Hz** | **78.4% ± 16.4%, kappa +0.58** |
 
-| 实验 | 准确率 |
-|---|---|
-| 单被试（subject 1，5 次不同随机种子） | 55.6% ± 24.3% |
-| cross-subject（40 人训练，5 个新人测，3 次） | 52.2% ± 3.0% |
-| 随机猜测 baseline | 50.0% |
+The independent validation cohort reached approximately **72%** under the successful broadband setup. Eight of ten held-out test subjects scored between 67% and 100%, while two remained near chance.
 
-**两个发现：**
+## Important limitation
 
-**1. cross-subject 几乎等于瞎猜（52.2%）。** 模型在 40 个人身上学到的东西，换个新人就不灵了——因为每个人大脑的"方言"不一样。
+The 78.4% result comes from **one subject split**. The ±16.4% is variation across the ten held-out subjects, not confirmation across multiple random subject splits. Full multi-seed replication was not completed because of compute limits, and training accuracy reached 99.5%, so overfitting remains a real concern.
 
-**2. 单被试的高准确率是不可靠的。** 它平均 55.6%，但标准差高达 ±24.3%（5 次从 22% 跳到 89%）。原因是单被试数据太少——只有 45 个 trial，测试集才 9 个，换一次数据切分结果就天翻地覆。相比之下 cross-subject 测的是 5 个完整的人，所以虽然准确率低，反而稳定（±3.0%）。
+I report the result as strong evidence worth replicating—not as a final benchmark.
 
-我一开始只跑了一次，单被试拿到 67%，差点以为"还不错"。跑了 5 次才发现这个数字根本不稳。**这让我意识到：单次结果会骗人，必须看多次运行的方差。**
+## What changed the outcome
 
-## 为什么换人就崩
+With the conventional 8–30 Hz motor-imagery band, every method remained near chance. LaBraM was pretrained on broadband EEG, so narrowband filtering removed information its learned representation expected. Restoring 0.1–75 Hz input while keeping the comparison subject-disjoint produced the large gain.
 
-每个人大脑的"方言"不一样——同样是想象动手，不同人的脑电模式有差异。模型在 40 个人身上学到的规律，换个新人就不适用了。
+This creates a general evaluation lesson: **when transferring a pretrained model, preprocessing is part of the model contract.** A reasonable domain convention can still produce the wrong conclusion if it breaks that contract.
 
-## 试着救它：fine-tune
+## Experimental design
 
-我试了用新人的少量数据（10 个 trial）去微调模型，想让它适应新人。结果没救成（45–52%）。原因是样本太少、模型参数太多——10 个样本根本喂不饱，模型直接过拟合了。
+- Dataset: PhysioNet EEG Motor Movement/Imagery
+- Task: imagined left vs. right hand movement
+- Inputs: 64 EEG channels, runs 4/8/12
+- Split policy: subject-disjoint training, validation, and test cohorts
+- Models: EEGNet and LaBraM
+- LaBraM modes: frozen linear probe and full fine-tuning
+- Reporting: held-out subject accuracy, variation across subjects, Cohen's kappa, validation behavior, and explicit caveats
 
-## 接下来能怎么办
+## Technical adaptations
 
-真正的出路可能是大规模预训练：让模型见过几千个人的数据，新人来了大概率"似曾相识"。这是近几年 BENDR、BIOT、LaBraM 这些工作的方向。我自己的数据只有 109 人，喂不出这种模型——但我可以**直接拿别人预训练好的大模型来试**。所以我真去试了，见下一节。
+- Converted signal scale to microvolts to match LaBraM's expected input convention.
+- Interpolated/mapped EEG channels to the pretrained model's channel representation.
+- Adapted temporal embeddings for the experiment's 1,000-sample windows.
+- Kept subject identities disjoint to prevent person-level leakage.
 
-## 我真的试了：拿 LaBraM（2024 的脑电大模型）来翻这堵墙
+## Reproduce the comparison
 
-上面说"想试大规模预训练"——我真去试了。**LaBraM**（ICLR 2024）是个在约 2500 小时、上千段 EEG 上预训练的脑电基础大模型。我把它在**我自己这套左右手数据**上微调，和我的 EEGNet 做了一场**同口径的 cross-subject 对比**（就在我的 MacBook 上，用 M3 的 GPU 跑的）。
+Key entry points:
 
-**公平性是这次的重点：** 同一份数据、同样**按被试切**（测试的人绝不进训练，防 data leakage）、同样的评估，**只换模型**。LaBraM 跑两种用法：线性探针（冻结骨干当特征提取器）和全量微调（整个一起训，和 EEGNet 端到端同口径）。
+```text
+step3_compare.py       Narrowband matched comparison
+step3b_broadband.py    Broadband comparison
+results/               Saved result artifacts
+FINDINGS_labram_vs_eegnet.md
+```
 
-**结果先给我上了一课。** 一开始我图省事，给 LaBraM 用了和 EEGNet 一样的 8–30Hz 滤波——结果它也是 ~50%，跟瞎猜没区别。我差点写下"连最新的大模型也翻不过这堵墙"。
+The repository also includes earlier EEGNet baselines, fine-tuning attempts, notebooks, and paper-reading notes that show how the investigation evolved.
 
-**但 LaBraM 是在宽频段（0.1–75Hz）上预训练的。** 8–30Hz 等于把它赖以工作的信息滤掉了。我换回它该用的宽带，只改这一个变量——全量微调直接跳到了 **~78%**：
-
-| 模型用法 | 窄带 8–30Hz | 宽带 0.1–75Hz |
-|---|---|---|
-| EEGNet 端到端 | ~50% | ~55% |
-| LaBraM 线性探针 | ~50% | ~52–54% |
-| **LaBraM 全量微调** | ~50% | **~78%** |
-| 随机猜测 | 50% | 50% |
-
-**三个结论：**
-
-1. **窄带下，所有模型都瞎猜**——包括 LaBraM。我那堵 52% 的墙还在。
-2. **换成宽带，LaBraM 全量微调翻过去了（~78%）。** 10 个没见过的新被试里 8 个解码良好（67–100%），独立的验证集也独立涨到了 ~72%，说明是真泛化，不是测试集走运。
-3. **这是预训练的功劳，不只是"宽带信息多"。** 同样喂宽带，从零训练的 EEGNet 只到 ~55%。宽带对谁都有点帮助，但只有**见过上千人的大模型**能把它转成质变。
-
-**→ 这验证了我前面的猜想：大规模预训练确实能救 cross-subject——但前提是用对它预训练时的预处理。**
-
-**最值钱的一条教训：** 一个看着完全合理的预处理选择（8–30Hz，是运动想象的领域标准做法），差点让我得出"大模型没用"的错误结论。**评估别人的预训练模型，得先搞清楚它当初是怎么训的——预处理能把结论整个翻过来。**
-
-**诚实的 caveat（不藏）：**
-
-- **78% 是单次被试划分的结果。** 我本想用多个随机划分重跑确认它稳不稳，但全量微调这步在后台反复被杀（机器扛不住长时间重负载），多 seed 验证没跑完。讽刺的是，这正好撞上我这项目最开始的教训——**单次结果会骗人**。所以我把 78% 标成"**强，但待多 seed 确认**"，不当定论。
-- **方差大：** 10 个新被试里 8 个很好、2 个仍瞎猜。不是人人都行。
-- **全量微调过拟合了训练集**（训练准确率 99.5%），但居然还能泛化到新人——靠早停 + 预训练先验救住了。容量大是双刃剑。
-
-完整数据和复现脚本见 [`FINDINGS_labram_vs_eegnet.md`](FINDINGS_labram_vs_eegnet.md)。
-
-## 我学到了什么
-
-cross-subject 不是我没调好，是这个领域本来就难的问题。比起一个虚高的单被试数字，我更想搞清楚它为什么崩、能怎么救。
-
-后来跑 LaBraM 又加了两条：**(1)** 大规模预训练确实能翻过 cross-subject 这堵墙，我亲手测到了；**(2)** 但评估一个预训练大模型，预处理口径能让结论从"没用"翻到"很能打"——别拿自己的习惯口径去套别人的模型。
-
-## 论文阅读笔记
-
-读 BCI 领域文献并连接到自己的实验,笔记放在 [`paper_notes/`](paper_notes/):
-
-- [用"听口音"的方式解决脑机接口的跨人难题](paper_notes/resttl_resting_state_transfer.md) — 读 Subject-Adaptive Transfer Learning Using Resting State EEG (MICCAI 2024)
-- [把"想说的话"从脑子里读出来——以及它没解决的那堵老墙](paper_notes/willett2023_speech_bci.md) — 读 Willett et al. 2023, A high-performance speech neuroprosthesis (Nature)
