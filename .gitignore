@@ -13,3 +13,5 @@ seizure/_cache/
 seizure/_models/
 seizure/*.out
 seizure/__pycache__/
+seizure/szcore_hypothesis/
+seizure/szcore_hypothesis.zip
