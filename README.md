@@ -69,10 +69,14 @@ evaluated with the [SzCORE](https://arxiv.org/abs/2402.13005) protocol.
 | LaBraM, full fine-tuning (5.8M params) | 0.34 | **0.23** | **0.27** | 0.27 ± 0.19 | **9.4** |
 | EEGNet distilled from LaBraM (1:5 background) | 0.36 | 0.08 | 0.13 | 0.25 ± 0.31 | 35.4 |
 | EEGNet distilled, 30× teacher-labelled background | 0.62 | 0.10 | 0.17 | 0.28 ± 0.26 | 45.3 |
+| **LaBraM + EEGNet probability average** | 0.53 | **0.28** | **0.37** | **0.44 ± 0.29** | 10.9 |
+
+![Sensitivity vs. false alarms per 24 h](seizure/figure_seizure_tradeoff.png)
 
 What this shows:
 
-- **The pretraining advantage is task-dependent.** Here it is a trade-off: about 3× fewer false alarms, about half the sensitivity.
+- **The pretraining advantage is task-dependent.** Alone, LaBraM is a trade-off: about 3× fewer false alarms, about half the sensitivity.
+- **The two models make complementary errors.** Averaging their probabilities (weight, threshold and smoothing chosen on the validation patients; `seizure/ensemble.py`) keeps LaBraM's false-alarm rate (10.9 / 24 h) while recovering most of EEGNet's sensitivity, raising pooled F1 from 0.27 to 0.37.
 - **Failures are structured.** LaBraM caught 1 of 10 seizures of the only frontal-onset patient (EEGNet 5 of 10); two temporal-lobe patients (8 seizures) were missed by both models.
 - **Naive compression does not keep the advantage.** Distilling LaBraM into EEGNet (~11× faster on CPU, 5 vs. 54 ms per window) did not keep its low false-alarm rate, even with 30× more background data.
 - No model here is clinically usable, and fold-to-fold variance is large with 14 patients.
@@ -81,7 +85,8 @@ An earlier run (`seizure/archive_v1/`) used class weights on top of 1:5 sampling
 patient; it was too trigger-happy (fold 0: 106 false alarms / 24 h) and was replaced by the protocol above.
 
 Reproduce: `seizure/run_all.sh` (download BIDS Siena to `~/mne_data/BIDS_Siena` first), then
-`seizure/run_distill.sh`, `seizure/run_distill_bg.sh`, and `python seizure/repostproc.py EEGNet fullFT KD KDbg30`.
+`seizure/run_distill.sh`, `seizure/run_distill_bg.sh`, `python seizure/repostproc.py EEGNet fullFT KD KDbg30`,
+`python seizure/ensemble.py`, and `python seizure/make_figure.py`.
 
 ## What changed the outcome
 
