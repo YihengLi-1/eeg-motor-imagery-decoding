@@ -44,6 +44,19 @@ def load_results(root=ROOT):
     return rows
 
 
+def load_replication(root=ROOT):
+    """Recompute the 4-split replication summaries from per-split results."""
+    data = json.loads((root / "step3c_fullmatrix_results.json").read_text())
+    rows = []
+    for key, splits in data["results"].items():
+        values = [r["mean_acc"] for r in splits]
+        stored = data["final_mean_std_over_seeds"][key]
+        if not math.isclose(mean(values), stored["acc_mean"], abs_tol=1e-9):
+            raise ValueError(f"{key}: stored mean does not match per-split results")
+        rows.append({"model": key, "n_splits": len(values), "acc_mean": mean(values), "acc_std": pstdev(values)})
+    return rows
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-dir", type=Path, default=ROOT)
@@ -51,17 +64,21 @@ def main():
     args = parser.parse_args()
     try:
         rows = load_results(args.data_dir)
+        replication = load_replication(args.data_dir)
     except (OSError, ValueError, KeyError, TypeError) as exc:
         parser.exit(1, f"Cannot summarize saved results: {exc}\n")
     if args.json:
-        print(json.dumps(rows, indent=2))
+        print(json.dumps({"split_a": rows, "replication": replication}, indent=2))
         return
     print("Split A: 10 held-out subjects. Saved results; no new training run.\n")
     for row in rows:
         print(f"{row['model']:<40} {100*row['acc_mean']:5.1f}% +/- {100*row['acc_std']:4.1f}%  kappa {row['kappa_mean']:+.3f}")
     print("\n+/- is population SD across subjects, not a confidence interval or variation across seeds.")
     print("Narrowband rows use the stored rounded summaries; broadband summaries are recomputed.")
-    print("Broadband EEGNet is absent from split A; multi-split full-fine-tuning replication is incomplete.")
+    print("\nReplication: all 6 configurations on independent subject splits.\n")
+    for row in replication:
+        print(f"{row['model']:<40} {100*row['acc_mean']:5.1f}% +/- {100*row['acc_std']:4.1f}%  (n={row['n_splits']} splits)")
+    print("\nHere +/- is population SD across subject splits.")
 
 
 if __name__ == "__main__":

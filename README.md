@@ -31,15 +31,29 @@ The matched comparison used separate training data, a **5-subject validation coh
 
 The independent validation cohort reached approximately **72%** under the successful broadband setup. Eight of ten held-out test subjects scored between 67% and 100%, while two remained near chance.
 
-## Important limitation
+## Replication across subject splits
 
-The 78.4% result comes from **one subject split**. The ±16.4% is variation across the ten held-out subjects, not confirmation across multiple random subject splits. Broadband EEGNet was not run on this same split, so the table does not isolate a pretraining advantage over a matched broadband baseline. Full multi-seed replication was not completed because of compute limits, and training accuracy reached 99.5%, so overfitting remains a real concern.
+The table above is one subject split (Split A); its ±16.4% is variation across the ten held-out subjects. To check whether the headline survives a different choice of subjects, I re-ran **all six configurations, including a broadband EEGNet baseline, on 4 independent subject splits** (`run_matrix_robust.sh` + `step3d_matrix.py`, results in `step3c_fullmatrix_results.json`). Values are mean ± population SD **across splits** (`python3 scripts/summarize_results.py` recomputes them):
 
-I report the result as strong evidence worth replicating—not as a final benchmark.
+| Model | 8–30 Hz | 0.1–75 Hz |
+|---|---:|---:|
+| EEGNet, end-to-end | 49.8% ± 0.3% | 54.9% ± 1.0% |
+| LaBraM linear probe | 50.5% ± 0.9% | 48.5% ± 2.3% |
+| **LaBraM full fine-tune** | 48.8% ± 0.8% | **79.1% ± 1.7%, kappa +0.58** |
+
+The original 78.4% sits in the middle of this distribution. Broadband input alone helps EEGNet only slightly (+5 points), so the large gain comes from the pretrained model given its own input band.
+
+![Accuracy by band and model across 4 subject splits](figure_band_x_model.png)
+
+## Remaining limitations
+
+- Split-level variance is small, but **subject-level variance is large**: within a split, 1–2 of 10 held-out subjects remain near chance.
+- Full fine-tuning reaches ~99.6% training accuracy; early stopping and the pretrained prior keep it generalizing, but overfitting is a real concern.
+- Four splits is still a small replication, and all runs use one dataset and one task.
 
 ## What changed the outcome
 
-With the conventional 8–30 Hz motor-imagery band, every method remained near chance. LaBraM was pretrained on broadband EEG; the change is consistent with sensitivity to its input distribution, though the incomplete same-split baseline limits causal conclusions. Restoring 0.1–75 Hz input while keeping the comparison subject-disjoint produced the large gain.
+With the conventional 8–30 Hz motor-imagery band, every method remained near chance. LaBraM was pretrained on broadband EEG; the change is consistent with sensitivity to its input distribution, and the replication matrix's broadband EEGNet baseline (54.9%) shows broadband input alone does not explain it. Restoring 0.1–75 Hz input while keeping the comparison subject-disjoint produced the large gain.
 
 This creates a general evaluation lesson: **when transferring a pretrained model, preprocessing is part of the model contract.** A reasonable domain convention can still produce the wrong conclusion if it breaks that contract.
 
@@ -66,7 +80,9 @@ This creates a general evaluation lesson: **when transferring a pretrained model
 | --- | --- |
 | [step3_results.json](step3_results.json) | Split A: narrowband summaries, subject IDs, configuration, and per-subject values |
 | [step3b_broadband_results.json](step3b_broadband_results.json) | Split A: broadband LaBraM per-subject accuracy and kappa |
-| [step3c_fullmatrix_results.json](step3c_fullmatrix_results.json) | Partial follow-up matrix; do not treat it as completed replication |
+| [step3c_fullmatrix_results.json](step3c_fullmatrix_results.json) | Completed replication: 6 configurations × 4 subject splits, per-split values and mean ± std |
+| [step3d_matrix.py](step3d_matrix.py) / [run_matrix_robust.sh](run_matrix_robust.sh) | Process-isolated, resumable runner for the replication matrix |
+| [make_figure.py](make_figure.py) | Regenerates `figure_band_x_model.png` from the replication results |
 | [step3_compare.py](step3_compare.py) | Narrowband experiment |
 | [step3b_broadband.py](step3b_broadband.py) | Broadband LaBraM experiment |
 | [FINDINGS_labram_vs_eegnet.md](FINDINGS_labram_vs_eegnet.md) | Historical investigation notes and remaining comparisons |
