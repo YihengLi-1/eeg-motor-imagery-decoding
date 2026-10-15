@@ -4,6 +4,11 @@ This project asks a harder question than within-subject classification: **can a 
 
 Using PhysioNet EEG Motor Movement/Imagery data, I built subject-disjoint experiments comparing EEGNet with the pretrained LaBraM foundation model. The main lesson was not simply that a larger model performed better—it was that matching a pretrained model's original input distribution changed the experimental conclusion.
 
+**At a glance (two subject-independent studies, same protocol: only the model changes, every threshold is chosen on validation subjects):**
+
+- **Motor imagery (50 subjects):** fine-tuned LaBraM reaches **79.1% ± 1.7%** on unseen people vs. 54.9% for EEGNet, but only with its own 0.1–75 Hz pretraining band; with the standard 8–30 Hz filter every model is at chance.
+- **Seizure detection (BIDS Siena, 14 patients, SzCORE scoring):** alone, LaBraM trades sensitivity for ~3× fewer false alarms; **averaging LaBraM and EEGNet raises event F1 from 0.27 to 0.37 at 10.9 false alarms / 24 h**; distilling LaBraM into EEGNet does not keep its low false-alarm rate. [Details below](#follow-up-study-patient-independent-seizure-detection-szcore).
+
 > 中文研究记录：[README.zh-CN.md](README.zh-CN.md)  
 > Full matched-comparison notes: [FINDINGS_labram_vs_eegnet.md](FINDINGS_labram_vs_eegnet.md)
 
