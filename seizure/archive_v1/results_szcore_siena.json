@@ -1,0 +1,33 @@
+{
+  "fullFT|fold0": {
+    "fold": 0,
+    "test": [
+      "sub-11",
+      "sub-09"
+    ],
+    "threshold": 0.9,
+    "best_val_f1": 0.4615384615384615,
+    "per_subject": [
+      {
+        "tp": 0,
+        "fp": 4,
+        "refTrue": 1,
+        "hours": 2.410277777777778,
+        "subject": "sub-11"
+      },
+      {
+        "tp": 3,
+        "fp": 37,
+        "refTrue": 3,
+        "hours": 6.8475,
+        "subject": "sub-09"
+      }
+    ],
+    "sensitivity": 0.75,
+    "precision": 0.06818181818181818,
+    "f1": 0.125,
+    "fp_per_24h": 106.28900624099856,
+    "n_seizures": 4,
+    "hours": 9.257777777777779
+  }
+}
