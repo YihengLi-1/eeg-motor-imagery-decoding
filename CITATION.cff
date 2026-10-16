@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this code or these results, please cite the technical report below."
+title: "Cross-Subject EEG Decoding with Foundation Models"
+authors:
+  - family-names: Li
+    given-names: Yiheng
+    affiliation: Arizona State University
+repository-code: "https://github.com/YihengLi-1/eeg-motor-imagery-decoding"
+license: MIT
+preferred-citation:
+  type: report
+  title: "When does an EEG foundation model help on people it has never seen? Motor imagery vs. seizure detection"
+  authors:
+    - family-names: Li
+      given-names: Yiheng
+      affiliation: Arizona State University
+  publisher:
+    name: Zenodo
+  year: 2026
+  doi: "10.5281/zenodo.23423535"
+  url: "https://doi.org/10.5281/zenodo.23423535"

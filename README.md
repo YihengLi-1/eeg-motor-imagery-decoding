@@ -1,5 +1,9 @@
 # Cross-Subject EEG Motor-Imagery Decoding
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23423535.svg)](https://doi.org/10.5281/zenodo.23423535)
+
+**Technical report:** Y. Li, *When does an EEG foundation model help on people it has never seen? Motor imagery vs. seizure detection*, Zenodo, 2026. [doi:10.5281/zenodo.23423535](https://doi.org/10.5281/zenodo.23423535)
+
 This project asks a harder question than within-subject classification: **can a model decode left- vs. right-hand motor imagery for people it never saw during training?**
 
 Using PhysioNet EEG Motor Movement/Imagery data, I built subject-disjoint experiments comparing EEGNet with the pretrained LaBraM foundation model. The main lesson was not simply that a larger model performed better—it was that matching a pretrained model's original input distribution changed the experimental conclusion.
