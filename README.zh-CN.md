@@ -1,5 +1,11 @@
 # EEG 运动想象解码：cross-subject 的难题
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23423535.svg)](https://doi.org/10.5281/zenodo.23423535)
+
+**技术报告：** Y. Li，*When does an EEG foundation model help on people it has never seen? Motor imagery vs. seizure detection*，Zenodo，2026。[doi:10.5281/zenodo.23423535](https://doi.org/10.5281/zenodo.23423535)
+
+> **后续研究（2026-10）：** 同样的对比做到了跨病人癫痫检测（BIDS Siena，14 名病人，SzCORE 事件级评分）。LaBraM 单独用是"误报少约 3 倍、但只抓到一半发作"的取舍；和 EEGNet 的概率取平均后，事件级 F1 从 0.27 提到 0.37。详见英文 [README](README.md) 和 `seizure/` 目录。
+
 这个项目用 PhysioNet 的运动想象 EEG 数据和 EEGNet，做想象左手 / 右手的分类。
 
 我先复刻了 baseline：在单个被试自己的数据上训练和测试，能到 **67%**。
