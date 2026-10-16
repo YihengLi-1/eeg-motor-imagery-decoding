@@ -10,7 +10,7 @@ Using PhysioNet EEG Motor Movement/Imagery data, I built subject-disjoint experi
 
 **At a glance (two subject-independent studies, same protocol: only the model changes, every threshold is chosen on validation subjects):**
 
-- **Motor imagery (50 subjects):** fine-tuned LaBraM reaches **79.1% ± 1.7%** on unseen people vs. 54.9% for EEGNet, but only with its own 0.1–75 Hz pretraining band; with the standard 8–30 Hz filter every model is at chance.
+- **Motor imagery (50 subjects):** fine-tuned LaBraM reaches **79.1% ± 1.7%** on people held out from fine-tuning vs. 54.9% for EEGNet (both datasets are in LaBraM's pretraining corpus, see limitations), but only with its own 0.1–75 Hz pretraining band; with the standard 8–30 Hz filter every model is at chance.
 - **Seizure detection (BIDS Siena, 14 patients, SzCORE scoring):** alone, LaBraM trades sensitivity for ~3× fewer false alarms; **averaging LaBraM and EEGNet raises event F1 from 0.27 to 0.37 at 10.9 false alarms / 24 h**; distilling LaBraM into EEGNet does not keep its low false-alarm rate. [Details below](#follow-up-study-patient-independent-seizure-detection-szcore).
 
 > 中文研究记录：[README.zh-CN.md](README.zh-CN.md)  
@@ -59,6 +59,7 @@ The original 78.4% sits in the middle of this distribution. Broadband input alon
 - Split-level variance is small, but **subject-level variance is large**: within a split, 1–2 of 10 held-out subjects remain near chance.
 - Full fine-tuning reaches ~99.6% training accuracy; early stopping and the pretrained prior keep it generalizing, but overfitting is a real concern.
 - Four splits is still a small replication, and all runs use one dataset and one task.
+- **Pretraining overlap:** both PhysioNet Motor Movement/Imagery and the Siena Scalp EEG Database are in LaBraM's self-supervised pretraining corpus (Jiang et al., ICLR 2024, Appendix). LaBraM has therefore seen unlabeled recordings of the held-out test subjects, which EEGNet has not. "Held-out" here means held out from fine-tuning, the comparison favors LaBraM, and the motor-imagery gain may be partly inflated. A replication on datasets outside the pretraining corpus is in progress.
 
 ## Follow-up study: patient-independent seizure detection (SzCORE)
 

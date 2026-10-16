@@ -78,6 +78,7 @@
 - **多 seed 已确认 ✅**：最初的 78% 是单次被试划分。全量微调在后台反复被杀，我写了进程隔离、可断点续跑的驱动器（`run_matrix_robust.sh` + `step3d_matrix.py`），把 6 个配置 × 4 个 seed 全部跑完：LaBraM 全量微调宽带 **79.1% ± 1.7%**，原来的 78% 落在分布正中，不是走运。完整结果见 `step3c_fullmatrix_results.json` 和 `figure_band_x_model.png`。
 - **方差大：** 10 个新被试里 8 个很好、2 个仍瞎猜。不是人人都行。
 - **全量微调过拟合了训练集**（训练准确率 99.5%），但居然还能泛化到新人——靠早停 + 预训练先验救住了。容量大是双刃剑。
+- **预训练重叠（2026-10-16 补查发现）：** LaBraM 论文附录列出的预训练数据里，就有 PhysioNet 运动想象库和 Siena 癫痫库。所以 LaBraM 预训练时已经"见过"测试被试的无标签脑电，EEGNet 没见过。这里的"新人"只是"没参与微调"，对比本身偏向 LaBraM，79% 可能有一部分是预训练见过数据带来的。正在换 LaBraM 预训练没用过的数据集重做验证。
 
 完整数据和复现脚本见 [`FINDINGS_labram_vs_eegnet.md`](FINDINGS_labram_vs_eegnet.md)。
 
