@@ -11,7 +11,7 @@ import szcore_siena as z
 import repostproc as rp           # wider threshold grid + trace loader
 
 WEIGHTS = (0.25, 0.5, 0.75)       # weight on LaBraM
-OUT = f"{z.ROOT}/seizure/results_ensemble.json"
+OUT = f"{z.ROOT}/seizure/results_ensemble{z.SUFFIX}.json"
 
 
 def main():

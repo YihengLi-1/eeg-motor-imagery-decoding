@@ -19,16 +19,27 @@ warnings.filterwarnings("ignore")
 import numpy as np
 
 ROOT = os.path.expanduser("~/bci-project")
-BIDS = os.path.expanduser("~/mne_data/BIDS_Siena")
-CACHE = f"{ROOT}/seizure/_cache"
-OUT = f"{ROOT}/seizure/results_szcore_siena.json"
-MODELS = f"{ROOT}/seizure/_models"
+# SZ_DATASET=chbmit: held-out replication on BIDS CHB-MIT, which is not in LaBraM's pretraining corpus
+# (Siena is). Same pipeline; 60 Hz mains, 8 folds of 3 test subjects, chb01/chb21 (same person) kept together.
+DATASET = os.environ.get("SZ_DATASET", "siena")
+BIDS = os.path.expanduser("~/mne_data/BIDS_Siena" if DATASET == "siena" else "~/mne_data/BIDS_CHB-MIT")
+CACHE = f"{ROOT}/seizure/_cache" + ("" if DATASET == "siena" else f"_{DATASET}")
+MAINS = 50. if DATASET == "siena" else 60.
+# SZ_SCHEME=loso: leave-one-patient-out (14 folds, 1 test / 2 validation / 11 training), the SzCORE
+# recommendation for subject-independent models; default k7 keeps the original 7-fold results intact.
+SCHEME = os.environ.get("SZ_SCHEME", "k7")
+SUFFIX = ("" if DATASET == "siena" else f"_{DATASET}") + ("" if SCHEME == "k7" else f"_{SCHEME}")
+OUT = f"{ROOT}/seizure/results_szcore_{DATASET}" + ("" if SCHEME == "k7" else f"_{SCHEME}") + ".json"
+MODELS = f"{ROOT}/seizure/_models{SUFFIX}"
 LABRAM_CACHE = os.path.expanduser("~/mne_data/labram_pretrained")
 SFREQ, WIN_S, STRIDE_S = 200, 4, 2           # 4 s windows = 4 LaBraM patches of 200 samples
 N_TIMES, PATCH = SFREQ * WIN_S, 200
 CHANNELS = ["Fp1", "F3", "C3", "P3", "O1", "F7", "T3", "T5", "Fz", "Cz", "Pz",
             "Fp2", "F4", "C4", "P4", "O2", "F8", "T4", "T6"]
-N_FOLDS, BG_RATIO = 7, 5                      # background windows kept per seizure window in training
+if DATASET == "chbmit":     # CHB-MIT is stored as the 18-channel bipolar double banana; no referential signals exist
+    CHANNELS = ["FP1-F3", "F3-C3", "C3-P3", "P3-O1", "FP1-F7", "F7-T7", "T7-P7", "P7-O1", "FZ-CZ",
+                "CZ-PZ", "FP2-F4", "F4-C4", "C4-P4", "P4-O2", "FP2-F8", "F8-T8", "T8-P8", "P8-O2"]
+N_FOLDS, BG_RATIO = (14 if SCHEME == "loso" else 8 if DATASET == "chbmit" else 7), 5                      # background windows kept per seizure window in training
 
 
 def subjects():
@@ -48,9 +59,13 @@ def do_prep():
         for edf in sorted(glob.glob(f"{BIDS}/{sub}/**/*_eeg.edf", recursive=True)):
             raw = mne.io.read_raw_edf(edf, preload=True)
             canon = {c.lower(): c for c in CHANNELS}           # some files use FP2 / CZ
+            canon.update({"t7": "T3", "t8": "T4", "p7": "T5", "p8": "T6"})   # 10-10 names for the same sites
             raw.rename_channels(lambda c: canon.get(c.replace("-Avg", "").strip().lower(), c))
-            raw.pick(CHANNELS).reorder_channels(CHANNELS)
-            raw.notch_filter(50.).filter(0.5, 75.).resample(SFREQ)
+            try:
+                raw.pick(CHANNELS).reorder_channels(CHANNELS)
+            except ValueError:                                  # recording lacks part of the montage
+                print(f"   skip {os.path.basename(edf)}: missing channels"); continue
+            raw.notch_filter(MAINS).filter(0.5, 75.).resample(SFREQ)
             x = raw.get_data().astype("float32") * 1e6                 # V -> uV, as in step3d
             n_sec = x.shape[1] // SFREQ
             mask = np.zeros(n_sec, dtype=bool)
@@ -110,14 +125,38 @@ def subject_prob_trace(m, sub, dev, limit=None):
 
 
 def folds():
+    if DATASET == "chbmit":
+        return folds_chbmit()
     subs = subjects()
     rng = np.random.RandomState(0)
     perm = list(rng.permutation(subs))
     out = []
+    n_test = 1 if SCHEME == "loso" else 2
     for k in range(N_FOLDS):
-        test = perm[2 * k:2 * k + 2]
-        rest = [s for s in perm if s not in test]
+        test = perm[n_test * k:n_test * k + n_test]
+        if SCHEME == "loso":                                      # validation = the next patients in the cycle
+            rest = perm[n_test * k + n_test:] + perm[:n_test * k]
+        else:                                                     # original 7-fold definition, unchanged
+            rest = [s for s in perm if s not in test]
         out.append({"test": test, "val": rest[:2], "train": rest[2:]})
+    return out
+
+
+def folds_chbmit():
+    """8 folds over 23 people (chb01 and chb21 are the same person and always share a fold)."""
+    subs = subjects()
+    units = [[s] for s in subs if s not in ("sub-01", "sub-21")]
+    if "sub-01" in subs: units.append([u for u in ("sub-01", "sub-21") if u in subs])
+    rng = np.random.RandomState(0)
+    perm = [units[i] for i in rng.permutation(len(units))]
+    out, k0 = [], 0
+    sizes = [len(perm) // N_FOLDS + (1 if i < len(perm) % N_FOLDS else 0) for i in range(N_FOLDS)]
+    for n in sizes:
+        test_u = perm[k0:k0 + n]
+        rest_u = perm[k0 + n:] + perm[:k0]
+        k0 += n
+        flat = lambda us: [s for u in us for s in u]
+        out.append({"test": flat(test_u), "val": flat(rest_u[:2]), "train": flat(rest_u[2:])})
     return out
 
 
@@ -170,7 +209,14 @@ def build_model(kind):
         return EEGNet(n_chans=len(CHANNELS), n_outputs=2, n_times=N_TIMES, drop_prob=0.5)
     import mne
     info = mne.create_info(CHANNELS, SFREQ, "eeg")
-    info.set_montage(mne.channels.make_standard_montage("standard_1020"))
+    if DATASET == "chbmit":     # bipolar A-B placed at the midpoint of A and B, as braindecode does for LaBraM's own bipolar channels
+        pos = mne.channels.make_standard_montage("standard_1005").get_positions()["ch_pos"]
+        up = {k.upper(): v for k, v in pos.items()}
+        for ch in info["chs"]:
+            a, b = ch["ch_name"].split("-")
+            ch["loc"][:3] = (up[a] + up[b]) / 2
+    else:
+        info.set_montage(mne.channels.make_standard_montage("standard_1020"))
     full = InterpolatedLaBraM.from_pretrained("braindecode/labram-pretrained", chs_info=info["chs"],
             n_times=3000, n_outputs=2, patch_size=PATCH, strict=False, cache_dir=LABRAM_CACHE)
     mm = InterpolatedLaBraM(chs_info=info["chs"], n_times=N_TIMES, n_outputs=2, patch_size=PATCH)

@@ -1,0 +1,566 @@
+{
+  "EEGNet": {
+    "pooled": {
+      "sensitivity": 0.3829787234042553,
+      "precision": 0.10404624277456648,
+      "f1": 0.16363636363636364,
+      "fp_per_24h": 26.37913306570752,
+      "n_seizures": 47,
+      "hours": 141.02055555555555
+    },
+    "mean_fold_f1": 0.2720432522680862,
+    "std_fold_f1": 0.34335378861558485,
+    "folds": [
+      {
+        "fold": "0",
+        "threshold": 0.05,
+        "smooth_s": 30,
+        "val_f1": 0.631578947368421,
+        "sensitivity": 1.0,
+        "precision": 0.08333333333333333,
+        "f1": 0.15384615384615385,
+        "fp_per_24h": 109.53094387461104,
+        "n_seizures": 1,
+        "hours": 2.410277777777778
+      },
+      {
+        "fold": "10",
+        "threshold": 0.3,
+        "smooth_s": 30,
+        "val_f1": 0.5217391304347826,
+        "sensitivity": 0.0,
+        "precision": 0.0,
+        "f1": 0.0,
+        "fp_per_24h": 55.67266534726377,
+        "n_seizures": 3,
+        "hours": 6.035277777777778
+      },
+      {
+        "fold": "11",
+        "threshold": 0.95,
+        "smooth_s": 30,
+        "val_f1": 0.6666666666666666,
+        "sensitivity": 0.0,
+        "precision": NaN,
+        "f1": 0.0,
+        "fp_per_24h": 0.0,
+        "n_seizures": 5,
+        "hours": 3.2447222222222223
+      },
+      {
+        "fold": "12",
+        "threshold": 0.95,
+        "smooth_s": 30,
+        "val_f1": 0.5,
+        "sensitivity": 0.0,
+        "precision": 0.0,
+        "f1": 0.0,
+        "fp_per_24h": 21.97914016789621,
+        "n_seizures": 1,
+        "hours": 8.735555555555555
+      },
+      {
+        "fold": "13",
+        "threshold": 0.98,
+        "smooth_s": 10,
+        "val_f1": 0.25,
+        "sensitivity": 0.0,
+        "precision": NaN,
+        "f1": 0.0,
+        "fp_per_24h": 0.0,
+        "n_seizures": 2,
+        "hours": 4.879722222222222
+      },
+      {
+        "fold": "1",
+        "threshold": 0.5,
+        "smooth_s": 20,
+        "val_f1": 0.19999999999999998,
+        "sensitivity": 0.0,
+        "precision": NaN,
+        "f1": 0.0,
+        "fp_per_24h": 0.0,
+        "n_seizures": 3,
+        "hours": 6.8475
+      },
+      {
+        "fold": "2",
+        "threshold": 0.99,
+        "smooth_s": 30,
+        "val_f1": 0.23999999999999996,
+        "sensitivity": 0.0,
+        "precision": NaN,
+        "f1": 0.0,
+        "fp_per_24h": 0.0,
+        "n_seizures": 5,
+        "hours": 12.072777777777778
+      },
+      {
+        "fold": "3",
+        "threshold": 0.9,
+        "smooth_s": 30,
+        "val_f1": 0.2857142857142857,
+        "sensitivity": 0.25,
+        "precision": 1.0,
+        "f1": 0.4,
+        "fp_per_24h": 0.0,
+        "n_seizures": 4,
+        "hours": 20.46388888888889
+      },
+      {
+        "fold": "4",
+        "threshold": 0.3,
+        "smooth_s": 20,
+        "val_f1": 1.0,
+        "sensitivity": 1.0,
+        "precision": 0.019801980198019802,
+        "f1": 0.038834951456310676,
+        "fp_per_24h": 98.07262345643623,
+        "n_seizures": 2,
+        "hours": 24.226944444444445
+      },
+      {
+        "fold": "5",
+        "threshold": 0.2,
+        "smooth_s": 30,
+        "val_f1": 1.0,
+        "sensitivity": 1.0,
+        "precision": 1.0,
+        "f1": 1.0,
+        "fp_per_24h": 0.0,
+        "n_seizures": 2,
+        "hours": 5.124722222222222
+      },
+      {
+        "fold": "6",
+        "threshold": 0.1,
+        "smooth_s": 10,
+        "val_f1": 0.4,
+        "sensitivity": 1.0,
+        "precision": 0.26666666666666666,
+        "f1": 0.4210526315789474,
+        "fp_per_24h": 43.28460172154666,
+        "n_seizures": 4,
+        "hours": 6.099166666666667
+      },
+      {
+        "fold": "7",
+        "threshold": 0.05,
+        "smooth_s": 30,
+        "val_f1": 0.3703703703703704,
+        "sensitivity": 1.0,
+        "precision": 1.0,
+        "f1": 1.0,
+        "fp_per_24h": 0.0,
+        "n_seizures": 2,
+        "hours": 13.488055555555556
+      },
+      {
+        "fold": "8",
+        "threshold": 0.05,
+        "smooth_s": 30,
+        "val_f1": 0.24000000000000002,
+        "sensitivity": 0.3,
+        "precision": 0.375,
+        "f1": 0.33333333333333326,
+        "fp_per_24h": 6.4078793182728395,
+        "n_seizures": 10,
+        "hours": 18.726944444444445
+      },
+      {
+        "fold": "9",
+        "threshold": 0.3,
+        "smooth_s": 30,
+        "val_f1": 0.34285714285714286,
+        "sensitivity": 1.0,
+        "precision": 0.3,
+        "f1": 0.4615384615384615,
+        "fp_per_24h": 19.388343912290825,
+        "n_seizures": 3,
+        "hours": 8.665
+      }
+    ],
+    "per_subject": [
+      {
+        "tp": 1,
+        "fp": 11,
+        "refTrue": 1,
+        "hours": 2.410277777777778,
+        "subject": "sub-11"
+      },
+      {
+        "tp": 0,
+        "fp": 14,
+        "refTrue": 3,
+        "hours": 6.035277777777778,
+        "subject": "sub-05"
+      },
+      {
+        "tp": 0,
+        "fp": 0,
+        "refTrue": 5,
+        "hours": 3.2447222222222223,
+        "subject": "sub-00"
+      },
+      {
+        "tp": 0,
+        "fp": 8,
+        "refTrue": 1,
+        "hours": 8.735555555555555,
+        "subject": "sub-07"
+      },
+      {
+        "tp": 0,
+        "fp": 0,
+        "refTrue": 2,
+        "hours": 4.879722222222222,
+        "subject": "sub-16"
+      },
+      {
+        "tp": 0,
+        "fp": 0,
+        "refTrue": 3,
+        "hours": 6.8475,
+        "subject": "sub-09"
+      },
+      {
+        "tp": 0,
+        "fp": 0,
+        "refTrue": 5,
+        "hours": 12.072777777777778,
+        "subject": "sub-06"
+      },
+      {
+        "tp": 1,
+        "fp": 0,
+        "refTrue": 4,
+        "hours": 20.46388888888889,
+        "subject": "sub-14"
+      },
+      {
+        "tp": 2,
+        "fp": 99,
+        "refTrue": 2,
+        "hours": 24.226944444444445,
+        "subject": "sub-03"
+      },
+      {
+        "tp": 2,
+        "fp": 0,
+        "refTrue": 2,
+        "hours": 5.124722222222222,
+        "subject": "sub-17"
+      },
+      {
+        "tp": 4,
+        "fp": 11,
+        "refTrue": 4,
+        "hours": 6.099166666666667,
+        "subject": "sub-12"
+      },
+      {
+        "tp": 2,
+        "fp": 0,
+        "refTrue": 2,
+        "hours": 13.488055555555556,
+        "subject": "sub-01"
+      },
+      {
+        "tp": 3,
+        "fp": 5,
+        "refTrue": 10,
+        "hours": 18.726944444444445,
+        "subject": "sub-10"
+      },
+      {
+        "tp": 3,
+        "fp": 7,
+        "refTrue": 3,
+        "hours": 8.665,
+        "subject": "sub-13"
+      }
+    ]
+  },
+  "fullFT": {
+    "pooled": {
+      "sensitivity": 0.425531914893617,
+      "precision": 0.3076923076923077,
+      "f1": 0.3571428571428572,
+      "fp_per_24h": 7.658457986818314,
+      "n_seizures": 47,
+      "hours": 141.02055555555555
+    },
+    "mean_fold_f1": 0.3212703962703962,
+    "std_fold_f1": 0.35012102505705783,
+    "folds": [
+      {
+        "fold": "0",
+        "threshold": 0.9,
+        "smooth_s": 10,
+        "val_f1": 0.5454545454545454,
+        "sensitivity": 0.0,
+        "precision": NaN,
+        "f1": 0.0,
+        "fp_per_24h": 0.0,
+        "n_seizures": 1,
+        "hours": 2.410277777777778
+      },
+      {
+        "fold": "10",
+        "threshold": 0.98,
+        "smooth_s": 30,
+        "val_f1": 0.9090909090909091,
+        "sensitivity": 0.0,
+        "precision": NaN,
+        "f1": 0.0,
+        "fp_per_24h": 0.0,
+        "n_seizures": 3,
+        "hours": 6.035277777777778
+      },
+      {
+        "fold": "11",
+        "threshold": 0.8,
+        "smooth_s": 30,
+        "val_f1": 1.0,
+        "sensitivity": 1.0,
+        "precision": 1.0,
+        "f1": 1.0,
+        "fp_per_24h": 0.0,
+        "n_seizures": 5,
+        "hours": 3.2447222222222223
+      },
+      {
+        "fold": "12",
+        "threshold": 0.8,
+        "smooth_s": 5,
+        "val_f1": 0.5714285714285715,
+        "sensitivity": 0.0,
+        "precision": 0.0,
+        "f1": 0.0,
+        "fp_per_24h": 19.231747646909184,
+        "n_seizures": 1,
+        "hours": 8.735555555555555
+      },
+      {
+        "fold": "13",
+        "threshold": 0.99,
+        "smooth_s": 20,
+        "val_f1": 0.8571428571428571,
+        "sensitivity": 1.0,
+        "precision": 0.6666666666666666,
+        "f1": 0.8,
+        "fp_per_24h": 4.9183127454887,
+        "n_seizures": 2,
+        "hours": 4.879722222222222
+      },
+      {
+        "fold": "1",
+        "threshold": 0.95,
+        "smooth_s": 5,
+        "val_f1": 0.46153846153846156,
+        "sensitivity": 1.0,
+        "precision": 0.25,
+        "f1": 0.4,
+        "fp_per_24h": 31.54435925520263,
+        "n_seizures": 3,
+        "hours": 6.8475
+      },
+      {
+        "fold": "2",
+        "threshold": 0.9,
+        "smooth_s": 10,
+        "val_f1": 0.6,
+        "sensitivity": 0.0,
+        "precision": NaN,
+        "f1": 0.0,
+        "fp_per_24h": 0.0,
+        "n_seizures": 5,
+        "hours": 12.072777777777778
+      },
+      {
+        "fold": "3",
+        "threshold": 0.98,
+        "smooth_s": 5,
+        "val_f1": 1.0,
+        "sensitivity": 0.0,
+        "precision": NaN,
+        "f1": 0.0,
+        "fp_per_24h": 0.0,
+        "n_seizures": 4,
+        "hours": 20.46388888888889
+      },
+      {
+        "fold": "4",
+        "threshold": 0.9,
+        "smooth_s": 30,
+        "val_f1": 1.0,
+        "sensitivity": 0.0,
+        "precision": NaN,
+        "f1": 0.0,
+        "fp_per_24h": 0.0,
+        "n_seizures": 2,
+        "hours": 24.226944444444445
+      },
+      {
+        "fold": "5",
+        "threshold": 0.98,
+        "smooth_s": 30,
+        "val_f1": 1.0,
+        "sensitivity": 0.5,
+        "precision": 1.0,
+        "f1": 0.6666666666666666,
+        "fp_per_24h": 0.0,
+        "n_seizures": 2,
+        "hours": 5.124722222222222
+      },
+      {
+        "fold": "6",
+        "threshold": 0.9,
+        "smooth_s": 20,
+        "val_f1": 0.4,
+        "sensitivity": 0.75,
+        "precision": 0.75,
+        "f1": 0.75,
+        "fp_per_24h": 3.934963792867878,
+        "n_seizures": 4,
+        "hours": 6.099166666666667
+      },
+      {
+        "fold": "7",
+        "threshold": 0.8,
+        "smooth_s": 20,
+        "val_f1": 0.5714285714285715,
+        "sensitivity": 1.0,
+        "precision": 0.08333333333333333,
+        "f1": 0.15384615384615385,
+        "fp_per_24h": 39.14574623638198,
+        "n_seizures": 2,
+        "hours": 13.488055555555556
+      },
+      {
+        "fold": "8",
+        "threshold": 0.3,
+        "smooth_s": 20,
+        "val_f1": 0.7272727272727272,
+        "sensitivity": 0.1,
+        "precision": 1.0,
+        "f1": 0.18181818181818182,
+        "fp_per_24h": 0.0,
+        "n_seizures": 10,
+        "hours": 18.726944444444445
+      },
+      {
+        "fold": "9",
+        "threshold": 0.7,
+        "smooth_s": 30,
+        "val_f1": 0.8571428571428571,
+        "sensitivity": 1.0,
+        "precision": 0.375,
+        "f1": 0.5454545454545454,
+        "fp_per_24h": 13.848817080207732,
+        "n_seizures": 3,
+        "hours": 8.665
+      }
+    ],
+    "per_subject": [
+      {
+        "tp": 0,
+        "fp": 0,
+        "refTrue": 1,
+        "hours": 2.410277777777778,
+        "subject": "sub-11"
+      },
+      {
+        "tp": 0,
+        "fp": 0,
+        "refTrue": 3,
+        "hours": 6.035277777777778,
+        "subject": "sub-05"
+      },
+      {
+        "tp": 5,
+        "fp": 0,
+        "refTrue": 5,
+        "hours": 3.2447222222222223,
+        "subject": "sub-00"
+      },
+      {
+        "tp": 0,
+        "fp": 7,
+        "refTrue": 1,
+        "hours": 8.735555555555555,
+        "subject": "sub-07"
+      },
+      {
+        "tp": 2,
+        "fp": 1,
+        "refTrue": 2,
+        "hours": 4.879722222222222,
+        "subject": "sub-16"
+      },
+      {
+        "tp": 3,
+        "fp": 9,
+        "refTrue": 3,
+        "hours": 6.8475,
+        "subject": "sub-09"
+      },
+      {
+        "tp": 0,
+        "fp": 0,
+        "refTrue": 5,
+        "hours": 12.072777777777778,
+        "subject": "sub-06"
+      },
+      {
+        "tp": 0,
+        "fp": 0,
+        "refTrue": 4,
+        "hours": 20.46388888888889,
+        "subject": "sub-14"
+      },
+      {
+        "tp": 0,
+        "fp": 0,
+        "refTrue": 2,
+        "hours": 24.226944444444445,
+        "subject": "sub-03"
+      },
+      {
+        "tp": 1,
+        "fp": 0,
+        "refTrue": 2,
+        "hours": 5.124722222222222,
+        "subject": "sub-17"
+      },
+      {
+        "tp": 3,
+        "fp": 1,
+        "refTrue": 4,
+        "hours": 6.099166666666667,
+        "subject": "sub-12"
+      },
+      {
+        "tp": 2,
+        "fp": 22,
+        "refTrue": 2,
+        "hours": 13.488055555555556,
+        "subject": "sub-01"
+      },
+      {
+        "tp": 1,
+        "fp": 0,
+        "refTrue": 10,
+        "hours": 18.726944444444445,
+        "subject": "sub-10"
+      },
+      {
+        "tp": 3,
+        "fp": 5,
+        "refTrue": 3,
+        "hours": 8.665,
+        "subject": "sub-13"
+      }
+    ]
+  }
+}

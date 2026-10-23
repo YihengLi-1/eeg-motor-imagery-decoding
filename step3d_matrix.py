@@ -11,14 +11,59 @@ warnings.filterwarnings("ignore")
 import numpy as np
 
 ROOT = os.path.expanduser("~/bci-project")
-OUT = f"{ROOT}/step3c_fullmatrix_results.json"        # 沿用已有结果文件(seed0 的 4 个配置已在里面)
-META = f"{ROOT}/_cache_meta.pkl"
+# MI_DATASET=cho2017: held-out replication on a dataset outside LaBraM's pretraining corpus (same protocol)
+DATASET = os.environ.get("MI_DATASET", "physionet")
 BANDS = {"narrow_8-30": (8., 30.), "broad_0.1-75": (0.1, 75.)}
 SFREQ, N_TIMES, PATCH = 200, 1000, 200
 SEEDS = [0, 1, 2, 3]
-SUBJECTS, RUNS = list(range(1, 51)), [4, 8, 12]
 CACHE = os.path.expanduser("~/mne_data/labram_pretrained")
-def band_cache(b): return f"{ROOT}/_cache_{b}.pkl"
+# Cho2017 amplitudes (MOABB units, CAR) are ~9x larger than PhysioNet's, a scale LaBraM never saw in pretraining.
+# Primary analysis rescales by one global constant so the median 8-30 Hz channel SD matches PhysioNet's;
+# CHO_SCALE=1 keeps the raw scale (sensitivity analysis, separate result file). EEGNet is scale-robust (BatchNorm).
+CHO_SCALE_DEFAULT = 12.70 / 105.4   # median 8-30 Hz channel SD: PhysioNet subjects 1-10 (run 4) vs Cho2017 (52 subjects, CAR)
+CHO_SCALE = os.environ.get("CHO_SCALE")
+if DATASET == "cho2017":
+    OUT = f"{ROOT}/heldout/results_cho2017_matrix" + ("_unscaled" if CHO_SCALE == "1" else "") + ".json"
+    META = f"{ROOT}/heldout/_cache_cho2017_meta.pkl"
+    SUBJECTS = list(range(1, 53))
+    def band_cache(b): return f"{ROOT}/heldout/_cache_cho2017_{b}.pkl"
+else:
+    OUT = f"{ROOT}/step3c_fullmatrix_results.json"        # 沿用已有结果文件(seed0 的 4 个配置已在里面)
+    META = f"{ROOT}/_cache_meta.pkl"
+    SUBJECTS, RUNS = list(range(1, 51)), [4, 8, 12]
+    def band_cache(b): return f"{ROOT}/_cache_{b}.pkl"
+
+CHO_CH = ["Fp1", "AF7", "AF3", "F1", "F3", "F5", "F7", "FT7", "FC5", "FC3", "FC1",
+          "C1", "C3", "C5", "T7", "TP7", "CP5", "CP3", "CP1", "P1", "P3", "P5", "P7",
+          "P9", "PO7", "PO3", "O1", "Iz", "Oz", "POz", "Pz", "CPz", "Fpz", "Fp2",
+          "AF8", "AF4", "AFz", "Fz", "F2", "F4", "F6", "F8", "FT8", "FC6", "FC4",
+          "FC2", "FCz", "Cz", "C2", "C4", "C6", "T8", "TP8", "CP6", "CP4", "CP2",
+          "P2", "P4", "P6", "P8", "P10", "PO8", "PO4", "O2"]       # channel order as in MOABB's Cho2017 loader
+
+def cho2017_subject(s):
+    """Return {band: (X[n,64,1000] in µV, y)} for one Cho2017 subject; left=0, right=1, epochs -1..4 s around cue."""
+    import mne
+    from scipy.io import loadmat
+    d = loadmat(os.path.expanduser(f"~/mne_data/cho2017/s{s:02d}.mat"), squeeze_me=True,
+                struct_as_record=False, verify_compressed_data_integrity=False)["eeg"]
+    info = mne.create_info(CHO_CH, float(d.srate), "eeg")
+    onsets = np.where(np.asarray(d.imagery_event) == 1)[0]
+    out, chs = {b: ([], []) for b in BANDS}, None
+    for lab, arr in ((0, d.imagery_left), (1, d.imagery_right)):
+        x = np.asarray(arr, dtype="float64")[:64]
+        x = x - x.mean(axis=1, keepdims=True)           # as in MOABB; trials are pre-concatenated per class
+        x = x - x.mean(axis=0, keepdims=True)           # common average reference (Biosemi has no fixed reference)
+        raw = mne.io.RawArray(x * 1e-6, info, verbose="ERROR")
+        raw.set_montage("standard_1005", on_missing="ignore")
+        ev = np.c_[onsets, np.zeros_like(onsets), np.full_like(onsets, lab + 1)]
+        for bname, (lo, hi) in BANDS.items():
+            r = raw.copy().filter(lo, hi, verbose="ERROR")
+            ep = mne.Epochs(r, ev, {"c": lab + 1}, tmin=-1., tmax=4., baseline=None, preload=True, verbose="ERROR")
+            ep.resample(SFREQ, verbose="ERROR")
+            X = ep.get_data()[:, :, :N_TIMES] * 1e6
+            out[bname][0].append(X.astype("float32")); out[bname][1].append(np.full(len(X), lab, "int64"))
+            chs = ep.info["chs"]
+    return {b: (np.concatenate(v[0]), np.concatenate(v[1])) for b, v in out.items()}, chs
 
 # ---------- 模式 1: 预处理并缓存 ----------
 def do_prep():
@@ -30,7 +75,17 @@ def do_prep():
     from mne import Epochs, pick_types, events_from_annotations
     print("   预处理两个频段(只做一次)...")
     store = {b: {} for b in BANDS}; chs_info = None
-    for s in SUBJECTS:
+    if DATASET == "cho2017":
+        for s in SUBJECTS:
+            try:
+                bd, chs = cho2017_subject(s)
+            except Exception as e:
+                print(f"   subject {s} skipped: {e}"); continue
+            if all(bd[b][0].shape[1:] == (64, N_TIMES) for b in BANDS):
+                for b in BANDS: store[b][s] = bd[b]
+                if chs_info is None: chs_info = chs
+            print(f"   subject {s}: {len(bd[next(iter(BANDS))][1])} trials", flush=True)
+    for s in (SUBJECTS if DATASET != "cho2017" else []):
         try:
             raw = concatenate_raws([read_raw_edf(f, preload=True, verbose="ERROR")
                                     for f in eegbci.load_data(subjects=[s], runs=RUNS)])
@@ -75,6 +130,10 @@ def do_run(kind, band, seed):
 
     meta = pickle.load(open(META, "rb")); CHS_INFO, clean = meta["chs_info"], meta["clean"]
     D = pickle.load(open(band_cache(band), "rb"))
+    if DATASET == "cho2017":
+        sc = float(CHO_SCALE) if CHO_SCALE else CHO_SCALE_DEFAULT
+        D = {k: (X * np.float32(sc), y) for k, (X, y) in D.items()}
+        print(f"   cho2017 amplitude scale x{sc:.4f}")
     rng = np.random.RandomState(seed); perm = rng.permutation(clean)
     test_s, val_s, train_s = list(perm[:10]), list(perm[10:15]), list(perm[15:])
     def gather(subs): return (np.concatenate([D[s][0] for s in subs], 0),

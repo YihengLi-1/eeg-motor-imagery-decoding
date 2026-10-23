@@ -1,0 +1,296 @@
+{
+  "pooled": {
+    "sensitivity": 0.5106382978723404,
+    "precision": 0.13186813186813187,
+    "f1": 0.2096069868995633,
+    "fp_per_24h": 26.889696931495408,
+    "n_seizures": 47,
+    "hours": 141.02055555555555
+  },
+  "mean_fold_f1": 0.3319434951013899,
+  "std_fold_f1": 0.36313435641295866,
+  "folds": [
+    {
+      "fold": 0,
+      "w_labram": 0.75,
+      "threshold": 0.7,
+      "smooth_s": 5,
+      "val_f1": 0.5454545454545454,
+      "sensitivity": 0.0,
+      "precision": 0.0,
+      "f1": 0.0,
+      "fp_per_24h": 9.957358534055547,
+      "n_seizures": 1,
+      "hours": 2.410277777777778
+    },
+    {
+      "fold": 1,
+      "w_labram": 0.75,
+      "threshold": 0.5,
+      "smooth_s": 10,
+      "val_f1": 0.4,
+      "sensitivity": 1.0,
+      "precision": 0.2,
+      "f1": 0.33333333333333337,
+      "fp_per_24h": 42.0591456736035,
+      "n_seizures": 3,
+      "hours": 6.8475
+    },
+    {
+      "fold": 2,
+      "w_labram": 0.25,
+      "threshold": 0.95,
+      "smooth_s": 5,
+      "val_f1": 0.6666666666666666,
+      "sensitivity": 0.0,
+      "precision": NaN,
+      "f1": 0.0,
+      "fp_per_24h": 0.0,
+      "n_seizures": 5,
+      "hours": 12.072777777777778
+    },
+    {
+      "fold": 3,
+      "w_labram": 0.5,
+      "threshold": 0.8,
+      "smooth_s": 20,
+      "val_f1": 1.0,
+      "sensitivity": 0.0,
+      "precision": NaN,
+      "f1": 0.0,
+      "fp_per_24h": 0.0,
+      "n_seizures": 4,
+      "hours": 20.46388888888889
+    },
+    {
+      "fold": 4,
+      "w_labram": 0.25,
+      "threshold": 0.4,
+      "smooth_s": 10,
+      "val_f1": 1.0,
+      "sensitivity": 1.0,
+      "precision": 0.017857142857142856,
+      "f1": 0.03508771929824561,
+      "fp_per_24h": 108.96958161826248,
+      "n_seizures": 2,
+      "hours": 24.226944444444445
+    },
+    {
+      "fold": 5,
+      "w_labram": 0.25,
+      "threshold": 0.4,
+      "smooth_s": 5,
+      "val_f1": 1.0,
+      "sensitivity": 1.0,
+      "precision": 1.0,
+      "f1": 1.0,
+      "fp_per_24h": 0.0,
+      "n_seizures": 2,
+      "hours": 5.124722222222222
+    },
+    {
+      "fold": 6,
+      "w_labram": 0.25,
+      "threshold": 0.3,
+      "smooth_s": 10,
+      "val_f1": 0.4,
+      "sensitivity": 1.0,
+      "precision": 0.6666666666666666,
+      "f1": 0.8,
+      "fp_per_24h": 7.869927585735756,
+      "n_seizures": 4,
+      "hours": 6.099166666666667
+    },
+    {
+      "fold": 7,
+      "w_labram": 0.75,
+      "threshold": 0.7,
+      "smooth_s": 20,
+      "val_f1": 0.5384615384615384,
+      "sensitivity": 1.0,
+      "precision": 0.2,
+      "f1": 0.33333333333333337,
+      "fp_per_24h": 14.234816813229813,
+      "n_seizures": 2,
+      "hours": 13.488055555555556
+    },
+    {
+      "fold": 8,
+      "w_labram": 0.25,
+      "threshold": 0.9,
+      "smooth_s": 5,
+      "val_f1": 0.5,
+      "sensitivity": 0.1,
+      "precision": 1.0,
+      "f1": 0.18181818181818182,
+      "fp_per_24h": 0.0,
+      "n_seizures": 10,
+      "hours": 18.726944444444445
+    },
+    {
+      "fold": 9,
+      "w_labram": 0.75,
+      "threshold": 0.6,
+      "smooth_s": 30,
+      "val_f1": 0.8571428571428571,
+      "sensitivity": 1.0,
+      "precision": 0.42857142857142855,
+      "f1": 0.6,
+      "fp_per_24h": 11.079053664166187,
+      "n_seizures": 3,
+      "hours": 8.665
+    },
+    {
+      "fold": 10,
+      "w_labram": 0.75,
+      "threshold": 0.8,
+      "smooth_s": 30,
+      "val_f1": 0.625,
+      "sensitivity": 0.0,
+      "precision": 0.0,
+      "f1": 0.0,
+      "fp_per_24h": 23.859713720255904,
+      "n_seizures": 3,
+      "hours": 6.035277777777778
+    },
+    {
+      "fold": 11,
+      "w_labram": 0.75,
+      "threshold": 0.6,
+      "smooth_s": 30,
+      "val_f1": 1.0,
+      "sensitivity": 1.0,
+      "precision": 1.0,
+      "f1": 1.0,
+      "fp_per_24h": 0.0,
+      "n_seizures": 5,
+      "hours": 3.2447222222222223
+    },
+    {
+      "fold": 12,
+      "w_labram": 0.75,
+      "threshold": 0.8,
+      "smooth_s": 5,
+      "val_f1": 0.5714285714285715,
+      "sensitivity": 0.0,
+      "precision": 0.0,
+      "f1": 0.0,
+      "fp_per_24h": 21.97914016789621,
+      "n_seizures": 1,
+      "hours": 8.735555555555555
+    },
+    {
+      "fold": 13,
+      "w_labram": 0.75,
+      "threshold": 0.7,
+      "smooth_s": 30,
+      "val_f1": 0.46153846153846156,
+      "sensitivity": 1.0,
+      "precision": 0.2222222222222222,
+      "f1": 0.3636363636363636,
+      "fp_per_24h": 34.428189218420904,
+      "n_seizures": 2,
+      "hours": 4.879722222222222
+    }
+  ],
+  "per_subject": [
+    {
+      "tp": 0,
+      "fp": 1,
+      "refTrue": 1,
+      "hours": 2.410277777777778,
+      "subject": "sub-11"
+    },
+    {
+      "tp": 3,
+      "fp": 12,
+      "refTrue": 3,
+      "hours": 6.8475,
+      "subject": "sub-09"
+    },
+    {
+      "tp": 0,
+      "fp": 0,
+      "refTrue": 5,
+      "hours": 12.072777777777778,
+      "subject": "sub-06"
+    },
+    {
+      "tp": 0,
+      "fp": 0,
+      "refTrue": 4,
+      "hours": 20.46388888888889,
+      "subject": "sub-14"
+    },
+    {
+      "tp": 2,
+      "fp": 110,
+      "refTrue": 2,
+      "hours": 24.226944444444445,
+      "subject": "sub-03"
+    },
+    {
+      "tp": 2,
+      "fp": 0,
+      "refTrue": 2,
+      "hours": 5.124722222222222,
+      "subject": "sub-17"
+    },
+    {
+      "tp": 4,
+      "fp": 2,
+      "refTrue": 4,
+      "hours": 6.099166666666667,
+      "subject": "sub-12"
+    },
+    {
+      "tp": 2,
+      "fp": 8,
+      "refTrue": 2,
+      "hours": 13.488055555555556,
+      "subject": "sub-01"
+    },
+    {
+      "tp": 1,
+      "fp": 0,
+      "refTrue": 10,
+      "hours": 18.726944444444445,
+      "subject": "sub-10"
+    },
+    {
+      "tp": 3,
+      "fp": 4,
+      "refTrue": 3,
+      "hours": 8.665,
+      "subject": "sub-13"
+    },
+    {
+      "tp": 0,
+      "fp": 6,
+      "refTrue": 3,
+      "hours": 6.035277777777778,
+      "subject": "sub-05"
+    },
+    {
+      "tp": 5,
+      "fp": 0,
+      "refTrue": 5,
+      "hours": 3.2447222222222223,
+      "subject": "sub-00"
+    },
+    {
+      "tp": 0,
+      "fp": 8,
+      "refTrue": 1,
+      "hours": 8.735555555555555,
+      "subject": "sub-07"
+    },
+    {
+      "tp": 2,
+      "fp": 7,
+      "refTrue": 2,
+      "hours": 4.879722222222222,
+      "subject": "sub-16"
+    }
+  ]
+}

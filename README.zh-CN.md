@@ -4,7 +4,14 @@
 
 **技术报告：** Y. Li，*When does an EEG foundation model help on people it has never seen? Motor imagery vs. seizure detection*，Zenodo，2026。[doi:10.5281/zenodo.23423535](https://doi.org/10.5281/zenodo.23423535)
 
-> **后续研究（2026-10）：** 同样的对比做到了跨病人癫痫检测（BIDS Siena，14 名病人，SzCORE 事件级评分）。LaBraM 单独用是"误报少约 3 倍、但只抓到一半发作"的取舍；和 EEGNet 的概率取平均后，事件级 F1 从 0.27 提到 0.37。详见英文 [README](README.md) 和 `seizure/` 目录。
+> **后续研究（2026-10）：** 同样的对比做到了跨病人癫痫检测（BIDS Siena，14 名病人，SzCORE 事件级评分）。后来发现两个数据集都在 LaBraM 的预训练数据里，于是换成它没见过的数据集重做了一遍：
+>
+> | 任务 | LaBraM 预训练见过的数据 | 没见过的数据 |
+> |---|---|---|
+> | 运动想象准确率（LaBraM 对 EEGNet） | PhysioNet：79.1% 对 54.9% | Cho2017（52 人）：65.8% 对 52.3% |
+> | 癫痫误报次数/天（LaBraM 对 EEGNet） | Siena 留一病人：7.7 对 26.4 | CHB-MIT（23 人）：10.2 对 12.4 |
+>
+> 运动想象上，LaBraM 的优势缩小了近一半，但还在。癫痫检测上，合计成绩的优势基本消失。逐个病人看，LaBraM 的误报中位数在两个数据集上都更低，但统计上不显著。另外，"组合模型更好"只在最早的 7 折划分里成立，换成留一病人或换数据集后都不成立。详见英文 [README](README.md) 和 `heldout/` 目录。
 
 这个项目用 PhysioNet 的运动想象 EEG 数据和 EEGNet，做想象左手 / 右手的分类。
 
@@ -78,7 +85,7 @@
 - **多 seed 已确认 ✅**：最初的 78% 是单次被试划分。全量微调在后台反复被杀，我写了进程隔离、可断点续跑的驱动器（`run_matrix_robust.sh` + `step3d_matrix.py`），把 6 个配置 × 4 个 seed 全部跑完：LaBraM 全量微调宽带 **79.1% ± 1.7%**，原来的 78% 落在分布正中，不是走运。完整结果见 `step3c_fullmatrix_results.json` 和 `figure_band_x_model.png`。
 - **方差大：** 10 个新被试里 8 个很好、2 个仍瞎猜。不是人人都行。
 - **全量微调过拟合了训练集**（训练准确率 99.5%），但居然还能泛化到新人——靠早停 + 预训练先验救住了。容量大是双刃剑。
-- **预训练重叠（2026-10-16 补查发现）：** LaBraM 论文附录列出的预训练数据里，就有 PhysioNet 运动想象库和 Siena 癫痫库。所以 LaBraM 预训练时已经"见过"测试被试的无标签脑电，EEGNet 没见过。这里的"新人"只是"没参与微调"，对比本身偏向 LaBraM，79% 可能有一部分是预训练见过数据带来的。正在换 LaBraM 预训练没用过的数据集重做验证。
+- **预训练重叠（2026-10-16 补查发现）：** LaBraM 论文附录列出的预训练数据里，就有 PhysioNet 运动想象库和 Siena 癫痫库。所以 LaBraM 预训练时已经"见过"测试被试的无标签脑电，EEGNet 没见过。这里的"新人"只是"没参与微调"，对比本身偏向 LaBraM，79% 可能有一部分是预训练见过数据带来的。换到它没见过的 Cho2017 后，优势从 24 个百分点缩小到 13.5 个百分点，但依然存在（见上方表格）。
 
 完整数据和复现脚本见 [`FINDINGS_labram_vs_eegnet.md`](FINDINGS_labram_vs_eegnet.md)。
 
