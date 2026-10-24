@@ -1,0 +1,3149 @@
+{
+ "meta": {
+  "generated": "2026-10-24",
+  "labels": {
+   "IN-CORPUS": "same dataset listed in the model's own pretraining corpus",
+   "PARTIAL": "downstream set is a subset/derivative of a pretraining corpus (TUAB, TUEV, TUSL, TUAR, TUSZ are TUH/TUEG sub-corpora); see exclusion_claim for authors' mitigation",
+   "HELD-OUT": "not in the pretraining corpus as listed",
+   "UNCLEAR": "pretraining corpus not enumerated or downstream/pretraining identity ambiguous"
+  },
+  "page_convention": "pages are PDF page indices of the downloaded file; quotes are whitespace/line-break-hyphen normalised",
+  "stats_all_models": {
+   "total_pairs": 142,
+   "labels": {
+    "HELD-OUT": 92,
+    "PARTIAL": 32,
+    "UNCLEAR": 17,
+    "IN-CORPUS": 1
+   },
+   "partial_with_control_run": 4,
+   "partial_with_exclusion_claim_only": 13,
+   "partial_no_claim_no_control": 15,
+   "in_or_partial": 33
+  },
+  "models_with_in_or_partial": [
+   "LaBraM",
+   "CBraMod",
+   "NeuroLM",
+   "FEMBA",
+   "LUNA",
+   "REVE",
+   "CSBrain",
+   "EEGFormer",
+   "CodeBrain",
+   "Uni-NTFM",
+   "EEG-DINO",
+   "LuMamba"
+  ],
+  "fully_clean_models": [
+   "BENDR",
+   "BIOT",
+   "EEGPT (Wang et al.)",
+   "Neuro-GPT",
+   "BrainOmni",
+   "LCM (Large Cognition Model)"
+  ],
+  "compiled_by": "Yiheng Li",
+  "note": "Overlap label is not a claim of test-label leakage; see exclusion_claim per pair."
+ },
+ "models": [
+  {
+   "key": "bendr",
+   "name": "BENDR",
+   "year": 2021,
+   "venue": "Frontiers in Human Neuroscience 2021 (arXiv preprint)",
+   "source": "arXiv 2101.12037",
+   "group": "core",
+   "pretrain_list": [
+    "TUEG v1.1 and v1.2 (about 1.5 TB EDF before preprocessing)"
+   ],
+   "pretrain_hours": "not stated in hours",
+   "pretrain_canon": {
+    "TUAB": "PARTIAL",
+    "TUEV": "PARTIAL",
+    "TUSL": "PARTIAL",
+    "TUAR": "PARTIAL",
+    "TUSZ": "PARTIAL"
+   },
+   "pretrain_quotes": [
+    [
+     5,
+     "The closest publicly accessible dataset, to our current knowledge, was the Temple University Hospital EEG Corpus (TUEG) [46]."
+    ],
+    [
+     5,
+     "We focused specifically on versions 1.1 and 1.2 of this dataset which amounted to approximately 1.5 TB of European-data-format (EDF) EEG recordings before preprocessing."
+    ]
+   ],
+   "downstream": [
+    {
+     "name": "MMI (PhysioNet EEG Motor Movement/Imagery, 105 subjects)",
+     "canon": "EEGMMIDB",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "BCIC (BCI Competition IV, 9 subjects, 4-class MI = 2a)",
+     "canon": "BCIC-IV-2a",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "ERN (Inria BCI Challenge, 26 subjects)",
+     "canon": "KaggleERN",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "P300 (Citi/Poli/Cinel Donchin speller, PhysioNet)",
+     "canon": "PhysioNet-P300",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "SSC (Sleep-EDFx, 83 subjects, Fpz-Cz/Pz-Oz)",
+     "canon": "Sleep-EDFx",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    }
+   ],
+   "downstream_quotes": [
+    [
+     6,
+     "Table 1: Summary of downstream dataset battery and number of cross-validation folds used."
+    ]
+   ],
+   "exclusion_quotes": [],
+   "notes": "Pretraining is TUEG only. None of the five downstream sets is a TUH derivative, so all are HELD-OUT. (Reverse direction: the ERN set is the Inria BCI Challenge data that LaBraM and NeuroLM later put into their own pretraining corpora.)",
+   "headline": "No in-corpus headline results."
+  },
+  {
+   "key": "biot",
+   "name": "BIOT",
+   "year": 2023,
+   "venue": "NeurIPS 2023",
+   "source": "arXiv 2305.10351",
+   "group": "core",
+   "pretrain_list": [
+    "SHHS (5,445 sleep recordings, C3-A2/C4-A1, used without labels)",
+    "PREST (private hospital sleep-lab EEG, 6,478 recordings; institution not named)",
+    "Cardiology (five public ECG sets, ECG not EEG)"
+   ],
+   "pretrain_hours": "about 5M SHHS samples (30 s) + 5M PREST samples (10 s)",
+   "pretrain_canon": {},
+   "pretrain_quotes": [
+    [
+     5,
+     "In the experiments, we pre-train an unsupervised encoder using 5 million resting EEG samples (16 channels, 10s, 200Hz) and 5 million sleep EEG samples (2 channels, 30s, 125Hz)"
+    ],
+    [
+     6,
+     "The first three datasets are used entirely for unsupervised pre-training."
+    ],
+    [
+     13,
+     "PREST is a private dataset recorded in hospital sleep lab, primarily for seizure and abnormal EEG detection purpose (such as spikes)."
+    ]
+   ],
+   "downstream": [
+    {
+     "name": "CHB-MIT (patients 1-19 train, 20-21 val, 22-23 test, then flipped)",
+     "canon": "CHB-MIT",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "IIIC Seizure (Ge et al. 2021; Jing et al. 2023)",
+     "canon": "IIIC",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUAB (official split)",
+     "canon": "TUAB",
+     "label": "HELD-OUT",
+     "note": "Not in the unsupervised pretraining corpora. See supervised variant below.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUEV (official split)",
+     "canon": "TUEV",
+     "label": "HELD-OUT",
+     "note": "Same as TUAB.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "PTB-XL (ECG)",
+     "canon": "PTB-XL",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": true
+    },
+    {
+     "name": "HAR (wearable sensors)",
+     "canon": "HAR",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": true
+    }
+   ],
+   "downstream_quotes": [
+    [
+     6,
+     "The next four datasets are used for supervised learning"
+    ]
+   ],
+   "exclusion_quotes": [
+    [
+     9,
+     "We obtain a Pre-trained (6 EEG datasets) model by loading the Pre-trained (PREST+SHHS) model and further train it on the training sets of CHB-MIT, IIIC Seizure, TUAB, and TUEV."
+    ]
+   ],
+   "notes": "Unsupervised BIOT variants (PREST, PREST+SHHS) are clean on every downstream set. The 'Pre-trained BIOT (6 EEG datasets)' variant (Sec 3.6, Tables 2/4/5) is further trained on the labeled TRAIN splits of CHB-MIT, IIIC, TUAB and TUEV before fine-tuning, so for that variant all four are IN-CORPUS at the train-split level (test subjects stay disjoint by the official TUAB/TUEV split and by patient split for the others). Sec 3.5 also does supervised pretraining on CHB-MIT/IIIC/TUAB then tests on TUEV; the paper itself notes 'TUAB and TUEV are both recorded from Temple University and share some common information'. PREST is private; the paper does not say which hospital, so overlap with the downstream sets cannot be checked.",
+   "headline": "Unsupervised-pretrained headline numbers are clean. The 6-EEG-dataset variant uses same-dataset train splits."
+  },
+  {
+   "key": "labram",
+   "name": "LaBraM",
+   "year": 2024,
+   "venue": "ICLR 2024",
+   "source": "arXiv 2405.18765",
+   "group": "core",
+   "pretrain_list": [
+    "BCI Competition IV-1 (8.21 h)",
+    "Emobrain (4.94 h)",
+    "Grasp and Lift EEG Challenge (11.72 h)",
+    "Inria BCI Challenge (29.98 h) [= Kaggle ERN data]",
+    "EEG Motor Movement/Imagery Dataset = PhysioNet EEGMMIDB (47.3 h)",
+    "Raw EEG Data, Trujillo 2020 (34.35 h)",
+    "Resting State EEG Data, Trujillo 2017 (3.04 h)",
+    "SEED series: SEED, SEED-IV, SEED-GER, SEED-FRA (166.75 h)",
+    "Siena Scalp EEG Database (30.47 h)",
+    "SPIS Resting State (0.83 h)",
+    "Target Versus Non-Target / Brain Invaders (16 h)",
+    "TUAR (92.22 h, subset of TUEG)",
+    "TUEP (591.22 h, subset of TUEG)",
+    "TUSZ (1138.53 h)",
+    "TUSL (20.59 h, subset of TUEG)",
+    "Self-collected EEG (342.23 h, >140 subjects, 62 ch, 1000 Hz, ESI NeuroScan; not itemised)"
+   ],
+   "pretrain_hours": "2534.78 h total",
+   "pretrain_canon": {
+    "BCIC-IV-1": "IN",
+    "KaggleERN": "IN",
+    "EEGMMIDB": "IN",
+    "SEED": "IN",
+    "SEED-IV": "IN",
+    "Siena": "IN",
+    "TUAR": "IN",
+    "TUSZ": "IN",
+    "TUSL": "IN",
+    "TUAB": "PARTIAL",
+    "TUEV": "PARTIAL",
+    "SEED-V": "RELATED"
+   },
+   "pretrain_quotes": [
+    [
+     17,
+     "Training datasets (for both vector-quantized neural spectrum prediction training and LaBraM pre-training, the total time is 2534.78 hours):"
+    ],
+    [
+     18,
+     "TUAR (Buckwalter et al., 2021): This subset of TUEG contains annotations of 5 different artifacts"
+    ],
+    [
+     18,
+     "TUSL (von Weltin et al., 2017): This is another subset of TUEG that contains annotations of slowing events"
+    ],
+    [
+     6,
+     "TUEV (event type classification) (Obeid & Picone, 2016): This corpus is a subset of TUEG"
+    ]
+   ],
+   "downstream": [
+    {
+     "name": "TUAB",
+     "canon": "TUAB",
+     "label": "PARTIAL",
+     "note": "Same TUH corpus family (TUAR/TUEP/TUSL/TUSZ, all TUEG derivatives, are in pretraining). Authors say TUAB recordings are disjoint from pretraining recordings and show an ablation (Fig. 4).",
+     "exclusion_claim": "Sec 3.2: 'the four downstream datasets are excluded from the pre-training datasets'; Sec 3.5: 'the recordings of TUAB and TUEV are disjoint from recordings of pre-training datasets'; Fig. 4 compares with/without adding TUAB/TUEV to pretraining (no significant change).",
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUEV",
+     "canon": "TUEV",
+     "label": "PARTIAL",
+     "note": "Same as TUAB.",
+     "exclusion_claim": "Same statements as TUAB.",
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "SEED-V (Appendix F)",
+     "canon": "SEED-V",
+     "label": "HELD-OUT",
+     "note": "SEED-V itself is not listed, but SEED, SEED-IV, SEED-GER, SEED-FRA and 342 h of un-itemised self-collected 62-ch/1000 Hz NeuroScan EEG are. The paper cannot rule out overlap with SEED-V subjects.",
+     "exclusion_claim": null,
+     "related_in_corpus": true,
+     "non_eeg": false
+    },
+    {
+     "name": "MoBI gait regression (Appendix F)",
+     "canon": "MoBI",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    }
+   ],
+   "downstream_quotes": [
+    [
+     6,
+     "We systematically evaluate our LaBraM on the following downstream datasets:"
+    ],
+    [
+     19,
+     "We conduct two additional BCI tasks on the following datasets:"
+    ]
+   ],
+   "exclusion_quotes": [
+    [
+     7,
+     "Note that the four downstream datasets are excluded from the pre-training datasets."
+    ],
+    [
+     9,
+     "It is noted that the recordings of TUAB and TUEV are disjoint from recordings of pre-training datasets."
+    ]
+   ],
+   "notes": "Pretraining list is Appendix D (about 20 datasets). TUAB and TUEV are the two main-text tasks (Tables 1-2). The excluded-claim is recording-level; TUH does not guarantee patient-level disjointness across sub-corpora, and the paper does not state patient-level checks. LaBraM's own pretraining includes EEGMMIDB, Siena, SEED, Inria BCI Challenge and BCI-IV-1, which later papers (BENDR-protocol: MMI/ERN; CBraMod/CSBrain/REVE: PhysioNet-MI) use as downstream benchmarks.",
+   "headline": "Tables 1-2 (TUAB, TUEV) are PARTIAL: same-institution TUH sub-corpora (TUAR, TUEP, TUSL, TUSZ) are in the pretraining set; authors claim recording-level disjointness."
+  },
+  {
+   "key": "eegpt",
+   "name": "EEGPT (Wang et al.)",
+   "year": 2024,
+   "venue": "NeurIPS 2024",
+   "source": "NeurIPS proceedings PDF (no arXiv version found)",
+   "group": "core",
+   "pretrain_list": [
+    "PhysioMI = EEGMMIDB (109 subj)",
+    "HGD (14 subj)",
+    "TSU SSVEP benchmark (35 subj)",
+    "SEED (15 subj)",
+    "M3CV (106 subj)"
+   ],
+   "pretrain_hours": "not stated in hours",
+   "pretrain_canon": {
+    "EEGMMIDB": "IN",
+    "SEED": "IN"
+   },
+   "pretrain_quotes": [
+    [
+     6,
+     "Table 1: Datasets for pretraining and downstream tasks"
+    ],
+    [
+     2,
+     "EEGPT, with over 10 million parameters, is pretrained on a mixed multi-task EEG dataset, including data from PhysioMI [23], HGD [24], and M3CV [25]."
+    ],
+    [
+     17,
+     "LaBraM employs a larger pretraining dataset than ours, which also contains the TUEG dataset that is similar to the TUAB and TUEV distributions"
+    ]
+   ],
+   "downstream": [
+    {
+     "name": "BCIC-2A",
+     "canon": "BCIC-IV-2a",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "BCIC-2B",
+     "canon": "BCIC-IV-2b",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "Sleep-EDFx",
+     "canon": "Sleep-EDFx",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "KaggleERN",
+     "canon": "KaggleERN",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "PhysioP300 (PhysioNet erpbci)",
+     "canon": "PhysioNet-P300",
+     "label": "HELD-OUT",
+     "note": "Different PhysioNet dataset from PhysioMI despite the shared reference number [23] in the paper.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUAB",
+     "canon": "TUAB",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUEV",
+     "canon": "TUEV",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    }
+   ],
+   "downstream_quotes": [
+    [
+     6,
+     "It contains MI datasets BCIC-2A [39], BCIC-2B [40], sleep stage detection dataset Sleep-EDFx [11] , error related negativity (ERN) dataset KaggleERN [41] and event-related potentials dataset PhysioP300 [23]."
+    ]
+   ],
+   "exclusion_quotes": [],
+   "notes": "Table 1 (p6) lists five pretraining sets; the intro (p2) names only PhysioMI, HGD, M3CV (internal inconsistency; Table 1 and Appendix C.1 list all five). No TUH data in pretraining, so TUAB/TUEV are HELD-OUT here, and the appendix says LaBraM benefits from TUEG. All downstream sets are clean.",
+   "headline": "All headline results are HELD-OUT."
+  },
+  {
+   "key": "cbramod",
+   "name": "CBraMod",
+   "year": 2025,
+   "venue": "ICLR 2025",
+   "source": "arXiv 2412.07236",
+   "group": "core",
+   "pretrain_list": [
+    "TUEG only (69,652 recordings, 14,987 subjects, 27,062 h; after cleaning 1,109,545 samples, >9,000 h)"
+   ],
+   "pretrain_hours": ">9000 h after cleaning",
+   "pretrain_canon": {
+    "TUAB": "PARTIAL",
+    "TUEV": "PARTIAL",
+    "TUSL": "PARTIAL",
+    "TUAR": "PARTIAL",
+    "TUSZ": "PARTIAL"
+   },
+   "pretrain_quotes": [
+    [
+     6,
+     "CBraMod is pre-trained on a very large public dataset, Temple University Hospital EEG corpus (TUEG) (Obeid & Picone, 2016)."
+    ],
+    [
+     3,
+     "The majority of downstream datasets are sourced from institutions different from the pretraining dataset."
+    ],
+    [
+     7,
+     "Table 1: Overview of downstream BCI tasks and datasets."
+    ]
+   ],
+   "downstream": [
+    {
+     "name": "FACED",
+     "canon": "FACED",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "SEED-V",
+     "canon": "SEED-V",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "PhysioNet-MI",
+     "canon": "EEGMMIDB",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "SHU-MI",
+     "canon": "SHU-MI",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "ISRUC",
+     "canon": "ISRUC",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "CHB-MIT",
+     "canon": "CHB-MIT",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "BCIC2020-3",
+     "canon": "BCIC2020-3",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "Mumtaz2016",
+     "canon": "Mumtaz2016",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "SEED-VIG",
+     "canon": "SEED-VIG",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "MentalArithmetic",
+     "canon": "MentalArithmetic",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUEV",
+     "canon": "TUEV",
+     "label": "PARTIAL",
+     "note": "Control run: re-pretrained without TUEV. BAcc 0.6659 vs 0.6671 (full), kappa 0.6744 vs 0.6772, wF1 0.8331 vs 0.8342.",
+     "exclusion_claim": "App. E.7 (p26): 'Given that the TUEV dataset is a subset of the pretraining dataset TUEG, we introduced an additional experimental setup, CBraMod (excluding TUEV), to eliminate potential effects of data leakage.'",
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUAB",
+     "canon": "TUAB",
+     "label": "PARTIAL",
+     "note": "Control run: re-pretrained without TUAB. BAcc 0.8249 vs 0.8289, AUC-PR 0.9221 vs 0.9258, AUROC 0.9156 vs 0.9227.",
+     "exclusion_claim": "App. E.8 (p27): 'Considering that the TUAB dataset is a subset of the pretraining dataset TUEG, we implemented an additional experimental setup, CBraMod (excluding TUAB), to mitigate potential data leakage effects.'",
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "BCIC-IV-2a (App. E.9, Tables 15 and 23)",
+     "canon": "BCIC-IV-2a",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    }
+   ],
+   "downstream_quotes": [
+    [
+     7,
+     "Table 1: Overview of downstream BCI tasks and datasets."
+    ]
+   ],
+   "exclusion_quotes": [
+    [
+     26,
+     "Given that the TUEV dataset is a subset of the pretraining dataset TUEG, we introduced an additional experimental setup, CBraMod (excluding TUEV), to eliminate potential effects of data leakage."
+    ],
+    [
+     27,
+     "Considering that the TUAB dataset is a subset of the pretraining dataset TUEG, we implemented an additional experimental setup, CBraMod (excluding TUAB), to mitigate potential data leakage effects."
+    ]
+   ],
+   "notes": "Only TUEV and TUAB are TUH-derived. The control is a clean ablation (dataset removed and model re-pretrained) but it is reported only in the appendix tables (13, 14); the main-text Table 1/summary numbers use the full-TUEG model. Differences are small (<=0.004 BAcc, 0.007 AUROC).",
+   "headline": "2 of 13 reported datasets (TUEV, TUAB) are PARTIAL; both have an exclusion control with small deltas."
+  },
+  {
+   "key": "neurolm",
+   "name": "NeuroLM",
+   "year": 2025,
+   "venue": "ICLR 2025",
+   "source": "arXiv 2409.00101",
+   "group": "core",
+   "pretrain_list": [
+    "TUEG (about 24,000 h)",
+    "SEED Series: SEED-IV (15), SEED-V (20), SEED-GER (8), SEED-FRA (8) (170.54 h)",
+    "BCI Competition IV-1 (8.21 h)",
+    "Emobrain (4.94 h)",
+    "Grasp and Lift (11.72 h)",
+    "Inria BCI (29.98 h)",
+    "Motor Movement/Imagery = EEGMMIDB (47.3 h)",
+    "Raw EEG Data, Trujillo 2020 (34.35 h)",
+    "Resting State, Trujillo 2017 (3.04 h)",
+    "Siena Scalp EEG (30.47 h)",
+    "SPIS Resting State (0.83 h)",
+    "Target vs Non-Target (16 h)",
+    "Self-collected EEG (342.23 h)"
+   ],
+   "pretrain_hours": "about 25,000 h",
+   "pretrain_canon": {
+    "TUAB": "PARTIAL",
+    "TUEV": "PARTIAL",
+    "TUSL": "PARTIAL",
+    "TUAR": "PARTIAL",
+    "TUSZ": "PARTIAL",
+    "EEGMMIDB": "IN",
+    "SEED-IV": "IN",
+    "SEED-V": "IN",
+    "SEED": "UNCLEAR",
+    "Siena": "IN",
+    "KaggleERN": "IN",
+    "BCIC-IV-1": "IN"
+   },
+   "pretrain_quotes": [
+    [
+     15,
+     "The total time after data cleaning is close to 25,000 hours."
+    ],
+    [
+     16,
+     "Table 6: Information of datasets used for pre-training."
+    ],
+    [
+     7,
+     "About 25,000 hours of EEG data from multiple public EEG datasets are collected after cleaning and filtering, which are listed in Appendix C."
+    ]
+   ],
+   "downstream": [
+    {
+     "name": "TUAB",
+     "canon": "TUAB",
+     "label": "PARTIAL",
+     "note": "Entire TUEG (about 24,000 h) is in pretraining; no exclusion or control reported.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUEV",
+     "canon": "TUEV",
+     "label": "PARTIAL",
+     "note": "Same as TUAB.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "SEED (3-class, 15 subjects)",
+     "canon": "SEED",
+     "label": "UNCLEAR",
+     "note": "Pretraining table lists 'SEED Series' = SEED-IV, SEED-V, SEED-GER, SEED-FRA (51 subjects, 170.54 h). The original SEED (Zheng & Lu 2015) is the downstream set but is not itemised. LaBraM's list (166.75 h) names SEED explicitly. Cannot tell from the paper whether original SEED is inside.",
+     "exclusion_claim": null,
+     "related_in_corpus": true,
+     "non_eeg": false
+    },
+    {
+     "name": "HMC (sleep, 151 subjects)",
+     "canon": "HMC",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "Workload (Zyma 2019, 36 subjects)",
+     "canon": "MentalArithmetic",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUSL",
+     "canon": "TUSL",
+     "label": "PARTIAL",
+     "note": "Entire TUEG in pretraining; no exclusion or control reported.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    }
+   ],
+   "downstream_quotes": [
+    [
+     6,
+     "We consider six different EEG datasets with highly varied data sizes to comprehensively evaluate NeuroLM"
+    ]
+   ],
+   "exclusion_quotes": [],
+   "notes": "Searched the full text for exclude / leak / overlap / disjoint: no statement that TUAB, TUEV or TUSL recordings were removed from the TUEG pretraining set. NeuroLM also multi-task instruction-tunes on the downstream training splits (labels), which is supervised exposure rather than unlabeled test-subject exposure.",
+   "headline": "3 of 6 headline tasks (TUAB, TUEV, TUSL) are PARTIAL with no control; SEED is UNCLEAR."
+  },
+  {
+   "key": "femba",
+   "name": "FEMBA",
+   "year": 2025,
+   "venue": "EMBC 2025 (arXiv 2502.06438)",
+   "source": "arXiv 2502.06438",
+   "group": "core",
+   "pretrain_list": [
+    "TUEG with subjects present in TUSL, TUAR, or TUAB filtered out (about 21,000 h, >5,000 participants in abstract; Table I lists 14,987 subjects)"
+   ],
+   "pretrain_hours": "about 21,000 h",
+   "pretrain_canon": {
+    "TUAB": "PARTIAL",
+    "TUEV": "PARTIAL",
+    "TUSL": "PARTIAL",
+    "TUAR": "PARTIAL",
+    "TUSZ": "PARTIAL"
+   },
+   "pretrain_quotes": [
+    [
+     4,
+     "We pre-train FEMBA on the TUEG dataset, as detailed in Section II-A. To prevent data leakage between pre-training and downstream tasks, we use a version of TUEG where subjects present in TUSL, TUAR, or TUAB have been filtered out."
+    ],
+    [
+     3,
+     "TABLE I: Summary of Datasets Used"
+    ]
+   ],
+   "downstream": [
+    {
+     "name": "TUAB",
+     "canon": "TUAB",
+     "label": "PARTIAL",
+     "note": "Subject-level filter applied to the pretraining set (same corpus, same hospital).",
+     "exclusion_claim": "p4: subjects present in TUSL, TUAR or TUAB filtered out of TUEG pretraining.",
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUAR",
+     "canon": "TUAR",
+     "label": "PARTIAL",
+     "note": "Same filter.",
+     "exclusion_claim": "Same.",
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUSL",
+     "canon": "TUSL",
+     "label": "PARTIAL",
+     "note": "Same filter.",
+     "exclusion_claim": "Same.",
+     "related_in_corpus": false,
+     "non_eeg": false
+    }
+   ],
+   "downstream_quotes": [
+    [
+     4,
+     "We assess FEMBA on three downstream tasks using the datasets described in Section II-B."
+    ]
+   ],
+   "exclusion_quotes": [
+    [
+     4,
+     "To prevent data leakage between pre-training and downstream tasks, we use a version of TUEG where subjects present in TUSL, TUAR, or TUAB have been filtered out."
+    ]
+   ],
+   "notes": "All three downstream sets are TUH sub-corpora, so every reported result is same-source. The paper states a subject-level filter, which is the strongest exclusion claim among TUEG-pretrained models; TUEV is not evaluated. Abstract says '21,000 hours of unlabeled EEG from 5,000 subjects' while Table I lists 14,987 TUEG subjects.",
+   "headline": "All 3 reported datasets are TUH derivatives (PARTIAL), with a subject-level exclusion claim."
+  },
+  {
+   "key": "luna",
+   "name": "LUNA",
+   "year": 2025,
+   "venue": "NeurIPS 2025",
+   "source": "arXiv 2510.22257",
+   "group": "core",
+   "pretrain_list": [
+    "TUEG (14,987 subjects, 21,787.32 h)",
+    "Siena Scalp EEG (14 subjects, 141.0 h)"
+   ],
+   "pretrain_hours": "over 21,900 h",
+   "pretrain_canon": {
+    "TUAB": "PARTIAL",
+    "TUEV": "PARTIAL",
+    "TUSL": "PARTIAL",
+    "TUAR": "PARTIAL",
+    "TUSZ": "PARTIAL",
+    "Siena": "IN"
+   },
+   "pretrain_quotes": [
+    [
+     6,
+     "We pre-train LUNA on a combined corpus of Temple University Hospital EEG Corpus (TUEG) [9] and the Siena Scalp EEG Database [10]"
+    ],
+    [
+     6,
+     "All subjects and recordings from the downstream evaluation datasets (TUAB, TUAR, TUSL, SEED-V) were strictly excluded from this pre-training set to ensure fair evaluation of generalization."
+    ],
+    [
+     23,
+     "Table 11: Summary of Datasets Used."
+    ]
+   ],
+   "downstream": [
+    {
+     "name": "TUAB",
+     "canon": "TUAB",
+     "label": "PARTIAL",
+     "note": "Subjects and recordings excluded from pretraining by the authors' statement.",
+     "exclusion_claim": "p6: 'strictly excluded'.",
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUAR",
+     "canon": "TUAR",
+     "label": "PARTIAL",
+     "note": "Same. Fine-tuning uses an 80/10/10 sample-level random split (not subject-disjoint) as in EEGFormer.",
+     "exclusion_claim": "p6.",
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUSL",
+     "canon": "TUSL",
+     "label": "PARTIAL",
+     "note": "Same. Sample-level random split.",
+     "exclusion_claim": "p6.",
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "SEED-V",
+     "canon": "SEED-V",
+     "label": "HELD-OUT",
+     "note": "Authors call it an 'unseen 62-channel topology'.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    }
+   ],
+   "downstream_quotes": [
+    [
+     6,
+     "Downstream evaluations cover four diverse benchmarks"
+    ]
+   ],
+   "exclusion_quotes": [
+    [
+     6,
+     "All subjects and recordings from the downstream evaluation datasets (TUAB, TUAR, TUSL, SEED-V) were strictly excluded from this pre-training set to ensure fair evaluation of generalization."
+    ]
+   ],
+   "notes": "Exclusion is stated at subject-and-recording level. Separate issue: TUAR and TUSL fine-tuning splits are sample-level random, so train/test overlap in subjects exists inside the downstream task itself (authors acknowledge this on p6).",
+   "headline": "3 of 4 reported datasets are TUH derivatives (PARTIAL) with a strong exclusion claim; SEED-V is HELD-OUT."
+  },
+  {
+   "key": "reve",
+   "name": "REVE",
+   "year": 2025,
+   "venue": "arXiv 2510.21585 (preprint)",
+   "source": "arXiv 2510.21585",
+   "group": "core",
+   "pretrain_list": [
+    "92 datasets, 24,274 subjects, 61,415 h: TUH (14,987 subj, 26,847 h; full TUEG), PhysioNet (Siena, ICARE), 27 MOABB sets (e.g. BNCI2014004 = BCI-IV-2b, Schirrmeister2017 = HGD, Cho2017, Lee2019, Weibo2014 ...), 56 OpenNeuro sets (accession numbers only), Others (NMT, HMS, SparrKULee, Inria Large, THINGS2, TDBRAIN)"
+   ],
+   "pretrain_hours": "61,415 h",
+   "pretrain_canon": {
+    "TUAB": "PARTIAL",
+    "TUEV": "PARTIAL",
+    "TUSL": "PARTIAL",
+    "TUAR": "PARTIAL",
+    "TUSZ": "PARTIAL",
+    "Siena": "IN",
+    "BCIC-IV-2b": "IN",
+    "TDBrain": "IN",
+    "PD31": "IN"
+   },
+   "pretrain_quotes": [
+    [
+     5,
+     "It comprises 19 TB of raw data, spanning 24,274 subjects, 150,833 unique sessions, and 61,415 hours of recordings drawn from 92 different sources, including OpenNeuro (Markiewicz et al., 2021), MOABB (Aristimunha et al., 2023), and TUH (Obeid and Picone, 2016)."
+    ],
+    [
+     6,
+     "We only removed recordings shorter than 10 seconds, and those used in downstream tasks."
+    ],
+    [
+     21,
+     "Table 7: Detailed overview of the pretraining datasets."
+    ],
+    [
+     7,
+     "Table 1: Overview of downstream tasks and datasets."
+    ]
+   ],
+   "downstream": [
+    {
+     "name": "PhysioNet-MI",
+     "canon": "EEGMMIDB",
+     "label": "HELD-OUT",
+     "note": "Not in the itemised MOABB/PhysioNet lists. Note: the few-shot 'XFT' variant (Table 22) fine-tunes on labeled MI sets that include (Goldberger et al., 2000).",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "BCIC-IV-2a",
+     "canon": "BCIC-IV-2a",
+     "label": "HELD-OUT",
+     "note": "BNCI2014001 is not in the MOABB list; BNCI2014004 (=2b) is.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUEV",
+     "canon": "TUEV",
+     "label": "PARTIAL",
+     "note": "Full TUH corpus in pretraining; authors remove 'those used in downstream tasks' (recording level, wording ambiguous).",
+     "exclusion_claim": "p6: 'We only removed recordings shorter than 10 seconds, and those used in downstream tasks.'",
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUAB",
+     "canon": "TUAB",
+     "label": "PARTIAL",
+     "note": "Same.",
+     "exclusion_claim": "p6, same sentence.",
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "HMC",
+     "canon": "HMC",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "ISRUC",
+     "canon": "ISRUC",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "FACED",
+     "canon": "FACED",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "Mumtaz",
+     "canon": "Mumtaz2016",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "Mental Arithmetic (MAT)",
+     "canon": "MentalArithmetic",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "BCI2020-IV-3",
+     "canon": "BCIC2020-3",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    }
+   ],
+   "downstream_quotes": [
+    [
+     7,
+     "across the following datasets: PhysioNet-MI (Goldberger et al., 2000), BCIC-IV-2a (Tangermann et al., 2012), TUEV (Obeid and Picone, 2016), TUAB (Obeid and Picone, 2016), HMC"
+    ]
+   ],
+   "exclusion_quotes": [
+    [
+     6,
+     "We only removed recordings shorter than 10 seconds, and those used in downstream tasks."
+    ]
+   ],
+   "notes": "Removal of 'recordings used in downstream tasks' is not defined at subject level, and no TUEV/TUAB control run is reported. 56 OpenNeuro datasets are listed by accession number only, so name-level overlap with the downstream sets was checked only against datasets with names (none match).",
+   "headline": "2 of 10 downstream tasks (TUEV, TUAB) are PARTIAL; recording-level removal claimed, no control."
+  },
+  {
+   "key": "csbrain",
+   "name": "CSBrain",
+   "year": 2025,
+   "venue": "arXiv 2506.23075 (preprint)",
+   "source": "arXiv 2506.23075",
+   "group": "core",
+   "pretrain_list": [
+    "TUEG only (1,109,545 segments, over 9,000 h after the CBraMod pipeline)"
+   ],
+   "pretrain_hours": ">9000 h",
+   "pretrain_canon": {
+    "TUAB": "PARTIAL",
+    "TUEV": "PARTIAL",
+    "TUSL": "PARTIAL",
+    "TUAR": "PARTIAL",
+    "TUSZ": "PARTIAL"
+   },
+   "pretrain_quotes": [
+    [
+     6,
+     "We pre-train CSBrain on the Temple University Hospital EEG corpus (TUEG) dataset, which has been shown effective for foundation model studies [40, 57]."
+    ],
+    [
+     7,
+     "After cleaning, a total of 1,109,545 EEG segments (over 9,000 hours) are used for pre-training."
+    ],
+    [
+     7,
+     "Table 1: Overview of Downstream BCI datasets and tasks used for evaluation."
+    ]
+   ],
+   "downstream": [
+    {
+     "name": "BCIC-IV-2a",
+     "canon": "BCIC-IV-2a",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "PhysioNet-MI",
+     "canon": "EEGMMIDB",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "SHU-MI",
+     "canon": "SHU-MI",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "FACED",
+     "canon": "FACED",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "SEED-V",
+     "canon": "SEED-V",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "CHB-MIT",
+     "canon": "CHB-MIT",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "Siena",
+     "canon": "Siena",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "ISRUC",
+     "canon": "ISRUC",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "HMC",
+     "canon": "HMC",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "BCIC2020-3",
+     "canon": "BCIC2020-3",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "SEED-VIG",
+     "canon": "SEED-VIG",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "MentalArithmetic",
+     "canon": "MentalArithmetic",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "Mumtaz2016",
+     "canon": "Mumtaz2016",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUEV",
+     "canon": "TUEV",
+     "label": "PARTIAL",
+     "note": "Whole TUEG in pretraining. No exclusion or control found (searched leak/exclude/overlap/disjoint).",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUAB",
+     "canon": "TUAB",
+     "label": "PARTIAL",
+     "note": "Same.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUSL",
+     "canon": "TUSL",
+     "label": "PARTIAL",
+     "note": "Same.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    }
+   ],
+   "downstream_quotes": [
+    [
+     7,
+     "Table 1: Overview of Downstream BCI datasets and tasks used for evaluation."
+    ]
+   ],
+   "exclusion_quotes": [],
+   "notes": "Pipeline copied from CBraMod but without CBraMod's exclusion controls. 3 of 16 datasets are TUH derivatives and are all in the main Table 2.",
+   "headline": "3 of 16 datasets (TUEV, TUAB, TUSL) are PARTIAL with no control."
+  },
+  {
+   "key": "eegformer",
+   "name": "EEGFormer",
+   "year": 2024,
+   "venue": "arXiv 2401.10278 (preprint/workshop)",
+   "source": "arXiv 2401.10278",
+   "group": "core",
+   "pretrain_list": [
+    "TUH EEG Corpus, '1.7TB of unlabelled EEG data'"
+   ],
+   "pretrain_hours": "not stated in hours (1.7 TB)",
+   "pretrain_canon": {
+    "TUAB": "PARTIAL",
+    "TUEV": "PARTIAL",
+    "TUSL": "PARTIAL",
+    "TUAR": "PARTIAL",
+    "TUSZ": "PARTIAL"
+   },
+   "pretrain_quotes": [
+    [
+     3,
+     "We pretrain our model on the Temple University EEG Corpus (TUH Corpus)"
+    ],
+    [
+     1,
+     "evaluating its performance on four downstream corpora sourced from the TUH corpus."
+    ],
+    [
+     3,
+     "Notably, the Neonate dataset is not a subset of the TUH dataset."
+    ]
+   ],
+   "downstream": [
+    {
+     "name": "TUAB",
+     "canon": "TUAB",
+     "label": "PARTIAL",
+     "note": "'sourced from the TUH corpus'; no exclusion stated.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUAR",
+     "canon": "TUAR",
+     "label": "PARTIAL",
+     "note": "Same.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUSL",
+     "canon": "TUSL",
+     "label": "PARTIAL",
+     "note": "Same.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUSZ",
+     "canon": "TUSZ",
+     "label": "PARTIAL",
+     "note": "Same.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "Neonate (Helsinki neonatal seizures, Stevenson 2019)",
+     "canon": "Neonate",
+     "label": "HELD-OUT",
+     "note": "Authors state it is not a TUH subset; used as the transfer test.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    }
+   ],
+   "downstream_quotes": [
+    [
+     3,
+     "We evaluate our model on five downstream datasets."
+    ]
+   ],
+   "exclusion_quotes": [],
+   "notes": "The paper frames the TUH-derived tasks as in-distribution and only the Neonate set as transfer. No leakage discussion.",
+   "headline": "4 of 5 reported datasets are TUH derivatives (PARTIAL); only Neonate is HELD-OUT."
+  },
+  {
+   "key": "neurogpt",
+   "name": "Neuro-GPT",
+   "year": 2023,
+   "venue": "arXiv 2311.03764 (ISBI 2024 short paper)",
+   "source": "arXiv 2311.03764",
+   "group": "extra",
+   "pretrain_list": [
+    "TUH EEG corpus (about 20,000 recordings processed)"
+   ],
+   "pretrain_hours": "not stated",
+   "pretrain_canon": {
+    "TUAB": "PARTIAL",
+    "TUEV": "PARTIAL",
+    "TUSL": "PARTIAL",
+    "TUAR": "PARTIAL",
+    "TUSZ": "PARTIAL"
+   },
+   "pretrain_quotes": [
+    [
+     3,
+     "Pre-training Dataset: The large-scale public dataset, Temple University Hospital (TUH) EEG corpus, is used as the pre-training dataset."
+    ]
+   ],
+   "downstream": [
+    {
+     "name": "BCI Competition IV 2a (9 subjects)",
+     "canon": "BCIC-IV-2a",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    }
+   ],
+   "downstream_quotes": [
+    [
+     3,
+     "Downstream Dataset: We define the downstream task as motor imagery classification, using the BCI Competition IV Dataset 2a"
+    ]
+   ],
+   "exclusion_quotes": [],
+   "notes": "Single downstream set, clean.",
+   "headline": "Clean."
+  },
+  {
+   "key": "codebrain",
+   "name": "CodeBrain",
+   "year": 2026,
+   "venue": "ICLR 2026 (arXiv 2506.09110)",
+   "source": "arXiv 2506.09110",
+   "group": "extra",
+   "pretrain_list": [
+    "TUH EEG Corpus (TUEG), 1,109,545 samples (about 9,246 h)"
+   ],
+   "pretrain_hours": "about 9,246 h",
+   "pretrain_canon": {
+    "TUAB": "PARTIAL",
+    "TUEV": "PARTIAL",
+    "TUSL": "PARTIAL",
+    "TUAR": "PARTIAL",
+    "TUSZ": "PARTIAL"
+   },
+   "pretrain_quotes": [
+    [
+     7,
+     "We pretrain CodeBrain on the TUH EEG Corpus (Obeid & Picone, 2016), the largest publicly available EEG dataset to date."
+    ],
+    [
+     30,
+     "We note that both TUAB and TUEV originate from the TUH EEG corpus (Obeid & Picone, 2016), which overlaps with our pretraining source (TUEG)."
+    ]
+   ],
+   "downstream": [
+    {
+     "name": "FACED",
+     "canon": "FACED",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "SEED-V",
+     "canon": "SEED-V",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "ISRUC S1",
+     "canon": "ISRUC",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "ISRUC S3",
+     "canon": "ISRUC",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "BCIC 2020-T3",
+     "canon": "BCIC2020-3",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "Mental Arithmetic",
+     "canon": "MentalArithmetic",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "CHB-MIT",
+     "canon": "CHB-MIT",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "SHU-MI",
+     "canon": "SHU-MI",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUEV",
+     "canon": "TUEV",
+     "label": "PARTIAL",
+     "note": "Control run removing all TUEV and TUAB samples from TUEG: BAcc 0.6375 vs 0.6428, kappa 0.6838 vs 0.6912. Pretraining stopped at epoch 10 'to avoid overfitting to this distribution'.",
+     "exclusion_claim": "p30-31: 'we also report the results of experiments conducted by removing all TUEV and TUAB samples from the TUEG dataset.'",
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUAB",
+     "canon": "TUAB",
+     "label": "PARTIAL",
+     "note": "Same control: BAcc 0.8288 vs 0.8294, AUROC 0.9012 vs 0.9030.",
+     "exclusion_claim": "Same.",
+     "related_in_corpus": false,
+     "non_eeg": false
+    }
+   ],
+   "downstream_quotes": [
+    [
+     7,
+     "Table 1: Summary of downstream tasks and associated EEG datasets."
+    ]
+   ],
+   "exclusion_quotes": [
+    [
+     31,
+     "we also report the results of experiments conducted by removing all TUEV and TUAB samples from the TUEG dataset."
+    ]
+   ],
+   "notes": "TUEV, TUAB, SHU-MI and ISRUC S1 results are in Appendix I (Tables 5-8), not the main comparison table.",
+   "headline": "2 of 10 (TUEV, TUAB) PARTIAL; both have an exclusion control; they sit in the appendix."
+  },
+  {
+   "key": "brainomni",
+   "name": "BrainOmni",
+   "year": 2025,
+   "venue": "arXiv 2505.18185 (preprint)",
+   "source": "arXiv 2505.18185",
+   "group": "extra",
+   "pretrain_list": [
+    "22 open EEG/MEG datasets, 1,997 h EEG + 656 h MEG: MEG-MASC, MEG-Narrative, OMEGA, CC700, Go-Nogo, MusicEEG, HFO, AversiveMEG, SRM, MIND, RestCog, SMN4Lang, HBN EO/EC, THINGS-MEG, ASWR-MEG, ImageLine, Features-EEG, PEARL-Neuro, NeuroMorph, Kymata-SOTO, HBN-EEG, Awakening. No TUH."
+   ],
+   "pretrain_hours": "1,997 h EEG + 656 h MEG",
+   "pretrain_canon": {},
+   "pretrain_quotes": [
+    [
+     5,
+     "1997 hours of EEG data and 656 hours of MEG data collected from open-source datasets are used for pretraining (see Appendix H for details)"
+    ],
+    [
+     6,
+     "To prevent information leakage, all datasets used for downstream testing were excluded from the pretraining process."
+    ]
+   ],
+   "downstream": [
+    {
+     "name": "AD65 (Miltiadous, OpenNeuro ds004504)",
+     "canon": "ADFTD",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "MDD (Mumtaz 2016)",
+     "canon": "Mumtaz2016",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "PD31",
+     "canon": "PD31",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUAB",
+     "canon": "TUAB",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUEV",
+     "canon": "TUEV",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "FACED",
+     "canon": "FACED",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "WBCIC_SHU",
+     "canon": "SHU-MI",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "PhysioNet-MI",
+     "canon": "EEGMMIDB",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "SomatoMotor (EEG+MEG)",
+     "canon": "SomatoMotor",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "ASD74 (MEG)",
+     "canon": "ASD74",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": true
+    },
+    {
+     "name": "MEG-MMI (MEG)",
+     "canon": "MEG-MMI",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": true
+    }
+   ],
+   "downstream_quotes": [
+    [
+     6,
+     "Table 1: Overview of the downstream datasets."
+    ]
+   ],
+   "exclusion_quotes": [
+    [
+     6,
+     "To prevent information leakage, all datasets used for downstream testing were excluded from the pretraining process."
+    ]
+   ],
+   "notes": "Cleanest design among large models: no TUH in pretraining. Two extra sets (PerceiveImagine EEG, Gloups-MEG) are used only for zero-shot tokenizer generalisation (unseen devices).",
+   "headline": "All headline results are HELD-OUT."
+  },
+  {
+   "key": "unintfm",
+   "name": "Uni-NTFM",
+   "year": 2026,
+   "venue": "ICLR 2026 (arXiv 2509.24222)",
+   "source": "arXiv 2509.24222",
+   "group": "extra",
+   "pretrain_list": [
+    "Emobrain (4.94 h)",
+    "REEG-BACA (121.6 h, 608 subj)",
+    "SEED series: SEED-IV, SEED-V, SEED-GER, SEED-FRA (170.54 h, 51 subj)",
+    "CAUEEG (306 h, 1388 subj)",
+    "TUEG (27,100 h, 14,987 subj)",
+    "Raw EEG Data, Trujillo 2020 (34.35 h)",
+    "BCI Competition IV-1 (8.21 h)",
+    "Resting State EEG, Trujillo 2017 (3.04 h)",
+    "Siena Scalp EEG (30.47 h)"
+   ],
+   "pretrain_hours": "about 28,000 h",
+   "pretrain_canon": {
+    "TUAB": "PARTIAL",
+    "TUEV": "PARTIAL",
+    "TUSL": "PARTIAL",
+    "TUAR": "PARTIAL",
+    "TUSZ": "PARTIAL",
+    "SEED-IV": "IN",
+    "SEED-V": "IN",
+    "Siena": "IN",
+    "BCIC-IV-1": "IN"
+   },
+   "pretrain_quotes": [
+    [
+     7,
+     "We aggregated a large-scale pre-training corpus by amalgamating nine distinct, publicly available EEG datasets"
+    ],
+    [
+     21,
+     "Table 6: Information of datasets used for pre-training."
+    ],
+    [
+     22,
+     "Table 7: Information of datasets used for downstream evaluation."
+    ]
+   ],
+   "downstream": [
+    {
+     "name": "TUAB",
+     "canon": "TUAB",
+     "label": "PARTIAL",
+     "note": "TUEG (27,100 h) in pretraining; no exclusion or control found.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUEV",
+     "canon": "TUEV",
+     "label": "PARTIAL",
+     "note": "Same.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "SEED",
+     "canon": "SEED-V",
+     "label": "IN-CORPUS",
+     "note": "Downstream is named 'SEED (Zheng & Lu, 2015)' but Table 7 gives 16 subjects and 5-class labels, which matches the open-source SEED-V, and the pretraining 'SEED-series' explicitly includes SEED-V (20 subjects) and SEED-IV. If the downstream set were the original 3-class SEED the label would be PARTIAL (family). Inference from Table 7 specs, not an explicit statement.",
+     "exclusion_claim": null,
+     "related_in_corpus": true,
+     "non_eeg": false
+    },
+    {
+     "name": "TDBrain",
+     "canon": "TDBrain",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "ADFTD",
+     "canon": "ADFTD",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "BCIC-IV-2a",
+     "canon": "BCIC-IV-2a",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "Workload (Zyma 2019)",
+     "canon": "MentalArithmetic",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "HMC",
+     "canon": "HMC",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUSL",
+     "canon": "TUSL",
+     "label": "PARTIAL",
+     "note": "TUEG in pretraining; no exclusion found.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    }
+   ],
+   "downstream_quotes": [
+    [
+     7,
+     "we collected nine public EEG datasets across various paradigms and tasks"
+    ]
+   ],
+   "exclusion_quotes": [],
+   "notes": "Searched the full text for exclude / leak / disjoint / overlap: nothing about removing downstream data from TUEG. Pretraining list matches NeuroLM/LaBraM apart from CAUEEG and REEG-BACA.",
+   "headline": "4 of 9 downstream tasks (TUAB, TUEV, TUSL, SEED) overlap the pretraining corpus, none with a control."
+  },
+  {
+   "key": "eegdino",
+   "name": "EEG-DINO",
+   "year": 2025,
+   "venue": "MICCAI 2025 (no arXiv version found)",
+   "source": "MICCAI proceedings paper PDF",
+   "group": "extra",
+   "pretrain_list": [
+    "TUEG (1,109,545 samples, over 9000 h; CBraMod pipeline)"
+   ],
+   "pretrain_hours": ">9000 h",
+   "pretrain_canon": {
+    "TUAB": "PARTIAL",
+    "TUEV": "PARTIAL",
+    "TUSL": "PARTIAL",
+    "TUAR": "PARTIAL",
+    "TUSZ": "PARTIAL"
+   },
+   "pretrain_quotes": [
+    [
+     5,
+     "Pre-training Dataset We perform pre-training on the Temple University Hospital EEG (TUEG) dataset [11], one of the largest publicly available EEG datasets."
+    ],
+    [
+     5,
+     "TUEV [11] is a curated subset of the TUEG database annotated for six typical events."
+    ],
+    [
+     5,
+     "TUAB [11] represents a curated selection from the TUEG database"
+    ]
+   ],
+   "downstream": [
+    {
+     "name": "TUEV",
+     "canon": "TUEV",
+     "label": "PARTIAL",
+     "note": "Authors call it a 'curated subset of the TUEG database'; no exclusion or control.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUAB",
+     "canon": "TUAB",
+     "label": "PARTIAL",
+     "note": "Same.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "SEED-V (16 subjects)",
+     "canon": "SEED-V",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    }
+   ],
+   "downstream_quotes": [
+    [
+     5,
+     "SEED-V [10] is a multimodal emotion recognition dataset featuring five emotions."
+    ]
+   ],
+   "exclusion_quotes": [],
+   "notes": "Authors state outright that the TUH downstream sets are subsets of the pretraining corpus and report no control.",
+   "headline": "2 of 3 datasets PARTIAL, no control."
+  },
+  {
+   "key": "lumamba",
+   "name": "LuMamba",
+   "year": 2026,
+   "venue": "arXiv 2603.19100 (preprint)",
+   "source": "arXiv 2603.19100",
+   "group": "extra",
+   "pretrain_list": [
+    "TUEG (about 21,600 h, >14,000 patients); the five downstream datasets 'strictly excluded' from pretraining"
+   ],
+   "pretrain_hours": "about 21,600 h",
+   "pretrain_canon": {
+    "TUAB": "PARTIAL",
+    "TUEV": "PARTIAL",
+    "TUSL": "PARTIAL",
+    "TUAR": "PARTIAL",
+    "TUSZ": "PARTIAL"
+   },
+   "pretrain_quotes": [
+    [
+     2,
+     "We pretrain on the Temple University Hospital EEG (TUEG) corpus, comprising approximately 21,600 hours of recordings from more than 14,000 patients"
+    ],
+    [
+     3,
+     "All five datasets are strictly excluded from the pretraining stage."
+    ]
+   ],
+   "downstream": [
+    {
+     "name": "TUAB",
+     "canon": "TUAB",
+     "label": "PARTIAL",
+     "note": "Excluded per authors.",
+     "exclusion_claim": "p3: 'strictly excluded from the pretraining stage'.",
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUSL",
+     "canon": "TUSL",
+     "label": "PARTIAL",
+     "note": "Same. 80/10/10 split.",
+     "exclusion_claim": "p3.",
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TUAR",
+     "canon": "TUAR",
+     "label": "PARTIAL",
+     "note": "Same. 80/10/10 split.",
+     "exclusion_claim": "p3.",
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "TDBrain (PD)",
+     "canon": "TDBrain",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "APAVA (AD)",
+     "canon": "APAVA",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    }
+   ],
+   "downstream_quotes": [
+    [
+     3,
+     "LuMamba is evaluated on five EEG datasets: three TUH benchmarks (TUAB, TUSL, TUAR) and two datasets with unseen channel montages (TDBrain and APAVA)."
+    ]
+   ],
+   "exclusion_quotes": [
+    [
+     3,
+     "All five datasets are strictly excluded from the pretraining stage."
+    ]
+   ],
+   "notes": "Same group and protocol as LUNA/FEMBA. Note that REVE (not LuMamba) has TDBRAIN in its pretraining corpus.",
+   "headline": "3 of 5 PARTIAL with an exclusion claim."
+  },
+  {
+   "key": "lcm",
+   "name": "LCM (Large Cognition Model)",
+   "year": 2025,
+   "venue": "arXiv 2502.17464 (preprint)",
+   "source": "arXiv 2502.17464",
+   "group": "extra",
+   "pretrain_list": [
+    "PhysioMI = EEGMMIDB",
+    "TSU (SSVEP)",
+    "SEED"
+   ],
+   "pretrain_hours": "not stated",
+   "pretrain_canon": {
+    "EEGMMIDB": "IN",
+    "SEED": "IN"
+   },
+   "pretrain_quotes": [
+    [
+     4,
+     "Table 1: Datasets for pretraining and downstream tasks"
+    ]
+   ],
+   "downstream": [
+    {
+     "name": "BCIC-2A",
+     "canon": "BCIC-IV-2a",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "BCIC-2B",
+     "canon": "BCIC-IV-2b",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    }
+   ],
+   "downstream_quotes": [
+    [
+     4,
+     "This includes MI datasets BCIC-2A [14] and BCIC-2B [13]."
+    ]
+   ],
+   "exclusion_quotes": [],
+   "notes": "Closely follows EEGPT's data table. Clean.",
+   "headline": "Clean."
+  },
+  {
+   "key": "brainwave",
+   "name": "BrainWave (EEG + iEEG)",
+   "year": 2024,
+   "venue": "arXiv 2402.10251 (preprint)",
+   "source": "arXiv 2402.10251",
+   "group": "extra",
+   "pretrain_list": [
+    "EEG: CAP, HMC, Siena, SRM, TUEG, Schizophrenia-81, Sleep-EDF, Stroke-50, PD-31, IowaDataset, UNMDataset, AD-184, plus a private EEG corpus (35,675.5 h, 15,906 subjects)",
+    "iEEG: CCEP and a private corpus (5,231 h, 91 subjects)"
+   ],
+   "pretrain_hours": "40,907 h total",
+   "pretrain_canon": {
+    "TUAB": "PARTIAL",
+    "TUEV": "PARTIAL",
+    "TUSL": "PARTIAL",
+    "TUAR": "PARTIAL",
+    "TUSZ": "PARTIAL",
+    "Siena": "IN",
+    "HMC": "IN",
+    "Sleep-EDFx": "IN",
+    "PD31": "IN"
+   },
+   "pretrain_quotes": [
+    [
+     13,
+     "The EEG recordings consisted of CAP [56], HMC [57], Siena [58], SRM [59], TUEG [60], Schizophrenia-81, Sleep-EDF [61], Stroke-50 [62], PD-31 [63], IowaDataset, UNMDataset, AD-184 [64], and a private EEG corpus"
+    ]
+   ],
+   "downstream": [
+    {
+     "name": "AD-65 (Miltiadous, OpenNeuro ds004504)",
+     "canon": "ADFTD",
+     "label": "HELD-OUT",
+     "note": "Pretraining has AD-184, a different cohort.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "CHB-MIT",
+     "canon": "CHB-MIT",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "Absence-16 (private)",
+     "canon": "Absence-16",
+     "label": "UNCLEAR",
+     "note": "Private; pretraining also includes unnamed private EEG/iEEG corpora.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "Clonic-6 (private)",
+     "canon": "Clonic-6",
+     "label": "UNCLEAR",
+     "note": "Same.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "Atonic-5 (private)",
+     "canon": "Atonic-5",
+     "label": "UNCLEAR",
+     "note": "Same.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "Mayo-Clinic (iEEG)",
+     "canon": "Mayo-iEEG",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "FNUSA (iEEG)",
+     "canon": "FNUSA-iEEG",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "DRE-Clinical (private iEEG)",
+     "canon": "DRE-Clinical",
+     "label": "UNCLEAR",
+     "note": "Private; pretraining includes a private iEEG corpus.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "MDD-64",
+     "canon": "Mumtaz2016",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "Depression-122",
+     "canon": "Depression-122",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "Schizophrenia-28",
+     "canon": "Schizophrenia-28",
+     "label": "HELD-OUT",
+     "note": "Pretraining has Schizophrenia-81, a different cohort.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "ADHD-Adult",
+     "canon": "ADHD-Adult",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "ADHD-Child",
+     "canon": "ADHD-Child",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "SD-71",
+     "canon": "SD-71",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "Apnea-ECG (ECG)",
+     "canon": "Apnea-ECG",
+     "label": "HELD-OUT",
+     "note": "",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": true
+    }
+   ],
+   "downstream_quotes": [
+    [
+     14,
+     "The evaluation benchmark comprised 15 distinct datasets, which contain 7 different healthcare scenarios."
+    ]
+   ],
+   "exclusion_quotes": [],
+   "notes": "Clinical EEG/iEEG model (included because widely compared against LaBraM). No exclusion statement found. Private downstream sets cannot be checked against private pretraining corpora. Its pretraining includes HMC, Sleep-EDF and Siena, i.e. sets that other models evaluate on.",
+   "headline": "No public downstream set is in-corpus; 4 private sets are UNCLEAR."
+  },
+  {
+   "key": "braingpt",
+   "name": "EEGPT/BrainGPT (Yue et al.)",
+   "year": 2024,
+   "venue": "arXiv 2410.19779 v2 (IEEE journal submission)",
+   "source": "arXiv 2410.19779",
+   "group": "extra",
+   "pretrain_list": [
+    "Not enumerated: '37.5M pre-training samples' from 'diverse EEG datasets'"
+   ],
+   "pretrain_hours": "about 1B tokens",
+   "pretrain_canon": {},
+   "pretrain_quotes": [
+    [
+     2,
+     "Based on it, we collect a total of 37.5M pre-training samples with approximately 1B tokens."
+    ],
+    [
+     5,
+     "We evaluate our BrainGPT using 12 datasets across 5 distinct tasks, as detailed in Table I."
+    ]
+   ],
+   "downstream": [
+    {
+     "name": "DEAP",
+     "canon": "DEAP",
+     "label": "UNCLEAR",
+     "note": "Pretraining datasets are not listed in the paper text, so overlap cannot be assessed.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "FACED",
+     "canon": "FACED",
+     "label": "UNCLEAR",
+     "note": "Pretraining datasets are not listed in the paper text, so overlap cannot be assessed.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "SEED-IV",
+     "canon": "SEED-IV",
+     "label": "UNCLEAR",
+     "note": "Pretraining datasets are not listed in the paper text, so overlap cannot be assessed.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "SEED-V",
+     "canon": "SEED-V",
+     "label": "UNCLEAR",
+     "note": "Pretraining datasets are not listed in the paper text, so overlap cannot be assessed.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "MIBCI",
+     "canon": "MIBCI",
+     "label": "UNCLEAR",
+     "note": "Pretraining datasets are not listed in the paper text, so overlap cannot be assessed.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "BCI Competition IV-1",
+     "canon": "BCIC-IV-1",
+     "label": "UNCLEAR",
+     "note": "Pretraining datasets are not listed in the paper text, so overlap cannot be assessed.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "EEGMat",
+     "canon": "EEGMat",
+     "label": "UNCLEAR",
+     "note": "Pretraining datasets are not listed in the paper text, so overlap cannot be assessed.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "STEW",
+     "canon": "STEW",
+     "label": "UNCLEAR",
+     "note": "Pretraining datasets are not listed in the paper text, so overlap cannot be assessed.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "EDF (Sleep-EDF)",
+     "canon": "Sleep-EDFx",
+     "label": "UNCLEAR",
+     "note": "Pretraining datasets are not listed in the paper text, so overlap cannot be assessed.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "HMC",
+     "canon": "HMC",
+     "label": "UNCLEAR",
+     "note": "Pretraining datasets are not listed in the paper text, so overlap cannot be assessed.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "IMG",
+     "canon": "IMG",
+     "label": "UNCLEAR",
+     "note": "Pretraining datasets are not listed in the paper text, so overlap cannot be assessed.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    },
+    {
+     "name": "SPE",
+     "canon": "SPE",
+     "label": "UNCLEAR",
+     "note": "Pretraining datasets are not listed in the paper text, so overlap cannot be assessed.",
+     "exclusion_claim": null,
+     "related_in_corpus": false,
+     "non_eeg": false
+    }
+   ],
+   "downstream_quotes": [
+    [
+     5,
+     "For Emotion Recognition (ER), we utilize DEAP [29], FACED [30], SEED-IV [31], and SEED-V [32]."
+    ]
+   ],
+   "exclusion_quotes": [],
+   "notes": "Different model from the NeurIPS 2024 EEGPT (Wang et al.). The v2 text gives only the sample count for pretraining. A full list may exist in a supplement or repo, which was not audited.",
+   "headline": "Cannot be assessed (pretraining list missing)."
+  }
+ ],
+ "not_audited": [
+  [
+   "Gram (ICASSP 2025)",
+   "No arXiv/open full text found by web search; only an AMiner listing. Not audited."
+  ],
+  [
+   "BrainBERT, Brant, Brant-X",
+   "Intracranial/physiological-signal models, outside the scalp-EEG scope."
+  ],
+  [
+   "EEGMamba (2407.20254)",
+   "Multi-task classifier, not a pretrain-then-finetune foundation model; not audited."
+  ]
+ ],
+ "dataset_view": [
+  {
+   "dataset": "TUAB",
+   "n_models": 15,
+   "n_held_out": 3,
+   "n_partial": 12,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "BIOT [H]",
+    "LaBraM [P]",
+    "EEGPT (Wang et al.) [H]",
+    "CBraMod [P]",
+    "NeuroLM [P]",
+    "FEMBA [P]",
+    "LUNA [P]",
+    "REVE [P]",
+    "CSBrain [P]",
+    "EEGFormer [P]",
+    "CodeBrain [P]",
+    "BrainOmni [H]",
+    "Uni-NTFM [P]",
+    "EEG-DINO [P]",
+    "LuMamba [P]"
+   ],
+   "in_pretraining_of": [
+    "BENDR (PARTIAL)",
+    "LaBraM (PARTIAL)",
+    "CBraMod (PARTIAL)",
+    "NeuroLM (PARTIAL)",
+    "FEMBA (PARTIAL)",
+    "LUNA (PARTIAL)",
+    "REVE (PARTIAL)",
+    "CSBrain (PARTIAL)",
+    "EEGFormer (PARTIAL)",
+    "Neuro-GPT (PARTIAL)",
+    "CodeBrain (PARTIAL)",
+    "Uni-NTFM (PARTIAL)",
+    "EEG-DINO (PARTIAL)",
+    "LuMamba (PARTIAL)",
+    "BrainWave (EEG + iEEG) (PARTIAL)"
+   ]
+  },
+  {
+   "dataset": "TUEV",
+   "n_models": 11,
+   "n_held_out": 3,
+   "n_partial": 8,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "BIOT [H]",
+    "LaBraM [P]",
+    "EEGPT (Wang et al.) [H]",
+    "CBraMod [P]",
+    "NeuroLM [P]",
+    "REVE [P]",
+    "CSBrain [P]",
+    "CodeBrain [P]",
+    "BrainOmni [H]",
+    "Uni-NTFM [P]",
+    "EEG-DINO [P]"
+   ],
+   "in_pretraining_of": [
+    "BENDR (PARTIAL)",
+    "LaBraM (PARTIAL)",
+    "CBraMod (PARTIAL)",
+    "NeuroLM (PARTIAL)",
+    "FEMBA (PARTIAL)",
+    "LUNA (PARTIAL)",
+    "REVE (PARTIAL)",
+    "CSBrain (PARTIAL)",
+    "EEGFormer (PARTIAL)",
+    "Neuro-GPT (PARTIAL)",
+    "CodeBrain (PARTIAL)",
+    "Uni-NTFM (PARTIAL)",
+    "EEG-DINO (PARTIAL)",
+    "LuMamba (PARTIAL)",
+    "BrainWave (EEG + iEEG) (PARTIAL)"
+   ]
+  },
+  {
+   "dataset": "BCIC-IV-2a",
+   "n_models": 8,
+   "n_held_out": 8,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "BENDR [H]",
+    "EEGPT (Wang et al.) [H]",
+    "CBraMod [H]",
+    "REVE [H]",
+    "CSBrain [H]",
+    "Neuro-GPT [H]",
+    "Uni-NTFM [H]",
+    "LCM (Large Cognition Model) [H]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "SEED-V",
+   "n_models": 8,
+   "n_held_out": 6,
+   "n_partial": 0,
+   "n_in": 1,
+   "n_unclear": 1,
+   "evaluated_by": [
+    "LaBraM [H]",
+    "CBraMod [H]",
+    "LUNA [H]",
+    "CSBrain [H]",
+    "CodeBrain [H]",
+    "Uni-NTFM [I]",
+    "EEG-DINO [H]",
+    "EEGPT/BrainGPT (Yue et al.) [?]"
+   ],
+   "in_pretraining_of": [
+    "LaBraM (RELATED)",
+    "NeuroLM (IN)",
+    "Uni-NTFM (IN)"
+   ]
+  },
+  {
+   "dataset": "TUSL",
+   "n_models": 7,
+   "n_held_out": 0,
+   "n_partial": 7,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "NeuroLM [P]",
+    "FEMBA [P]",
+    "LUNA [P]",
+    "CSBrain [P]",
+    "EEGFormer [P]",
+    "Uni-NTFM [P]",
+    "LuMamba [P]"
+   ],
+   "in_pretraining_of": [
+    "BENDR (PARTIAL)",
+    "LaBraM (IN)",
+    "CBraMod (PARTIAL)",
+    "NeuroLM (PARTIAL)",
+    "FEMBA (PARTIAL)",
+    "LUNA (PARTIAL)",
+    "REVE (PARTIAL)",
+    "CSBrain (PARTIAL)",
+    "EEGFormer (PARTIAL)",
+    "Neuro-GPT (PARTIAL)",
+    "CodeBrain (PARTIAL)",
+    "Uni-NTFM (PARTIAL)",
+    "EEG-DINO (PARTIAL)",
+    "LuMamba (PARTIAL)",
+    "BrainWave (EEG + iEEG) (PARTIAL)"
+   ]
+  },
+  {
+   "dataset": "FACED",
+   "n_models": 6,
+   "n_held_out": 5,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 1,
+   "evaluated_by": [
+    "CBraMod [H]",
+    "REVE [H]",
+    "CSBrain [H]",
+    "CodeBrain [H]",
+    "BrainOmni [H]",
+    "EEGPT/BrainGPT (Yue et al.) [?]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "MentalArithmetic",
+   "n_models": 6,
+   "n_held_out": 6,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "CBraMod [H]",
+    "NeuroLM [H]",
+    "REVE [H]",
+    "CSBrain [H]",
+    "CodeBrain [H]",
+    "Uni-NTFM [H]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "CHB-MIT",
+   "n_models": 5,
+   "n_held_out": 5,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "BIOT [H]",
+    "CBraMod [H]",
+    "CSBrain [H]",
+    "CodeBrain [H]",
+    "BrainWave (EEG + iEEG) [H]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "EEGMMIDB",
+   "n_models": 5,
+   "n_held_out": 5,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "BENDR [H]",
+    "CBraMod [H]",
+    "REVE [H]",
+    "CSBrain [H]",
+    "BrainOmni [H]"
+   ],
+   "in_pretraining_of": [
+    "LaBraM (IN)",
+    "EEGPT (Wang et al.) (IN)",
+    "NeuroLM (IN)",
+    "LCM (Large Cognition Model) (IN)"
+   ]
+  },
+  {
+   "dataset": "HMC",
+   "n_models": 5,
+   "n_held_out": 4,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 1,
+   "evaluated_by": [
+    "NeuroLM [H]",
+    "REVE [H]",
+    "CSBrain [H]",
+    "Uni-NTFM [H]",
+    "EEGPT/BrainGPT (Yue et al.) [?]"
+   ],
+   "in_pretraining_of": [
+    "BrainWave (EEG + iEEG) (IN)"
+   ]
+  },
+  {
+   "dataset": "ISRUC",
+   "n_models": 5,
+   "n_held_out": 5,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "CBraMod [H]",
+    "REVE [H]",
+    "CSBrain [H]",
+    "CodeBrain [H]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "Mumtaz2016",
+   "n_models": 5,
+   "n_held_out": 5,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "CBraMod [H]",
+    "REVE [H]",
+    "CSBrain [H]",
+    "BrainOmni [H]",
+    "BrainWave (EEG + iEEG) [H]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "BCIC2020-3",
+   "n_models": 4,
+   "n_held_out": 4,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "CBraMod [H]",
+    "REVE [H]",
+    "CSBrain [H]",
+    "CodeBrain [H]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "SHU-MI",
+   "n_models": 4,
+   "n_held_out": 4,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "CBraMod [H]",
+    "CSBrain [H]",
+    "CodeBrain [H]",
+    "BrainOmni [H]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "TUAR",
+   "n_models": 4,
+   "n_held_out": 0,
+   "n_partial": 4,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "FEMBA [P]",
+    "LUNA [P]",
+    "EEGFormer [P]",
+    "LuMamba [P]"
+   ],
+   "in_pretraining_of": [
+    "BENDR (PARTIAL)",
+    "LaBraM (IN)",
+    "CBraMod (PARTIAL)",
+    "NeuroLM (PARTIAL)",
+    "FEMBA (PARTIAL)",
+    "LUNA (PARTIAL)",
+    "REVE (PARTIAL)",
+    "CSBrain (PARTIAL)",
+    "EEGFormer (PARTIAL)",
+    "Neuro-GPT (PARTIAL)",
+    "CodeBrain (PARTIAL)",
+    "Uni-NTFM (PARTIAL)",
+    "EEG-DINO (PARTIAL)",
+    "LuMamba (PARTIAL)",
+    "BrainWave (EEG + iEEG) (PARTIAL)"
+   ]
+  },
+  {
+   "dataset": "ADFTD",
+   "n_models": 3,
+   "n_held_out": 3,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "BrainOmni [H]",
+    "Uni-NTFM [H]",
+    "BrainWave (EEG + iEEG) [H]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "Sleep-EDFx",
+   "n_models": 3,
+   "n_held_out": 2,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 1,
+   "evaluated_by": [
+    "BENDR [H]",
+    "EEGPT (Wang et al.) [H]",
+    "EEGPT/BrainGPT (Yue et al.) [?]"
+   ],
+   "in_pretraining_of": [
+    "BrainWave (EEG + iEEG) (IN)"
+   ]
+  },
+  {
+   "dataset": "BCIC-IV-2b",
+   "n_models": 2,
+   "n_held_out": 2,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "EEGPT (Wang et al.) [H]",
+    "LCM (Large Cognition Model) [H]"
+   ],
+   "in_pretraining_of": [
+    "REVE (IN)"
+   ]
+  },
+  {
+   "dataset": "KaggleERN",
+   "n_models": 2,
+   "n_held_out": 2,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "BENDR [H]",
+    "EEGPT (Wang et al.) [H]"
+   ],
+   "in_pretraining_of": [
+    "LaBraM (IN)",
+    "NeuroLM (IN)"
+   ]
+  },
+  {
+   "dataset": "PhysioNet-P300",
+   "n_models": 2,
+   "n_held_out": 2,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "BENDR [H]",
+    "EEGPT (Wang et al.) [H]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "SEED-VIG",
+   "n_models": 2,
+   "n_held_out": 2,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "CBraMod [H]",
+    "CSBrain [H]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "TDBrain",
+   "n_models": 2,
+   "n_held_out": 2,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "Uni-NTFM [H]",
+    "LuMamba [H]"
+   ],
+   "in_pretraining_of": [
+    "REVE (IN)"
+   ]
+  },
+  {
+   "dataset": "ADHD-Adult",
+   "n_models": 1,
+   "n_held_out": 1,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "BrainWave (EEG + iEEG) [H]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "ADHD-Child",
+   "n_models": 1,
+   "n_held_out": 1,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "BrainWave (EEG + iEEG) [H]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "APAVA",
+   "n_models": 1,
+   "n_held_out": 1,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "LuMamba [H]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "Absence-16",
+   "n_models": 1,
+   "n_held_out": 0,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 1,
+   "evaluated_by": [
+    "BrainWave (EEG + iEEG) [?]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "Atonic-5",
+   "n_models": 1,
+   "n_held_out": 0,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 1,
+   "evaluated_by": [
+    "BrainWave (EEG + iEEG) [?]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "BCIC-IV-1",
+   "n_models": 1,
+   "n_held_out": 0,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 1,
+   "evaluated_by": [
+    "EEGPT/BrainGPT (Yue et al.) [?]"
+   ],
+   "in_pretraining_of": [
+    "LaBraM (IN)",
+    "NeuroLM (IN)",
+    "Uni-NTFM (IN)"
+   ]
+  },
+  {
+   "dataset": "Clonic-6",
+   "n_models": 1,
+   "n_held_out": 0,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 1,
+   "evaluated_by": [
+    "BrainWave (EEG + iEEG) [?]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "DEAP",
+   "n_models": 1,
+   "n_held_out": 0,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 1,
+   "evaluated_by": [
+    "EEGPT/BrainGPT (Yue et al.) [?]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "DRE-Clinical",
+   "n_models": 1,
+   "n_held_out": 0,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 1,
+   "evaluated_by": [
+    "BrainWave (EEG + iEEG) [?]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "Depression-122",
+   "n_models": 1,
+   "n_held_out": 1,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "BrainWave (EEG + iEEG) [H]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "EEGMat",
+   "n_models": 1,
+   "n_held_out": 0,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 1,
+   "evaluated_by": [
+    "EEGPT/BrainGPT (Yue et al.) [?]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "FNUSA-iEEG",
+   "n_models": 1,
+   "n_held_out": 1,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "BrainWave (EEG + iEEG) [H]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "IIIC",
+   "n_models": 1,
+   "n_held_out": 1,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "BIOT [H]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "IMG",
+   "n_models": 1,
+   "n_held_out": 0,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 1,
+   "evaluated_by": [
+    "EEGPT/BrainGPT (Yue et al.) [?]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "MIBCI",
+   "n_models": 1,
+   "n_held_out": 0,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 1,
+   "evaluated_by": [
+    "EEGPT/BrainGPT (Yue et al.) [?]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "Mayo-iEEG",
+   "n_models": 1,
+   "n_held_out": 1,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "BrainWave (EEG + iEEG) [H]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "MoBI",
+   "n_models": 1,
+   "n_held_out": 1,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "LaBraM [H]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "Neonate",
+   "n_models": 1,
+   "n_held_out": 1,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "EEGFormer [H]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "PD31",
+   "n_models": 1,
+   "n_held_out": 1,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "BrainOmni [H]"
+   ],
+   "in_pretraining_of": [
+    "REVE (IN)",
+    "BrainWave (EEG + iEEG) (IN)"
+   ]
+  },
+  {
+   "dataset": "SD-71",
+   "n_models": 1,
+   "n_held_out": 1,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "BrainWave (EEG + iEEG) [H]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "SEED",
+   "n_models": 1,
+   "n_held_out": 0,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 1,
+   "evaluated_by": [
+    "NeuroLM [?]"
+   ],
+   "in_pretraining_of": [
+    "LaBraM (IN)",
+    "EEGPT (Wang et al.) (IN)",
+    "NeuroLM (UNCLEAR)",
+    "LCM (Large Cognition Model) (IN)"
+   ]
+  },
+  {
+   "dataset": "SEED-IV",
+   "n_models": 1,
+   "n_held_out": 0,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 1,
+   "evaluated_by": [
+    "EEGPT/BrainGPT (Yue et al.) [?]"
+   ],
+   "in_pretraining_of": [
+    "LaBraM (IN)",
+    "NeuroLM (IN)",
+    "Uni-NTFM (IN)"
+   ]
+  },
+  {
+   "dataset": "SPE",
+   "n_models": 1,
+   "n_held_out": 0,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 1,
+   "evaluated_by": [
+    "EEGPT/BrainGPT (Yue et al.) [?]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "STEW",
+   "n_models": 1,
+   "n_held_out": 0,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 1,
+   "evaluated_by": [
+    "EEGPT/BrainGPT (Yue et al.) [?]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "Schizophrenia-28",
+   "n_models": 1,
+   "n_held_out": 1,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "BrainWave (EEG + iEEG) [H]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "Siena",
+   "n_models": 1,
+   "n_held_out": 1,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "CSBrain [H]"
+   ],
+   "in_pretraining_of": [
+    "LaBraM (IN)",
+    "NeuroLM (IN)",
+    "LUNA (IN)",
+    "REVE (IN)",
+    "Uni-NTFM (IN)",
+    "BrainWave (EEG + iEEG) (IN)"
+   ]
+  },
+  {
+   "dataset": "SomatoMotor",
+   "n_models": 1,
+   "n_held_out": 1,
+   "n_partial": 0,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "BrainOmni [H]"
+   ],
+   "in_pretraining_of": []
+  },
+  {
+   "dataset": "TUSZ",
+   "n_models": 1,
+   "n_held_out": 0,
+   "n_partial": 1,
+   "n_in": 0,
+   "n_unclear": 0,
+   "evaluated_by": [
+    "EEGFormer [P]"
+   ],
+   "in_pretraining_of": [
+    "BENDR (PARTIAL)",
+    "LaBraM (IN)",
+    "CBraMod (PARTIAL)",
+    "NeuroLM (PARTIAL)",
+    "FEMBA (PARTIAL)",
+    "LUNA (PARTIAL)",
+    "REVE (PARTIAL)",
+    "CSBrain (PARTIAL)",
+    "EEGFormer (PARTIAL)",
+    "Neuro-GPT (PARTIAL)",
+    "CodeBrain (PARTIAL)",
+    "Uni-NTFM (PARTIAL)",
+    "EEG-DINO (PARTIAL)",
+    "LuMamba (PARTIAL)",
+    "BrainWave (EEG + iEEG) (PARTIAL)"
+   ]
+  }
+ ]
+}
