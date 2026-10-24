@@ -2,7 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23423535.svg)](https://doi.org/10.5281/zenodo.23423535)
 
-**Technical report:** Y. Li, *When does an EEG foundation model help on people it has never seen? Motor imagery vs. seizure detection*, Zenodo, 2026. [doi:10.5281/zenodo.23423535](https://doi.org/10.5281/zenodo.23423535)
+**Technical report:** Y. Li, *Does an EEG foundation model's cross-subject advantage survive outside its pretraining corpus? Motor imagery and seizure detection*, Zenodo, 2026 (v1.1). [doi:10.5281/zenodo.23423535](https://doi.org/10.5281/zenodo.23423535)
 
 This project asks a harder question than within-subject classification: **can a model decode left- vs. right-hand motor imagery for people it never saw during training?**
 

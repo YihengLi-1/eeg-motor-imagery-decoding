@@ -2,7 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23423535.svg)](https://doi.org/10.5281/zenodo.23423535)
 
-**技术报告：** Y. Li，*When does an EEG foundation model help on people it has never seen? Motor imagery vs. seizure detection*，Zenodo，2026。[doi:10.5281/zenodo.23423535](https://doi.org/10.5281/zenodo.23423535)
+**技术报告：** Y. Li，*Does an EEG foundation model's cross-subject advantage survive outside its pretraining corpus? Motor imagery and seizure detection*，Zenodo，2026（v1.1）。[doi:10.5281/zenodo.23423535](https://doi.org/10.5281/zenodo.23423535)
 
 > **后续研究（2026-10）：** 同样的对比做到了跨病人癫痫检测（BIDS Siena，14 名病人，SzCORE 事件级评分）。后来发现两个数据集都在 LaBraM 的预训练数据里，于是换成它没见过的数据集重做了一遍：
 >
