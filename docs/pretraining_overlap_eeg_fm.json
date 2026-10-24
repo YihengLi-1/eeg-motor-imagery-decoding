@@ -815,7 +815,12 @@
     ]
    ],
    "notes": "All three downstream sets are TUH sub-corpora, so every reported result is same-source. The paper states a subject-level filter, which is the strongest exclusion claim among TUEG-pretrained models; TUEV is not evaluated. Abstract says '21,000 hours of unlabeled EEG from 5,000 subjects' while Table I lists 14,987 TUEG subjects.",
-   "headline": "All 3 reported datasets are TUH derivatives (PARTIAL), with a subject-level exclusion claim."
+   "headline": "All 3 reported datasets are TUH derivatives (PARTIAL), with a subject-level exclusion claim.",
+   "author_verified": {
+    "date": "2026-10-24",
+    "by": "model authors (ETH Zurich IIS)",
+    "note": "downstream TUH datasets filtered out of TUH pretraining"
+   }
   },
   {
    "key": "luna",
@@ -902,7 +907,12 @@
     ]
    ],
    "notes": "Exclusion is stated at subject-and-recording level. Separate issue: TUAR and TUSL fine-tuning splits are sample-level random, so train/test overlap in subjects exists inside the downstream task itself (authors acknowledge this on p6).",
-   "headline": "3 of 4 reported datasets are TUH derivatives (PARTIAL) with a strong exclusion claim; SEED-V is HELD-OUT."
+   "headline": "3 of 4 reported datasets are TUH derivatives (PARTIAL) with a strong exclusion claim; SEED-V is HELD-OUT.",
+   "author_verified": {
+    "date": "2026-10-24",
+    "by": "model authors (ETH Zurich IIS)",
+    "note": "downstream TUH datasets filtered out of TUH pretraining"
+   }
   },
   {
    "key": "reve",
@@ -1942,7 +1952,12 @@
     ]
    ],
    "notes": "Same group and protocol as LUNA/FEMBA. Note that REVE (not LuMamba) has TDBRAIN in its pretraining corpus.",
-   "headline": "3 of 5 PARTIAL with an exclusion claim."
+   "headline": "3 of 5 PARTIAL with an exclusion claim.",
+   "author_verified": {
+    "date": "2026-10-24",
+    "by": "model authors (ETH Zurich IIS)",
+    "note": "downstream TUH datasets filtered out of TUH pretraining"
+   }
   },
   {
    "key": "lcm",
