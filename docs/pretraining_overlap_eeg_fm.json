@@ -3195,6 +3195,25 @@
    },
    "note": "same parent collection; downstream participants excluded from all pre-training, including the tokenizer (author-confirmed 2026-10-25)",
    "author_verified": null
+  },
+  {
+   "key": "use-fm",
+   "name": "USE-FM",
+   "venue": "arXiv 2610.05503 (2026-10-04)",
+   "group": "addition",
+   "pretrain_list": [
+    "TUEG, 2,259,998 segments, about 18,800 h (p.3)"
+   ],
+   "pretrain_canon": {
+    "TUAB": "PARTIAL",
+    "TUEP": "PARTIAL"
+   },
+   "downstream_marks": {
+    "TUAB": "P",
+    "TUEP": "P"
+   },
+   "note": "frozen encoder + MLP; no statement found on removing TUAB/TUEP recordings or subjects from pretraining, no split description, no code link (checked v1 PDF 2026-10-26)",
+   "author_verified": null
   }
  ]
 }
