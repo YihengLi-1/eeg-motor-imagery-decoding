@@ -766,3 +766,11 @@ The five TUH sets (TUAB, TUEV, TUSL, TUAR, TUSZ) are inside the TUEG-based pretr
 - Gram (ICASSP 2025): No arXiv/open full text found by web search; only an AMiner listing. Not audited.
 - BrainBERT, Brant, Brant-X: Intracranial/physiological-signal models, outside the scalp-EEG scope.
 - EEGMamba (2407.20254): Multi-task classifier, not a pretrain-then-finetune foundation model; not audited.
+
+## Additions after 2026-10-25 (not included in the 20-model counts above)
+
+| Model | Pretraining corpora (own list) | Downstream results, mark per dataset | I / P / H / ? |
+|---|---|---|---|
+| **BrainCodes** (arXiv 2610.29320, 21 Oct 2026) | Encoder: HBN-EEG releases R3, R4, R7, R8 (about 820 h, 1,131 participants), §3.1. Tokenizer: frozen BioCodec (arXiv 2510.09095), itself pretrained on the TUH-EEG corpus with TUAB and TUEV excluded (BioCodec §3.1) | TUAB [P*], TUEV [P*], ISRUC [H], Siena [H], PhysioNet-MI [H], BCI IV-2a [H], EEGMAT [H], High-Gamma [H], OpenBMI-ERP [H], Pavlov-Memory [H], PhysioNet-Eyes [H], EESM23 [H], Muse-Motor [H], Muse-Mental [H] | 0 / 2 / 12 / 0 |
+
+**Overlap through a frozen component.** BrainCodes' own encoder never sees TUH data, but its frozen tokenizer was pretrained on TUH-EEG. TUAB and TUEV are TUH sub-corpora, so their results are marked [P*]: same collection, with a stated exclusion (BioCodec: "we explicitly exclude two subsets designated for downstream evaluation"). Overlap checks should cover every pretrained component, not only the encoder being fine-tuned. Pending author verification.
