@@ -1516,7 +1516,8 @@
     ]
    ],
    "notes": "TUEV, TUAB, SHU-MI and ISRUC S1 results are in Appendix I (Tables 5-8), not the main comparison table.",
-   "headline": "2 of 10 (TUEV, TUAB) PARTIAL; both have an exclusion control; they sit in the appendix."
+   "headline": "2 of 10 (TUEV, TUAB) PARTIAL; both have an exclusion control; they sit in the appendix.",
+   "author_verified": "2026-10-26"
   },
   {
    "key": "brainomni",
@@ -1791,7 +1792,8 @@
    ],
    "exclusion_quotes": [],
    "notes": "Searched the full text for exclude / leak / disjoint / overlap: nothing about removing downstream data from TUEG. Pretraining list matches NeuroLM/LaBraM apart from CAUEEG and REEG-BACA.",
-   "headline": "4 of 9 downstream tasks (TUAB, TUEV, TUSL, SEED) overlap the pretraining corpus, none with a control."
+   "headline": "4 of 9 downstream tasks (TUAB, TUEV, TUSL, SEED) overlap the pretraining corpus, none with a control.",
+   "author_verified": "2026-10-26"
   },
   {
    "key": "eegdino",
