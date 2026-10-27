@@ -3214,6 +3214,47 @@
    },
    "note": "frozen encoder + MLP; no statement found on removing TUAB/TUEP recordings or subjects from pretraining, no split description, no code link (checked v1 PDF 2026-10-26)",
    "author_verified": null
+  },
+  {
+   "key": "nomad-eeg",
+   "name": "NOMAD-EEG",
+   "venue": "arXiv 2610.35246 (2026-10-26)",
+   "group": "addition",
+   "pretrain_list": [
+    "Base: TUEV, training and evaluation partitions, unlabelled, 17,678 windows, 147 h (p.13)",
+    "Large: 6,984 h: Sleep-EDF expanded 2,954 h; TUSZ 1,202 h (train+dev); TUAB 1,024 h (train); CHB-MIT 990 h; TUEP 627 h; TUEV 147 h; SEED-V 41 h (p.18)"
+   ],
+   "pretrain_canon": {
+    "TUEV": "IN-CORPUS",
+    "TUAB": "PARTIAL",
+    "TUSZ": "PARTIAL",
+    "TUEP": "PARTIAL",
+    "Siena": "HELD-OUT",
+    "Bonn": "HELD-OUT",
+    "Mumtaz": "HELD-OUT",
+    "EEGMMIDB": "HELD-OUT",
+    "Sleep-EDF-20": "HELD-OUT",
+    "SEED-V": "HELD-OUT",
+    "BCIAUT-P300": "HELD-OUT",
+    "ds004584-PD": "HELD-OUT"
+   },
+   "downstream_marks": {
+    "TUEV": "I",
+    "TUAB": "P*",
+    "TUSZ": "P*",
+    "TUEP": "P*",
+    "Siena": "H",
+    "Bonn": "H",
+    "Mumtaz": "H",
+    "EEGMMIDB": "H",
+    "Sleep-EDF-20": "H",
+    "SEED-V": "H",
+    "BCIAUT-P300": "H",
+    "ds004584-PD": "H"
+   },
+   "exclusion_claim": "'Pre-training on TUEV means that TUEV downstream results measure in-domain transfer; all other downstream datasets are external to pre-training.' (p.13); Large: evaluation patients of TUSZ/TUAB and Sleep-EDF subjects held out, TUEP and SEED-V included in full (p.18)",
+   "note": "Base model marks apply; the Large variant would be TUEP [I], SEED-V [I], Sleep-EDF [I*]. Frozen linear probe protocol; no code/weights until publication (p.34). Checked v1 PDF 2026-10-27",
+   "author_verified": null
   }
  ]
 }
