@@ -11,9 +11,9 @@
   "stats_all_models": {
    "total_pairs": 142,
    "labels": {
-    "HELD-OUT": 92,
+    "HELD-OUT": 93,
     "PARTIAL": 32,
-    "UNCLEAR": 17,
+    "UNCLEAR": 16,
     "IN-CORPUS": 1
    },
    "partial_with_control_run": 4,
@@ -660,7 +660,7 @@
     "EEGMMIDB": "IN",
     "SEED-IV": "IN",
     "SEED-V": "IN",
-    "SEED": "UNCLEAR",
+    "SEED": "HELD-OUT",
     "Siena": "IN",
     "KaggleERN": "IN",
     "BCIC-IV-1": "IN"
@@ -684,7 +684,7 @@
      "name": "TUAB",
      "canon": "TUAB",
      "label": "PARTIAL",
-     "note": "Entire TUEG (about 24,000 h) is in pretraining; no exclusion or control reported.",
+     "note": "Entire TUEG (about 24,000 h) is in pretraining; no exclusion or control reported. Author (2026-10-29): TUAB/TUEV were not explicitly excluded from the TUH/TUEG pretraining data; PARTIAL without * confirmed.",
      "exclusion_claim": null,
      "related_in_corpus": false,
      "non_eeg": false
@@ -693,7 +693,7 @@
      "name": "TUEV",
      "canon": "TUEV",
      "label": "PARTIAL",
-     "note": "Same as TUAB.",
+     "note": "Same as TUAB. Author (2026-10-29): TUAB/TUEV were not explicitly excluded from the TUH/TUEG pretraining data; PARTIAL without * confirmed.",
      "exclusion_claim": null,
      "related_in_corpus": false,
      "non_eeg": false
@@ -701,8 +701,8 @@
     {
      "name": "SEED (3-class, 15 subjects)",
      "canon": "SEED",
-     "label": "UNCLEAR",
-     "note": "Pretraining table lists 'SEED Series' = SEED-IV, SEED-V, SEED-GER, SEED-FRA (51 subjects, 170.54 h). The original SEED (Zheng & Lu 2015) is the downstream set but is not itemised. LaBraM's list (166.75 h) names SEED explicitly. Cannot tell from the paper whether original SEED is inside.",
+     "label": "HELD-OUT",
+     "note": "Author-confirmed (Yansen Wang, 2026-10-29): the original SEED is a separate dataset from the SEED-IV/SEED-V used in pretraining, and the SEED test set was held out during pretraining. Siblings SEED-IV/V are in the corpus (r).",
      "exclusion_claim": null,
      "related_in_corpus": true,
      "non_eeg": false
@@ -743,7 +743,8 @@
    ],
    "exclusion_quotes": [],
    "notes": "Searched the full text for exclude / leak / overlap / disjoint: no statement that TUAB, TUEV or TUSL recordings were removed from the TUEG pretraining set. NeuroLM also multi-task instruction-tunes on the downstream training splits (labels), which is supervised exposure rather than unlabeled test-subject exposure.",
-   "headline": "3 of 6 headline tasks (TUAB, TUEV, TUSL) are PARTIAL with no control; SEED is UNCLEAR."
+   "headline": "3 of 6 headline tasks (TUAB, TUEV, TUSL) are PARTIAL with no control; SEED is UNCLEAR.",
+   "author_verified": "Yansen Wang, 2026-10-29"
   },
   {
    "key": "femba",
@@ -3037,17 +3038,16 @@
   {
    "dataset": "SEED",
    "n_models": 1,
-   "n_held_out": 0,
+   "n_held_out": 1,
    "n_partial": 0,
    "n_in": 0,
-   "n_unclear": 1,
+   "n_unclear": 0,
    "evaluated_by": [
-    "NeuroLM [?]"
+    "NeuroLM [Hr]"
    ],
    "in_pretraining_of": [
     "LaBraM (IN)",
     "EEGPT (Wang et al.) (IN)",
-    "NeuroLM (UNCLEAR)",
     "LCM (Large Cognition Model) (IN)"
    ]
   },

@@ -4,7 +4,7 @@ Compiled 2026-10-24 by Yiheng Li from the primary PDFs (arXiv / proceedings). Ma
 
 **How to read this.** This table records whether each reported downstream result uses a dataset that also appears, fully or as a sub-corpus, in the model's own stated pretraining data. An overlap label is not a claim of test-label leakage: pretraining is self-supervised, and several authors state that they removed downstream recordings or subjects from pretraining (marked `*`). The point is to let readers tell in-corpus results from held-out ones. Corrections are welcome via an issue or PR.
 
-**Author verification.** Rows confirmed by the model authors are marked here and in the JSON. FEMBA, LUNA and LuMamba (ETH Zürich, Integrated Systems Laboratory) were confirmed on 2026-10-24; the authors add that every downstream TUH dataset used for fine-tuning was filtered out of their TUH pretraining data (e.g. LUNA fine-tuned on TUAB never saw TUAB in pretraining), consistent with the `*` marks below. CodeBrain and Uni-NTFM were confirmed by their corresponding author (Ziyu Jia) on 2026-10-26. Neuro-GPT was confirmed by Wenhui Cui on 2026-10-27. Corrections from other authors are welcome via an issue or PR.
+**Author verification.** Rows confirmed by the model authors are marked here and in the JSON. FEMBA, LUNA and LuMamba (ETH Zürich, Integrated Systems Laboratory) were confirmed on 2026-10-24; the authors add that every downstream TUH dataset used for fine-tuning was filtered out of their TUH pretraining data (e.g. LUNA fine-tuned on TUAB never saw TUAB in pretraining), consistent with the `*` marks below. CodeBrain and Uni-NTFM were confirmed by their corresponding author (Ziyu Jia) on 2026-10-26. Neuro-GPT was confirmed by Wenhui Cui on 2026-10-27. NeuroLM was checked by Yansen Wang on 2026-10-29: TUAB/TUEV stay PARTIAL without `*` (not explicitly excluded from TUH/TUEG pretraining), and SEED is HELD-OUT (a separate dataset from the SEED-IV/V in pretraining; its test set was held out). Corrections from other authors are welcome via an issue or PR.
 
 **Labels.** IN-CORPUS = same dataset listed in the model's own pretraining corpus. PARTIAL = downstream set is a subset or derivative of a pretraining corpus (TUAB, TUEV, TUSL, TUAR, TUSZ are all TUH/TUEG sub-corpora; LaBraM Appendix D and CBraMod Appendix E call TUEV, TUAB, TUAR, TUSL 'a subset of TUEG'). HELD-OUT = not in the pretraining list. UNCLEAR = list missing or identity ambiguous. In the tables: I, P, H, ? are those four; `*` marks 'authors claim they removed it from pretraining'; `r` marks a same-family sibling dataset that is in pretraining.
 
@@ -13,7 +13,7 @@ Compiled 2026-10-24 by Yiheng Li from the primary PDFs (arXiv / proceedings). Ma
 ## 1. Headline numbers
 
 - Models audited: 20. Gram (ICASSP 2025) could not be audited (no open full text found).
-- Reported (model, EEG dataset) results: 142. IN-CORPUS: 1. PARTIAL: 32. HELD-OUT: 92. UNCLEAR: 17.
+- Reported (model, EEG dataset) results: 142. IN-CORPUS: 1. PARTIAL: 32. HELD-OUT: 93. UNCLEAR: 16.
 - Of the 32 PARTIAL results: 4 have a re-pretrain-without-it control run (CBraMod, CodeBrain), 13 have only a textual exclusion claim (LaBraM, FEMBA, LUNA, REVE, LuMamba), 15 have neither (NeuroLM, CSBrain, EEGFormer, Uni-NTFM, EEG-DINO).
 - Models with at least one IN/PARTIAL result: 12 of 20. Fully clean models: BENDR, BIOT, EEGPT (Wang et al.), Neuro-GPT, BrainOmni, LCM (Large Cognition Model).
 - 15 of 20 audited models pretrain on TUEG or TUEG sub-corpora (BENDR, LaBraM, CBraMod, NeuroLM, FEMBA, LUNA, REVE, CSBrain, EEGFormer, Neuro-GPT, CodeBrain, Uni-NTFM, EEG-DINO, LuMamba, BrainWave (EEG + iEEG)). Any of them evaluated on TUAB/TUEV/TUSL/TUAR/TUSZ is PARTIAL by construction.
@@ -27,7 +27,7 @@ Compiled 2026-10-24 by Yiheng Li from the primary PDFs (arXiv / proceedings). Ma
 | **LaBraM** (ICLR 2024) | BCI Competition IV-1 (8.21 h); Emobrain (4.94 h); Grasp and Lift EEG Challenge (11.72 h); Inria BCI Challenge (29.98 h) [= Kaggle ERN data]; EEG Motor Movement/Imagery Dataset = PhysioNet EEGMMIDB (47.3 h); Raw EEG Data, Trujillo 2020 (34.35 h); Resting State EEG Data, Trujillo 2017 (3.04 h); SEED series: SEED, SEED-IV, SEED-... | TUAB [P*], TUEV [P*], SEED-V [Hr], MoBI gait regression [H] | 0 / 2 / 2 / 0 |
 | **EEGPT (Wang et al.)** (NeurIPS 2024) | PhysioMI = EEGMMIDB (109 subj); HGD (14 subj); TSU SSVEP benchmark (35 subj); SEED (15 subj); M3CV (106 subj) | BCIC-2A [H], BCIC-2B [H], Sleep-EDFx [H], KaggleERN [H], PhysioP300 [H], TUAB [H], TUEV [H] | 0 / 0 / 7 / 0 |
 | **CBraMod** (ICLR 2025) | TUEG only (69,652 recordings, 14,987 subjects, 27,062 h; after cleaning 1,109,545 samples, >9,000 h) | FACED [H], SEED-V [H], PhysioNet-MI [H], SHU-MI [H], ISRUC [H], CHB-MIT [H], BCIC2020-3 [H], Mumtaz2016 [H], SEED-VIG [H], MentalArithmetic [H], TUEV [P*], TUAB [P*], BCIC-IV-2a [H] | 0 / 2 / 11 / 0 |
-| **NeuroLM** (ICLR 2025) | TUEG (about 24,000 h); SEED Series: SEED-IV (15), SEED-V (20), SEED-GER (8), SEED-FRA (8) (170.54 h); BCI Competition IV-1 (8.21 h); Emobrain (4.94 h); Grasp and Lift (11.72 h); Inria BCI (29.98 h); Motor Movement/Imagery = EEGMMIDB (47.3 h); Raw EEG Data, Trujillo 2020 (34.35 h); Resting State, Trujillo 2017 (3.04 h); Siena ... | TUAB [P], TUEV [P], SEED [?r], HMC [H], Workload [H], TUSL [P] | 0 / 3 / 2 / 1 |
+| **NeuroLM** (ICLR 2025) | TUEG (about 24,000 h); SEED Series: SEED-IV (15), SEED-V (20), SEED-GER (8), SEED-FRA (8) (170.54 h); BCI Competition IV-1 (8.21 h); Emobrain (4.94 h); Grasp and Lift (11.72 h); Inria BCI (29.98 h); Motor Movement/Imagery = EEGMMIDB (47.3 h); Raw EEG Data, Trujillo 2020 (34.35 h); Resting State, Trujillo 2017 (3.04 h); Siena ... | TUAB [P], TUEV [P], SEED [Hr], HMC [H], Workload [H], TUSL [P] | 0 / 3 / 3 / 0 |
 | **FEMBA** (EMBC 2025) | TUEG with subjects present in TUSL, TUAR, or TUAB filtered out (about 21,000 h, >5,000 participants in abstract; Table I lists 14,987 subjects) | TUAB [P*], TUAR [P*], TUSL [P*] | 0 / 3 / 0 / 0 |
 | **LUNA** (NeurIPS 2025) | TUEG (14,987 subjects, 21,787.32 h); Siena Scalp EEG (14 subjects, 141.0 h) | TUAB [P*], TUAR [P*], TUSL [P*], SEED-V [H] | 0 / 3 / 1 / 0 |
 | **REVE** (arXiv 2510.21585) | 92 datasets, 24,274 subjects, 61,415 h: TUH (14,987 subj, 26,847 h; full TUEG), PhysioNet (Siena, ICARE), 27 MOABB sets (e.g. BNCI2014004 = BCI-IV-2b, Schirrmeister2017 = HGD, Cho2017, Lee2019, Weibo2014 ...), 56 OpenNeuro sets (accession numbers only), Others (NMT, HMS, SparrKULee, Inria Large, THINGS2, TDBRAIN) | PhysioNet-MI [H], BCIC-IV-2a [H], TUEV [P*], TUAB [P*], HMC [H], ISRUC [H], FACED [H], Mumtaz [H], Mental Arithmetic [H], BCI2020-IV-3 [H] | 0 / 2 / 8 / 0 |
@@ -236,14 +236,14 @@ Source: arXiv 2409.00101 | ICLR 2025 | pretraining size: about 25,000 h
 |---|---|---|
 | TUAB | PARTIAL | Entire TUEG (about 24,000 h) is in pretraining; no exclusion or control reported. |
 | TUEV | PARTIAL | Same as TUAB. |
-| SEED (3-class, 15 subjects) | UNCLEAR (related sibling in corpus) | Pretraining table lists 'SEED Series' = SEED-IV, SEED-V, SEED-GER, SEED-FRA (51 subjects, 170.54 h). The original SEED (Zheng & Lu 2015) is the downstream set but is not itemised. LaBraM's list (166.75 h) names SEED explicitly. Cannot tell from the paper whether original SEED is inside. |
+| SEED (3-class, 15 subjects) | HELD-OUT (related sibling in corpus) | Pretraining table lists 'SEED Series' = SEED-IV, SEED-V, SEED-GER, SEED-FRA. Author-confirmed (Yansen Wang, 2026-10-29): the original SEED is a separate dataset from SEED-IV/V and its test set was held out during pretraining. |
 | HMC (sleep, 151 subjects) | HELD-OUT |  |
 | Workload (Zyma 2019, 36 subjects) | HELD-OUT |  |
 | TUSL | PARTIAL | Entire TUEG in pretraining; no exclusion or control reported. |
 
 **Notes.** Searched the full text for exclude / leak / overlap / disjoint: no statement that TUAB, TUEV or TUSL recordings were removed from the TUEG pretraining set. NeuroLM also multi-task instruction-tunes on the downstream training splits (labels), which is supervised exposure rather than unlabeled test-subject exposure.
 
-**Headline results.** 3 of 6 headline tasks (TUAB, TUEV, TUSL) are PARTIAL with no control; SEED is UNCLEAR.
+**Headline results.** 3 of 6 headline tasks (TUAB, TUEV, TUSL) are PARTIAL with no control; SEED is HELD-OUT (author-confirmed).
 
 ### FEMBA
 
@@ -685,7 +685,7 @@ Source: arXiv 2410.19779 | arXiv 2410.19779 v2 (IEEE journal submission) | pretr
 | Neonate | EEGFormer [H] | - |
 | PD31 | BrainOmni [H] | REVE (IN), BrainWave (EEG + iEEG) (IN) |
 | SD-71 | BrainWave (EEG + iEEG) [H] | - |
-| SEED | NeuroLM [?] | LaBraM (IN), EEGPT (Wang et al.) (IN), NeuroLM (UNCLEAR), LCM (Large Cognition Model) (IN) |
+| SEED | NeuroLM [Hr] | LaBraM (IN), EEGPT (Wang et al.) (IN), LCM (Large Cognition Model) (IN) |
 | SEED-IV | EEGPT/BrainGPT (Yue et al.) [?] | LaBraM (IN), NeuroLM (IN), Uni-NTFM (IN) |
 | SPE | EEGPT/BrainGPT (Yue et al.) [?] | - |
 | STEW | EEGPT/BrainGPT (Yue et al.) [?] | - |
@@ -724,7 +724,7 @@ PARTIAL in the right-hand column means the model pretrained on TUEG or a TUEG su
 
 ADFTD, ADHD-Adult, ADHD-Child, APAVA, Absence-16, Atonic-5, BCIC-IV-2a, BCIC2020-3, CHB-MIT, Clonic-6, DEAP, DRE-Clinical, Depression-122, EEGMat, FACED, FNUSA-iEEG, IIIC, IMG, ISRUC, MIBCI, Mayo-iEEG, MentalArithmetic, MoBI, Mumtaz2016, Neonate, PhysioNet-P300, SD-71, SEED-VIG, SHU-MI, SPE, STEW, Schizophrenia-28, SomatoMotor
 
-**C. Datasets that ARE inside some audited model's pretraining (avoid when comparing against that checkpoint):** SEED-V -> LaBraM (RELATED), NeuroLM (IN), Uni-NTFM (IN); EEGMMIDB -> LaBraM (IN), EEGPT (Wang et al.) (IN), NeuroLM (IN), LCM (Large Cognition Model) (IN); HMC -> BrainWave (EEG + iEEG) (IN); Sleep-EDFx -> BrainWave (EEG + iEEG) (IN); BCIC-IV-2b -> REVE (IN); KaggleERN -> LaBraM (IN), NeuroLM (IN); TDBrain -> REVE (IN); BCIC-IV-1 -> LaBraM (IN), NeuroLM (IN), Uni-NTFM (IN); PD31 -> REVE (IN), BrainWave (EEG + iEEG) (IN); SEED -> LaBraM (IN), EEGPT (Wang et al.) (IN), NeuroLM (UNCLEAR), LCM (Large Cognition Model) (IN); SEED-IV -> LaBraM (IN), NeuroLM (IN), Uni-NTFM (IN); Siena -> LaBraM (IN), NeuroLM (IN), LUNA (IN), REVE (IN), Uni-NTFM (IN), BrainWave (EEG + iEEG) (IN)
+**C. Datasets that ARE inside some audited model's pretraining (avoid when comparing against that checkpoint):** SEED-V -> LaBraM (RELATED), NeuroLM (IN), Uni-NTFM (IN); EEGMMIDB -> LaBraM (IN), EEGPT (Wang et al.) (IN), NeuroLM (IN), LCM (Large Cognition Model) (IN); HMC -> BrainWave (EEG + iEEG) (IN); Sleep-EDFx -> BrainWave (EEG + iEEG) (IN); BCIC-IV-2b -> REVE (IN); KaggleERN -> LaBraM (IN), NeuroLM (IN); TDBrain -> REVE (IN); BCIC-IV-1 -> LaBraM (IN), NeuroLM (IN), Uni-NTFM (IN); PD31 -> REVE (IN), BrainWave (EEG + iEEG) (IN); SEED -> LaBraM (IN), EEGPT (Wang et al.) (IN), LCM (Large Cognition Model) (IN); SEED-IV -> LaBraM (IN), NeuroLM (IN), Uni-NTFM (IN); Siena -> LaBraM (IN), NeuroLM (IN), LUNA (IN), REVE (IN), Uni-NTFM (IN), BrainWave (EEG + iEEG) (IN)
 
 The five TUH sets (TUAB, TUEV, TUSL, TUAR, TUSZ) are inside the TUEG-based pretraining of 15 audited models. Of the papers that evaluate on them, only FEMBA, LUNA and LuMamba claim subject-level removal; CBraMod and CodeBrain give control runs; LaBraM and REVE claim recording-level removal.
 
@@ -737,7 +737,7 @@ The five TUH sets (TUAB, TUEV, TUSL, TUAR, TUSZ) are inside the TUEG-based pretr
 - **LaBraM**: Tables 1-2 (TUAB, TUEV) are PARTIAL: same-institution TUH sub-corpora (TUAR, TUEP, TUSL, TUSZ) are in the pretraining set; authors claim recording-level disjointness.
 - **EEGPT (Wang et al.)**: All headline results are HELD-OUT.
 - **CBraMod**: 2 of 13 reported datasets (TUEV, TUAB) are PARTIAL; both have an exclusion control with small deltas.
-- **NeuroLM**: 3 of 6 headline tasks (TUAB, TUEV, TUSL) are PARTIAL with no control; SEED is UNCLEAR.
+- **NeuroLM**: 3 of 6 headline tasks (TUAB, TUEV, TUSL) are PARTIAL with no control; SEED is HELD-OUT (author-confirmed).
 - **FEMBA**: All 3 reported datasets are TUH derivatives (PARTIAL), with a subject-level exclusion claim.
 - **LUNA**: 3 of 4 reported datasets are TUH derivatives (PARTIAL) with a strong exclusion claim; SEED-V is HELD-OUT.
 - **REVE**: 2 of 10 downstream tasks (TUEV, TUAB) are PARTIAL; recording-level removal claimed, no control.
