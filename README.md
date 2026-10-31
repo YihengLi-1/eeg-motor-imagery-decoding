@@ -1,5 +1,7 @@
 # Cross-Subject EEG Motor-Imagery Decoding
 
+> Also in this repository: the [pretraining-overlap audit](docs/pretraining_overlap_eeg_fm.md) of 23 EEG foundation models (20 in the main table, 3 additions) plus an intracranial section, the [held-out leaderboard](docs/heldout_leaderboard.md), the [pretraining-disclosure spec](docs/pretraining_disclosure.md) for model cards, and the [NeurIPS 2026 challenge provenance sheet](docs/neurips2026_challenge_checkpoint_provenance.md).
+
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23423535.svg)](https://doi.org/10.5281/zenodo.23423535)
 
 **Technical report:** Y. Li, *Does an EEG foundation model's cross-subject advantage survive outside its pretraining corpus? Motor imagery and seizure detection*, Zenodo, 2026 (v1.1). [doi:10.5281/zenodo.23423535](https://doi.org/10.5281/zenodo.23423535)
