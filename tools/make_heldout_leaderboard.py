@@ -10,11 +10,15 @@ cho = json.load(open(f"{R}/heldout/results_cho2017_matrix.json"))["final_mean_st
 import statistics, os as _os
 _tm = f"{R}/heldout/results_cho2017_timemil.json"
 if _os.path.exists(_tm):
-    _d = json.load(open(_tm)); _d = _d.get("results", _d)
-    for _k, _rows in _d.items():
-        _a = [r["mean_acc"] for r in _rows]
-        if len(_a) >= 2:
-            cho[_k] = {"acc_mean": statistics.mean(_a), "acc_std": statistics.stdev(_a), "n_seeds": len(_a)}
+    _j = json.load(open(_tm))
+    if "final_mean_std_over_seeds" in _j:   # same population-SD convention as the other result files
+        cho.update(_j["final_mean_std_over_seeds"])
+    else:
+        _d = _j.get("results", _j)
+        for _k, _rows in _d.items():
+            _a = [r["mean_acc"] for r in _rows]
+            if len(_a) >= 2:
+                cho[_k] = {"acc_mean": statistics.mean(_a), "acc_std": statistics.pstdev(_a), "n_seeds": len(_a)}
 prov = json.load(open(f"{R}/docs/pretraining_overlap_eeg_fm.json"))
 canon = {m["name"]: m.get("pretrain_canon", {}) for m in prov["models"]}
 BAND = "broad_0.1-75"

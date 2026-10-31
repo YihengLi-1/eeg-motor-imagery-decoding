@@ -11,7 +11,7 @@ Badges: **[H]** held out (dataset not in the checkpoint's stated pretraining cor
 | Checkpoint / training | PhysioNet MI (109 subj., left/right hand) | Cho2017 (52 subj., left/right hand) |
 |---|---|---|
 | EEGNet (from scratch) | 54.9 ± 1.0 [S] | 52.3 ± 0.6 [S] |
-| TimeMIL (from scratch) | – | 59.2 ± 1.8 [S] |
+| TimeMIL (from scratch) | – | 59.2 ± 1.6 [S] |
 | LaBraM-base, linear probe | 48.5 ± 2.3 [I] | 51.7 ± 0.5 [H] |
 | LaBraM-base, full fine-tune | 79.1 ± 1.7 [I] | 65.8 ± 2.3 [H] |
 | CBraMod, linear probe | 67.0 ± 3.3 [H] | 60.2 ± 1.7 [H] |
