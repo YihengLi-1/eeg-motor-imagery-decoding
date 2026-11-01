@@ -1,50 +1,53 @@
 {
-  "registry": "YihengLi-1/eeg-motor-imagery-decoding docs/pretraining_overlap_eeg_fm.json",
-  "registry_version": "2026-10-31",
-  "field_mapping_to_eeg_arena": {
-    "model": "models[i][1] (display name) in overall-performance.json",
-    "dataset": "columns[j][1] (display name)",
-    "relation": "DIRECT -> your red E badge; SAME_COLLECTION -> a separate annotation you may or may not exclude; NONE -> no badge",
-    "evidence": "page-cited quote from the model paper; exclusion_statement/control when the authors addressed it",
-    "author_confirmed": "true when the model authors checked the row at our request"
+  "registry": {
+    "repo": "YihengLi-1/eeg-motor-imagery-decoding",
+    "file": "docs/pretraining_overlap_eeg_fm.json",
+    "commit": "155db98",
+    "date": "2026-10-31"
+  },
+  "benchmark_snapshot": {
+    "name": "EEG-Arena overall-performance",
+    "url": "https://eeg.fm/benchmarks-data/overall-performance.json",
+    "version": 1,
+    "releaseDate": "2026-09-15",
+    "fetched": "2026-10-31",
+    "cell_identity": "models[i][1] (display name, family before ' · ') x columns[j][4] (dataset:task key) x columns[j][6] (ws/cs)"
+  },
+  "schema_note": {
+    "source_relation": "DIRECT = the evaluation dataset is named in the pretraining description; SAME_COLLECTION = a parent corpus is named and the evaluation dataset is one of its sub-corpora; NONE_FOUND = not found in the materials checked (not a proof of absence)",
+    "exposure_status": "EXPOSED = no exclusion reported; EXCLUDED_RECORDING / EXCLUDED_SUBJECT = authors report removing the evaluation recordings or subjects from pretraining; CONTROL_RUN = authors re-pretrained without the dataset and report both numbers; UNKNOWN",
+    "evidence": "paper location and verbatim quote; the registry file holds the page index convention",
+    "author_confirmation": "scope and date of a confirmation by the model authors; absent means not asked or not answered, never a denial"
   },
   "records": [
     {
-      "model": "LaBraM",
-      "dataset": "TUSL",
-      "relation": "DIRECT",
-      "pretraining_entry": "TUSL (20.59 h, subset of TUEG)",
-      "evidence": "LaBraM, ICLR 2024, Appendix pretraining-corpus table lists TUSL among the 16 corpora",
-      "exclusion_statement": null,
-      "control_run": null,
-      "author_confirmed": false,
-      "eeg_arena_badge_today": "E",
-      "agreement": "yes"
+      "checkpoint": {"family": "LaBraM", "hub_id": "braindecode/labram-pretrained", "weights": "LaBraM-base, ICLR 2024 release"},
+      "dataset": {"eeg_arena_name": "TUSL", "registry_canon": "TUSL", "source": "TUH EEG Slowing Corpus"},
+      "source_relation": "DIRECT",
+      "exposure_status": "EXPOSED",
+      "evidence": {"paper": "arXiv 2405.18765 (LaBraM, ICLR 2024)", "location": "pretraining corpus table", "quote": "TUSL (20.59 h, subset of TUEG)"},
+      "author_confirmation": null
     },
     {
-      "model": "CBraMod",
-      "dataset": "TUEV",
-      "relation": "SAME_COLLECTION",
-      "pretraining_entry": "TUEG only (69,652 recordings, 14,987 subjects, 27,062 h)",
-      "evidence": "CBraMod, ICLR 2025, p. 6: 'CBraMod is pre-trained on a very large public dataset, Temple University Hospital EEG corpus (TUEG)'",
-      "exclusion_statement": "App. E.7 (p. 26): 'Given that the TUEV dataset is a subset of the pretraining dataset TUEG, we introduced an additional experimental setup, CBraMod (excluding TUEV), to eliminate potential effects of data leakage.'",
-      "control_run": "re-pretrained without TUEV: BAcc 0.6659 vs 0.6671, kappa 0.6744 vs 0.6772, weighted F1 0.8331 vs 0.8342",
-      "author_confirmed": false,
-      "eeg_arena_badge_today": "none (ranked)",
-      "agreement": "policy difference: direct vs same-collection; the authors' own control suggests a small effect on this dataset"
+      "checkpoint": {"family": "CBraMod", "hub_id": "braindecode/cbramod-pretrained", "weights": "CBraMod, ICLR 2025 release"},
+      "dataset": {"eeg_arena_name": "TUEV", "registry_canon": "TUEV", "source": "TUH EEG Events Corpus"},
+      "source_relation": "SAME_COLLECTION",
+      "exposure_status": "CONTROL_RUN",
+      "evidence": {
+        "paper": "arXiv 2412.07236 (CBraMod, ICLR 2025)",
+        "location": "p. 6 and Appendix E.7 (p. 26)",
+        "quote": "Given that the TUEV dataset is a subset of the pretraining dataset TUEG, we introduced an additional experimental setup, CBraMod (excluding TUEV), to eliminate potential effects of data leakage.",
+        "control": {"metric": "balanced accuracy on TUEV", "released_weights": 0.6671, "re-pretrained_without_TUEV": 0.6659, "kappa": [0.6772, 0.6744], "weighted_F1": [0.8342, 0.8331]}
+      },
+      "author_confirmation": null
     },
     {
-      "model": "LUNA",
-      "dataset": "TUSL",
-      "relation": "SAME_COLLECTION",
-      "pretraining_entry": "TUEG (14,987 subjects, 21,787.32 h) + Siena Scalp EEG (14 subjects, 141.0 h)",
-      "evidence": "LUNA, NeurIPS 2025, p. 6: pretraining corpus statement",
-      "exclusion_statement": "p. 6: subjects and recordings of TUAB, TUAR and TUSL 'strictly excluded' from pretraining",
-      "control_run": null,
-      "author_confirmed": true,
-      "confirmed_by": "LUNA / FEMBA / LuMamba authors (ETH Zurich IIS), 2026-10",
-      "eeg_arena_badge_today": "none (ranked)",
-      "agreement": "policy difference; authors state subject-level exclusion"
+      "checkpoint": {"family": "LUNA", "hub_id": "braindecode/LUNA", "weights": "LUNA base, NeurIPS 2025 release"},
+      "dataset": {"eeg_arena_name": "TUSL", "registry_canon": "TUSL", "source": "TUH EEG Slowing Corpus"},
+      "source_relation": "SAME_COLLECTION",
+      "exposure_status": "EXCLUDED_SUBJECT",
+      "evidence": {"paper": "arXiv 2510.22257 (LUNA, NeurIPS 2025)", "location": "p. 6", "quote": "subjects and recordings of TUAB, TUAR and TUSL strictly excluded from pretraining (paraphrase of the authors' statement; see registry for the page quote)"},
+      "author_confirmation": {"by": "FEMBA / LUNA / LuMamba authors, ETH Zurich IIS", "date": "2026-10-24", "scope": "every downstream TUH dataset used for fine-tuning was filtered out of their TUH pretraining data"}
     }
   ]
 }
