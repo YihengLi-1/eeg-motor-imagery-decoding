@@ -1,0 +1,50 @@
+{
+  "registry": "YihengLi-1/eeg-motor-imagery-decoding docs/pretraining_overlap_eeg_fm.json",
+  "registry_version": "2026-10-31",
+  "field_mapping_to_eeg_arena": {
+    "model": "models[i][1] (display name) in overall-performance.json",
+    "dataset": "columns[j][1] (display name)",
+    "relation": "DIRECT -> your red E badge; SAME_COLLECTION -> a separate annotation you may or may not exclude; NONE -> no badge",
+    "evidence": "page-cited quote from the model paper; exclusion_statement/control when the authors addressed it",
+    "author_confirmed": "true when the model authors checked the row at our request"
+  },
+  "records": [
+    {
+      "model": "LaBraM",
+      "dataset": "TUSL",
+      "relation": "DIRECT",
+      "pretraining_entry": "TUSL (20.59 h, subset of TUEG)",
+      "evidence": "LaBraM, ICLR 2024, Appendix pretraining-corpus table lists TUSL among the 16 corpora",
+      "exclusion_statement": null,
+      "control_run": null,
+      "author_confirmed": false,
+      "eeg_arena_badge_today": "E",
+      "agreement": "yes"
+    },
+    {
+      "model": "CBraMod",
+      "dataset": "TUEV",
+      "relation": "SAME_COLLECTION",
+      "pretraining_entry": "TUEG only (69,652 recordings, 14,987 subjects, 27,062 h)",
+      "evidence": "CBraMod, ICLR 2025, p. 6: 'CBraMod is pre-trained on a very large public dataset, Temple University Hospital EEG corpus (TUEG)'",
+      "exclusion_statement": "App. E.7 (p. 26): 'Given that the TUEV dataset is a subset of the pretraining dataset TUEG, we introduced an additional experimental setup, CBraMod (excluding TUEV), to eliminate potential effects of data leakage.'",
+      "control_run": "re-pretrained without TUEV: BAcc 0.6659 vs 0.6671, kappa 0.6744 vs 0.6772, weighted F1 0.8331 vs 0.8342",
+      "author_confirmed": false,
+      "eeg_arena_badge_today": "none (ranked)",
+      "agreement": "policy difference: direct vs same-collection; the authors' own control suggests a small effect on this dataset"
+    },
+    {
+      "model": "LUNA",
+      "dataset": "TUSL",
+      "relation": "SAME_COLLECTION",
+      "pretraining_entry": "TUEG (14,987 subjects, 21,787.32 h) + Siena Scalp EEG (14 subjects, 141.0 h)",
+      "evidence": "LUNA, NeurIPS 2025, p. 6: pretraining corpus statement",
+      "exclusion_statement": "p. 6: subjects and recordings of TUAB, TUAR and TUSL 'strictly excluded' from pretraining",
+      "control_run": null,
+      "author_confirmed": true,
+      "confirmed_by": "LUNA / FEMBA / LuMamba authors (ETH Zurich IIS), 2026-10",
+      "eeg_arena_badge_today": "none (ranked)",
+      "agreement": "policy difference; authors state subject-level exclusion"
+    }
+  ]
+}

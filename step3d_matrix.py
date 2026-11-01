@@ -22,13 +22,16 @@ CACHE = os.path.expanduser("~/mne_data/labram_pretrained")
 # CHO_SCALE=1 keeps the raw scale (sensitivity analysis, separate result file). EEGNet is scale-robust (BatchNorm).
 CHO_SCALE_DEFAULT = 12.70 / 105.4   # median 8-30 Hz channel SD: PhysioNet subjects 1-10 (run 4) vs Cho2017 (52 subjects, CAR)
 CHO_SCALE = os.environ.get("CHO_SCALE")
+# N_TRAIN=<k>: learning-curve mode, keep only the first k training subjects of each split (test/val subjects unchanged);
+# results go to a separate file so the main matrix is untouched. Answers "when does pretraining help": gain vs. labelled subjects.
+N_TRAIN = int(os.environ["N_TRAIN"]) if os.environ.get("N_TRAIN") else None
 if DATASET == "cho2017":
-    OUT = f"{ROOT}/heldout/results_cho2017_matrix" + ("_unscaled" if CHO_SCALE == "1" else "") + ".json"
+    OUT = f"{ROOT}/heldout/results_cho2017_matrix" + ("_unscaled" if CHO_SCALE == "1" else "") + (f"_ntrain{N_TRAIN}" if N_TRAIN else "") + ".json"
     META = f"{ROOT}/heldout/_cache_cho2017_meta.pkl"
     SUBJECTS = list(range(1, 53))
     def band_cache(b): return f"{ROOT}/heldout/_cache_cho2017_{b}.pkl"
 else:
-    OUT = f"{ROOT}/step3c_fullmatrix_results.json"        # 沿用已有结果文件(seed0 的 4 个配置已在里面)
+    OUT = f"{ROOT}/step3c_fullmatrix_results.json" if not N_TRAIN else f"{ROOT}/heldout/results_physionet_matrix_ntrain{N_TRAIN}.json"
     META = f"{ROOT}/_cache_meta.pkl"
     SUBJECTS, RUNS = list(range(1, 51)), [4, 8, 12]
     def band_cache(b): return f"{ROOT}/_cache_{b}.pkl"
@@ -123,6 +126,7 @@ def do_run(kind, band, seed):
     if any(r["seed"] == seed for r in res.get(key, [])):
         print(f"   [{kind}/{band} seed{seed}] 已完成,跳过"); return
     import torch, torch.nn as nn
+    sys.path.insert(0, f"{ROOT}/heldout"); import mps_sdpa  # noqa: F401  (dropout in attention on MPS)
     from torch.utils.data import TensorDataset, DataLoader
     from sklearn.metrics import accuracy_score, cohen_kappa_score
     from braindecode.models import EEGNet, InterpolatedLaBraM
@@ -136,6 +140,7 @@ def do_run(kind, band, seed):
         print(f"   cho2017 amplitude scale x{sc:.4f}")
     rng = np.random.RandomState(seed); perm = rng.permutation(clean)
     test_s, val_s, train_s = list(perm[:10]), list(perm[10:15]), list(perm[15:])
+    if N_TRAIN: train_s = train_s[:N_TRAIN]; print(f"   learning-curve mode: {len(train_s)} training subjects")
     def gather(subs): return (np.concatenate([D[s][0] for s in subs], 0),
                               np.concatenate([D[s][1] for s in subs], 0))
     Xtr, ytr = gather(train_s); Xva, yva = gather(val_s)
@@ -183,6 +188,23 @@ def do_run(kind, band, seed):
         m = transplant()
         for n, p in m.named_parameters(): p.requires_grad = n.startswith("final_layer.")
         m, last = train(m, [p for p in m.parameters() if p.requires_grad], 1e-3, 1e-4, 40, 8, 32)
+    elif kind in ("cbramodProbe", "cbramodFT"):   # second foundation model (TUEG-only pretraining), same protocol
+        from braindecode.models import CBraMod
+        m = CBraMod.from_pretrained("braindecode/cbramod-pretrained", n_outputs=2, n_chans=64,
+                                    n_times=N_TIMES, cache_dir=CACHE)
+        m.register_forward_pre_hook(lambda mod, inp: (inp[0] * 0.01,))   # CBraMod expects units of 100 uV
+        probe = kind == "cbramodProbe"
+        for n, p in m.named_parameters(): p.requires_grad = (not probe) or n.startswith("final_layer.")
+        params = [p for p in m.parameters() if p.requires_grad]
+        m, last = (train(m, params, 1e-3, 1e-4, 40, 8, 32) if probe else train(m, params, 1e-4, 1e-4, 30, 8, 16))
+    elif kind == "randFT":   # same LaBraM architecture, random initialisation, same full-training recipe as fullFT: isolates the pretrained weights
+        m = InterpolatedLaBraM(chs_info=CHS_INFO, n_times=N_TIMES, n_outputs=2, patch_size=PATCH)
+        m, last = train(m, m.parameters(), 1e-4, 1e-4, 30, 8, 16)
+    elif kind == "cbramodRand":   # same CBraMod architecture, random initialisation, same recipe as cbramodFT
+        from braindecode.models import CBraMod
+        m = CBraMod(n_outputs=2, n_chans=64, n_times=N_TIMES)
+        m.register_forward_pre_hook(lambda mod, inp: (inp[0] * 0.01,))
+        m, last = train(m, m.parameters(), 1e-4, 1e-4, 30, 8, 16)
     else:  # fullFT
         m = transplant()
         for p in m.parameters(): p.requires_grad = True
@@ -206,8 +228,12 @@ def do_summary():
     res = load_results()
     CONFIGS = [("EEGNet", "narrow_8-30"), ("EEGNet", "broad_0.1-75"),
                ("probe", "narrow_8-30"), ("probe", "broad_0.1-75"),
-               ("fullFT", "narrow_8-30"), ("fullFT", "broad_0.1-75")]
-    lab = {"EEGNet": "EEGNet端到端", "probe": "LaBraM探针", "fullFT": "LaBraM全量FT"}
+               ("fullFT", "narrow_8-30"), ("fullFT", "broad_0.1-75"),
+               ("cbramodProbe", "broad_0.1-75"), ("cbramodFT", "broad_0.1-75"),
+               ("randFT", "broad_0.1-75"), ("cbramodRand", "broad_0.1-75")]
+    lab = {"EEGNet": "EEGNet端到端", "probe": "LaBraM探针", "fullFT": "LaBraM全量FT",
+           "cbramodProbe": "CBraMod探针", "cbramodFT": "CBraMod全量FT",
+           "randFT": "LaBraM随机初始化", "cbramodRand": "CBraMod随机初始化"}
     bl = {"narrow_8-30": "8-30Hz", "broad_0.1-75": "0.1-75Hz"}
     print("\n" + "=" * 80)
     print(f"{'模型':<14}{'频段':<12}{'Accuracy(对seed)':<22}{'Kappa':<18}{'末轮train':<10}")
