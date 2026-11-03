@@ -1,0 +1,363 @@
+{
+  "final_mean_std_over_seeds": {
+    "TimeMIL|broad_0.1-75": {
+      "acc_mean": 0.6416067653276956,
+      "acc_std": 0.017064423997133604,
+      "kappa_mean": 0.2795892209553939,
+      "kappa_std": 0.031098564559910457,
+      "n_seeds": 4,
+      "epochs_run": [
+        26,
+        19,
+        23,
+        23
+      ],
+      "best_epoch": [
+        16,
+        9,
+        13,
+        13
+      ],
+      "minutes": [
+        9.7,
+        7.1,
+        8.6,
+        8.6
+      ],
+      "per_seed_acc": [
+        64.67,
+        61.7,
+        63.83,
+        66.44
+      ]
+    }
+  },
+  "results": {
+    "TimeMIL|broad_0.1-75": [
+      {
+        "seed": 0,
+        "mean_acc": 0.6466666666666667,
+        "mean_kappa": 0.28654726565654365,
+        "train_acc_last": 0.9966666666666667,
+        "per_subject": [
+          {
+            "subject": 29,
+            "acc": 0.6444444444444445,
+            "kappa": 0.2885375494071146
+          },
+          {
+            "subject": 12,
+            "acc": 0.6222222222222222,
+            "kappa": 0.24332344213649848
+          },
+          {
+            "subject": 11,
+            "acc": 0.7555555555555555,
+            "kappa": 0.5074626865671641
+          },
+          {
+            "subject": 42,
+            "acc": 0.4888888888888889,
+            "kappa": -0.023738872403560984
+          },
+          {
+            "subject": 3,
+            "acc": 0.7777777777777778,
+            "kappa": 0.5570866141732284
+          },
+          {
+            "subject": 28,
+            "acc": 0.6666666666666666,
+            "kappa": 0.3296921549155908
+          },
+          {
+            "subject": 39,
+            "acc": 0.6444444444444445,
+            "kappa": 0.2899408284023669
+          },
+          {
+            "subject": 32,
+            "acc": 0.5555555555555556,
+            "kappa": 0.06832298136645976
+          },
+          {
+            "subject": 23,
+            "acc": 0.6888888888888889,
+            "kappa": 0.3799212598425197
+          },
+          {
+            "subject": 5,
+            "acc": 0.6222222222222222,
+            "kappa": 0.2249240121580547
+          }
+        ],
+        "epochs_run": 26,
+        "best_epoch": 16,
+        "best_val_acc": 0.6636771300448431,
+        "params_finite": true,
+        "min_abs_wave_scale": 5.453860676400318e-22,
+        "n_wave_scales_at_floor": 11,
+        "n_wave_scales": 768,
+        "minutes": 9.713941363493602,
+        "device": "mps",
+        "n_params": 753107,
+        "n_params_unique_storage": 752339,
+        "hparams": {
+          "lr": 0.001,
+          "wd": 0.0001,
+          "max_ep": 60,
+          "patience": 10,
+          "bs": 32,
+          "optimizer": "Adam",
+          "loss": "CrossEntropy",
+          "model": "TimeMIL default: InceptionTime out_channels=32, mDim=128, 2 TransLayers, 8 heads, Nystrom landmarks 64, dropout 0.2",
+          "wavelet_scale_floor": 0.01,
+          "input_scale": 1.0
+        }
+      },
+      {
+        "seed": 1,
+        "mean_acc": 0.616969696969697,
+        "mean_kappa": 0.23803224228896308,
+        "train_acc_last": 0.975,
+        "per_subject": [
+          {
+            "subject": 28,
+            "acc": 0.4444444444444444,
+            "kappa": -0.12612612612612595
+          },
+          {
+            "subject": 36,
+            "acc": 0.6222222222222222,
+            "kappa": 0.25073457394711074
+          },
+          {
+            "subject": 41,
+            "acc": 0.6363636363636364,
+            "kappa": 0.2945891783567134
+          },
+          {
+            "subject": 39,
+            "acc": 0.6888888888888889,
+            "kappa": 0.3823529411764707
+          },
+          {
+            "subject": 3,
+            "acc": 0.6444444444444445,
+            "kappa": 0.2968749999999999
+          },
+          {
+            "subject": 4,
+            "acc": 0.6888888888888889,
+            "kappa": 0.381139489194499
+          },
+          {
+            "subject": 49,
+            "acc": 0.6222222222222222,
+            "kappa": 0.25073457394711074
+          },
+          {
+            "subject": 30,
+            "acc": 0.6444444444444445,
+            "kappa": 0.31818181818181823
+          },
+          {
+            "subject": 47,
+            "acc": 0.6222222222222222,
+            "kappa": 0.2693409742120344
+          },
+          {
+            "subject": 32,
+            "acc": 0.5555555555555556,
+            "kappa": 0.06250000000000011
+          }
+        ],
+        "epochs_run": 19,
+        "best_epoch": 9,
+        "best_val_acc": 0.695067264573991,
+        "params_finite": true,
+        "min_abs_wave_scale": 4.8779079056147576e-14,
+        "n_wave_scales_at_floor": 12,
+        "n_wave_scales": 768,
+        "minutes": 7.121409849325816,
+        "device": "mps",
+        "n_params": 753107,
+        "n_params_unique_storage": 752339,
+        "hparams": {
+          "lr": 0.001,
+          "wd": 0.0001,
+          "max_ep": 60,
+          "patience": 10,
+          "bs": 32,
+          "optimizer": "Adam",
+          "loss": "CrossEntropy",
+          "model": "TimeMIL default: InceptionTime out_channels=32, mDim=128, 2 TransLayers, 8 heads, Nystrom landmarks 64, dropout 0.2",
+          "wavelet_scale_floor": 0.01,
+          "input_scale": 1.0
+        }
+      },
+      {
+        "seed": 2,
+        "mean_acc": 0.6383462532299742,
+        "mean_kappa": 0.26955242179728883,
+        "train_acc_last": 0.9483333333333334,
+        "per_subject": [
+          {
+            "subject": 37,
+            "acc": 0.627906976744186,
+            "kappa": 0.2505446623093681
+          },
+          {
+            "subject": 48,
+            "acc": 0.6888888888888889,
+            "kappa": 0.37
+          },
+          {
+            "subject": 29,
+            "acc": 0.8,
+            "kappa": 0.599406528189911
+          },
+          {
+            "subject": 10,
+            "acc": 0.5555555555555556,
+            "kappa": 0.08536585365853655
+          },
+          {
+            "subject": 14,
+            "acc": 0.6,
+            "kappa": 0.2027559055118111
+          },
+          {
+            "subject": 1,
+            "acc": 0.6666666666666666,
+            "kappa": 0.33628318584070804
+          },
+          {
+            "subject": 45,
+            "acc": 0.6222222222222222,
+            "kappa": 0.24481737413622906
+          },
+          {
+            "subject": 47,
+            "acc": 0.6666666666666666,
+            "kappa": 0.3034055727554179
+          },
+          {
+            "subject": 40,
+            "acc": 0.7111111111111111,
+            "kappa": 0.417910447761194
+          },
+          {
+            "subject": 24,
+            "acc": 0.4444444444444444,
+            "kappa": -0.11496531219028738
+          }
+        ],
+        "epochs_run": 23,
+        "best_epoch": 13,
+        "best_val_acc": 0.6577777777777778,
+        "params_finite": true,
+        "min_abs_wave_scale": 4.406530709798347e-19,
+        "n_wave_scales_at_floor": 13,
+        "n_wave_scales": 768,
+        "minutes": 8.598048532009125,
+        "device": "mps",
+        "n_params": 753107,
+        "n_params_unique_storage": 752339,
+        "hparams": {
+          "lr": 0.001,
+          "wd": 0.0001,
+          "max_ep": 60,
+          "patience": 10,
+          "bs": 32,
+          "optimizer": "Adam",
+          "loss": "CrossEntropy",
+          "model": "TimeMIL default: InceptionTime out_channels=32, mDim=128, 2 TransLayers, 8 heads, Nystrom landmarks 64, dropout 0.2",
+          "wavelet_scale_floor": 0.01,
+          "input_scale": 1.0
+        }
+      },
+      {
+        "seed": 3,
+        "mean_acc": 0.6644444444444445,
+        "mean_kappa": 0.32422495407878005,
+        "train_acc_last": 0.9666666666666667,
+        "per_subject": [
+          {
+            "subject": 13,
+            "acc": 0.5777777777777777,
+            "kappa": 0.16258570029382957
+          },
+          {
+            "subject": 40,
+            "acc": 0.7777777777777778,
+            "kappa": 0.5454545454545454
+          },
+          {
+            "subject": 10,
+            "acc": 0.5555555555555556,
+            "kappa": 0.10179640718562866
+          },
+          {
+            "subject": 48,
+            "acc": 0.7333333333333333,
+            "kappa": 0.4642857142857143
+          },
+          {
+            "subject": 32,
+            "acc": 0.5777777777777777,
+            "kappa": 0.12307692307692297
+          },
+          {
+            "subject": 29,
+            "acc": 0.7111111111111111,
+            "kappa": 0.417910447761194
+          },
+          {
+            "subject": 14,
+            "acc": 0.6444444444444445,
+            "kappa": 0.2885375494071146
+          },
+          {
+            "subject": 49,
+            "acc": 0.7111111111111111,
+            "kappa": 0.4247787610619469
+          },
+          {
+            "subject": 46,
+            "acc": 0.6666666666666666,
+            "kappa": 0.337585868498528
+          },
+          {
+            "subject": 7,
+            "acc": 0.6888888888888889,
+            "kappa": 0.37623762376237624
+          }
+        ],
+        "epochs_run": 23,
+        "best_epoch": 13,
+        "best_val_acc": 0.600896860986547,
+        "params_finite": true,
+        "min_abs_wave_scale": 4.406530709798347e-19,
+        "n_wave_scales_at_floor": 12,
+        "n_wave_scales": 768,
+        "minutes": 8.56727775335312,
+        "device": "mps",
+        "n_params": 753107,
+        "n_params_unique_storage": 752339,
+        "hparams": {
+          "lr": 0.001,
+          "wd": 0.0001,
+          "max_ep": 60,
+          "patience": 10,
+          "bs": 32,
+          "optimizer": "Adam",
+          "loss": "CrossEntropy",
+          "model": "TimeMIL default: InceptionTime out_channels=32, mDim=128, 2 TransLayers, 8 heads, Nystrom landmarks 64, dropout 0.2",
+          "wavelet_scale_floor": 0.01,
+          "input_scale": 1.0
+        }
+      }
+    ]
+  }
+}

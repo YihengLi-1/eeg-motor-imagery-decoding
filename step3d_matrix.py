@@ -126,7 +126,7 @@ def do_run(kind, band, seed):
     if any(r["seed"] == seed for r in res.get(key, [])):
         print(f"   [{kind}/{band} seed{seed}] 已完成,跳过"); return
     import torch, torch.nn as nn
-    sys.path.insert(0, f"{ROOT}/heldout"); import mps_sdpa  # noqa: F401  (dropout in attention on MPS)
+    sys.path.insert(0, f"{ROOT}/heldout"); import mps_sdpa, mps_groupconv  # noqa: F401  (attention dropout on MPS; grouped-conv bug at batch%32==0, see docs/mps_groupconv_bug.md)
     from torch.utils.data import TensorDataset, DataLoader
     from sklearn.metrics import accuracy_score, cohen_kappa_score
     from braindecode.models import EEGNet, InterpolatedLaBraM
@@ -197,14 +197,16 @@ def do_run(kind, band, seed):
         for n, p in m.named_parameters(): p.requires_grad = (not probe) or n.startswith("final_layer.")
         params = [p for p in m.parameters() if p.requires_grad]
         m, last = (train(m, params, 1e-3, 1e-4, 40, 8, 32) if probe else train(m, params, 1e-4, 1e-4, 30, 8, 16))
-    elif kind == "randFT":   # same LaBraM architecture, random initialisation, same full-training recipe as fullFT: isolates the pretrained weights
+    elif kind == "randFT":   # same LaBraM architecture, random initialisation. From-scratch recipe (EEGNet's: lr 1e-3, 60 epochs, patience 10):
+        # the fine-tuning recipe (lr 1e-4, 30 epochs) leaves a randomly initialised transformer at chance (seed 0: train acc 0.500), which
+        # would understate scratch training rather than measure it. Pretrained rows keep their own recipe; both get a validation-selected stop.
         m = InterpolatedLaBraM(chs_info=CHS_INFO, n_times=N_TIMES, n_outputs=2, patch_size=PATCH)
-        m, last = train(m, m.parameters(), 1e-4, 1e-4, 30, 8, 16)
-    elif kind == "cbramodRand":   # same CBraMod architecture, random initialisation, same recipe as cbramodFT
+        m, last = train(m, m.parameters(), 1e-3, 1e-4, 60, 10, 32)
+    elif kind == "cbramodRand":   # same CBraMod architecture, random initialisation, same from-scratch recipe
         from braindecode.models import CBraMod
         m = CBraMod(n_outputs=2, n_chans=64, n_times=N_TIMES)
         m.register_forward_pre_hook(lambda mod, inp: (inp[0] * 0.01,))
-        m, last = train(m, m.parameters(), 1e-4, 1e-4, 30, 8, 16)
+        m, last = train(m, m.parameters(), 1e-3, 1e-4, 60, 10, 32)
     else:  # fullFT
         m = transplant()
         for p in m.parameters(): p.requires_grad = True

@@ -1,0 +1,14 @@
+2.14.1
+Conv2d(8,16,(64,1),groups=8), width 1001: failing batch sizes in 1..64
+   batch: (fwd max|diff|, fwd max|ref|, weight-grad rel diff, input-grad rel diff)
+   32: (44.48, 44.48, 0.999, 1.011)
+   64: (44.48, 44.48, 0.998, 1.011)
+Conv2d(8,16,(64,1),groups=8), width 64: failing batch sizes in 1..64
+   batch: (fwd max|diff|, fwd max|ref|, weight-grad rel diff, input-grad rel diff)
+   32: (37.072, 37.072, 1.013, 1.0)
+   64: (43.261, 37.072, 1.009, 1.0)
+Reporter's layer Conv2d(8,8,(200,1),groups=8), width 64:
+   batch 3: (62.107, 50.062, 0.964, 1.033)
+   batch 16: (86.001, 60.861, 0.661, 1.346)
+   batch 32: (76.116, 65.222, 0.918, 1.164)
+batch 32 split into two halves of 16, max|diff| vs CPU: 0.0

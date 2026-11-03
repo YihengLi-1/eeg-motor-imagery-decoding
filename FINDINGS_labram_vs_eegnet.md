@@ -1,3 +1,5 @@
+> ⚠️ **2026-11-01: every EEGNet number in this file is invalid** (PyTorch-MPS grouped-convolution bug at batch 32/64, see `docs/mps_groupconv_bug.md`). Corrected (4 subject-level splits, 0.1–75 Hz): PhysioNet EEGNet 82.2 ± 1.5 % (8–30 Hz: 50.2 ± 3.6), Cho2017 EEGNet 70.7 ± 2.6 % (8–30 Hz: 66.6 ± 1.3); fine-tuned LaBraM 79.1 / 65.8 is below EEGNet on both. The conclusion of this file (LaBraM beats EEGNet by ~24 points) is withdrawn; the current numbers are in `docs/heldout_leaderboard.md` and README.md. Kept as a record only.
+
 # LaBraM vs EEGNet:cross-subject 运动想象(左/右手)对比 — 最终结论
 
 **数据**:PhysioNet eegbci,runs [4,8,12],64 通道。**协议**:按被试切(防 leakage),

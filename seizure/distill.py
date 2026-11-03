@@ -26,6 +26,7 @@ def load_results():
 
 def cpu_ms_per_window(m):
     import torch
+    import sys as _sys, os as _os; _sys.path.insert(0, _os.path.expanduser("~/bci-project/heldout")); import mps_groupconv  # noqa  MPS grouped-conv bug fix (docs/mps_groupconv_bug.md)
     m = m.to("cpu").eval(); x = torch.randn(64, len(z.CHANNELS), z.N_TIMES)
     with torch.no_grad():
         m(x[:8]); t0 = time.perf_counter()

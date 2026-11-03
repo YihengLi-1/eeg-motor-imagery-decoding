@@ -131,7 +131,7 @@ def do_run(kind, seed):
     if not SMOKE and any(r["seed"] == seed for r in res.get(key, [])):
         print(f"   [{kind} seed{seed}] done, skipping"); return
     import torch, torch.nn as nn
-    sys.path.insert(0, f"{ROOT}/heldout"); import mps_sdpa  # noqa: F401
+    sys.path.insert(0, f"{ROOT}/heldout"); import mps_sdpa, mps_groupconv  # noqa: F401  (grouped-conv MPS bug at batch%32==0, docs/mps_groupconv_bug.md)
     from torch.utils.data import TensorDataset, DataLoader
     from sklearn.metrics import accuracy_score, cohen_kappa_score, balanced_accuracy_score
     from braindecode.models import EEGNet, InterpolatedLaBraM

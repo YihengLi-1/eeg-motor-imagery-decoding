@@ -111,6 +111,7 @@ def sample_train(subs, rng):
 def subject_prob_trace(m, sub, dev, limit=None):
     """Seizure probability per second for a whole subject (overlapping windows averaged)."""
     import torch
+    import sys as _sys, os as _os; _sys.path.insert(0, _os.path.expanduser("~/bci-project/heldout")); import mps_groupconv  # noqa  MPS grouped-conv bug fix (docs/mps_groupconv_bug.md)
     x, mask, b = load(sub)
     st, _ = windows(x, mask, b, STRIDE_S)
     if limit: st = st[:limit]

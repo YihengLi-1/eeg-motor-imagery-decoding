@@ -1,4 +1,4 @@
-# Live held-out bench for EEG foundation models (draft, 2026-10-31)
+# Live held-out bench for EEG foundation models (draft, 2026-10-31; season-1 results added 2026-11-01)
 
 Companion to the [held-out leaderboard](heldout_leaderboard.md) and the [pretraining-overlap table](pretraining_overlap_eeg_fm.md). Maintainer: Yiheng Li.
 
@@ -45,7 +45,7 @@ EEGDash Hub mirror of OpenNeuro: last batch created 2026-04-20; none of the data
 
 | Dataset | first snapshot | subjects | task / label | size | files on S3 | status |
 |---|---|---|---|---|---|---|
-| ds008446 Random and Sequential Finger MI (UCL) | 2026-07-21 | 20 | 5-finger motor imagery, 62 ch g.tec 512 Hz | 5.8 GB | yes | **season 1, running** |
+| ds008446 Random and Sequential Finger MI (UCL) | 2026-07-21 | 20 | 5-finger motor imagery, 62 ch g.tec 512 Hz | 5.8 GB | yes | **season 1 done, table below** |
 | ds008711 RSVP sentences with violations (SDSU) | 2026-08-20 | 64 | violation vs control ERP; event codes undocumented, deaf/hearing groups | 6.7 GB | yes | downloading; labels to be confirmed with authors |
 | ds008763 Resting EEG, autistic traits (Chongqing Normal) | 2026-09-01 | 80 | high vs low AQ-10 (subject-level) | 6.2 GB | yes | candidate |
 | ds008851 Alcohol cue-reactivity (Neuphony cap) | 2026-09-21 | 60 | AUD vs control, emotion | 0.2 GB | yes | candidate, consumer cap |
@@ -64,6 +64,22 @@ Datasets whose first snapshot is before 2026-08-01 are **[T]** for every checkpo
 1. ds008446, 5-class finger MI, 20 subjects: EEGNet, LaBraM probe/FT, CBraMod probe/FT, 4 seeds. Report accuracy, balanced accuracy and kappa (chance 20 %).
 2. One subject-level clinical set (ds008875 when exported, otherwise ds008763).
 3. Publish the season table here and in the leaderboard, with both dates per cell. Ask the dataset authors to confirm our label derivation before publishing (same courtesy as the overlap table).
+
+## Season 1 results: ds008446 (run 2026-11-01)
+
+Data as used: 20 subjects in the release; **16 kept**. Runs whose channels were nearly all flagged by the amplitude/flatness check were skipped (sub-11, sub-13, sub-14, sub-15: 55–62 of 62 channels flagged in every run, so the subject has no usable run; three single runs of sub-07/08/09 also skipped). Raw EDF amplitudes are in the thousands of µV before filtering; after 8–30 Hz filtering the median channel SD is 18 µV. Interpolated channels per kept run: median 13, max 30 of 62. Labels: five fingers of the same hand (thumb, index, middle, ring, pinky), both the random and sequential tasks pooled; chance 20 %. Protocol as above. Both checkpoints were uploaded before the dataset's first snapshot (2026-07-21), so every pretrained row is **[T]**.
+
+| model | accuracy % (4 seeds) | balanced acc. % | kappa | tag |
+|---|---|---|---|---|
+| EEGNet, from scratch | 28.6 ± 3.9 | 28.7 ± 3.9 | +0.108 ± 0.049 | [S] |
+| LaBraM-base, linear probe | 20.9 ± 1.8 | 20.9 ± 1.8 | +0.012 ± 0.023 | [T] |
+| LaBraM-base, full fine-tune | 23.9 ± 4.9 | 23.9 ± 4.9 | +0.049 ± 0.062 | [T] |
+| CBraMod, linear probe | 21.4 ± 1.1 | 21.4 ± 1.1 | +0.018 ± 0.013 | [T] |
+| CBraMod, full fine-tune | 31.8 ± 4.3 | 31.8 ± 4.3 | +0.148 ± 0.054 | [T] |
+
+Per-seed accuracies: EEGNet 34.6 / 25.7 / 29.6 / 24.6; LaBraM probe 19.6 / 19.8 / 24.0 / 20.3; LaBraM FT 31.5 / 25.2 / 19.2 / 19.9; CBraMod probe 20.7 / 22.6 / 22.3 / 20.1; CBraMod FT 38.3 / 28.8 / 33.0 / 27.2. Raw results: `heldout/results_live_ds008446.json`.
+
+Reading: five-finger imagery across subjects is barely above chance for every model; both linear probes are at chance, so neither frozen representation carries finger information that transfers across subjects. Fine-tuning CBraMod gives the best number and is the only row clearly above the from-scratch EEGNet, by about 3 points with overlapping seed spread. Fine-tuned LaBraM is below EEGNet, as on PhysioNet and Cho2017. All EEGNet rows here were produced after the MPS grouped-convolution fix (`docs/mps_groupconv_bug.md`).
 
 ## Known limits
 

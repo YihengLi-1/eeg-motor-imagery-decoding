@@ -1,4 +1,4 @@
-"""One-page handout: NormWear on Cho2017 next to EEGNet / LaBraM. Reads the two results files, writes HTML + PDF."""
+"""One-page handout: NormWear on Cho2017 next to EEGNet / LaBraM / CBraMod. Reads the two results files, writes HTML + PDF."""
 import json, os, subprocess
 
 ROOT = os.path.expanduser("~/bci-project/heldout")
@@ -28,10 +28,10 @@ th, td {{ border: 1px solid #000; padding: 2px 6px; text-align: right; }} th:fir
 <div class="by">Yiheng Li, ASU CS &nbsp;|&nbsp; yihengl4@asu.edu &nbsp;|&nbsp; github.com/YihengLi-1/eeg-motor-imagery-decoding &nbsp;|&nbsp; report: doi.org/10.5281/zenodo.23423535</div>
 
 <p><b>Question.</b> NormWear's EEG evaluation covers 1&ndash;4-channel tasks (Bonn epilepsy, GAMEEMO, DriverFatigue). How do its frozen
-features do on a 64-channel motor-imagery dataset where every test subject is unseen, under the exact protocol I used for EEGNet and LaBraM?</p>
-<p><b>Setup.</b> Cho2017 (52 subjects, left vs. right hand imagery; not in NormWear's or LaBraM's pretraining corpus). Nine motor channels
+features do on a 64-channel motor-imagery dataset where every test subject is unseen, under the exact protocol I used for EEGNet, LaBraM and CBraMod?</p>
+<p><b>Setup.</b> Cho2017 (52 subjects, left vs. right hand imagery; not in NormWear's, LaBraM's or CBraMod's pretraining corpus). Nine motor channels
 (FC3/4, C3/1/z/2/4, CP3/4), &minus;1 to 4 s around the cue. Four random subject splits: 10 test, 5 validation, rest training, the same splits as
-the EEGNet/LaBraM rows. NormWear: released checkpoint, frozen encoder, patch-mean embedding per channel concatenated, logistic regression with C
+the EEGNet/LaBraM/CBraMod rows. NormWear: released checkpoint, frozen encoder, patch-mean embedding per channel concatenated, logistic regression with C
 chosen on the validation subjects (as in the paper's linear-probe protocol). Band power: Welch log power in 6 bands (4&ndash;40 Hz), 0 to 4 s, same probe. Accuracy is the mean over test subjects.</p>
 
 <h2>Results (accuracy, mean ± SD over 4 subject splits; chance = 50%)</h2>
@@ -41,6 +41,8 @@ chosen on the validation subjects (as in the paper's linear-probe protocol). Ban
 <tr><td>Log band power, 9 motor channels (classic baseline)</td><td>logistic regression</td><td>{pct(bpw["acc_mean"], bpw["acc_std"])}</td></tr>
 <tr><td>LaBraM (64 channels)</td><td>frozen + linear probe</td><td>{b("probe|broad_0.1-75")}</td></tr>
 <tr><td>LaBraM (64 channels)</td><td>full fine-tuning</td><td>{b("fullFT|broad_0.1-75")}</td></tr>
+<tr><td>CBraMod (64 channels)</td><td>frozen + linear probe</td><td>{b("cbramodProbe|broad_0.1-75")}</td></tr>
+<tr><td>CBraMod (64 channels)</td><td>full fine-tuning</td><td>{b("cbramodFT|broad_0.1-75")}</td></tr>
 <tr><td><b>NormWear, 9 motor channels, paper preprocessing</b></td><td>frozen + logistic regression</td><td><b>{n("paper")}</b></td></tr>
 <tr><td>NormWear, same but without the 0.02 s smoothing</td><td>frozen + logistic regression</td><td>{n("nosmooth")}</td></tr>
 </table>
@@ -51,12 +53,13 @@ chosen on the validation subjects (as in the paper's linear-probe protocol). Ban
 <li><b>Frozen NormWear features transfer to new subjects.</b> With no motor-imagery data in pretraining and no fine-tuning,
 NormWear's frozen embeddings reach {n("paper")}, the same as fully fine-tuned LaBraM and
 {(nw["normwear_probe|paper|avg"]["acc_mean"] - bpw["acc_mean"]) * 100:.1f} points above classic log band power on the same 9 channels, while
-LaBraM's frozen probe stays near chance. (Input channels differ between rows, as labelled.)</li>
+LaBraM's frozen probe stays near chance. Fine-tuned CBraMod is the highest row at {b("cbramodFT|broad_0.1-75")}. (Input channels differ between rows, as labelled.)</li>
 <li><b>The smoothing does not hurt here.</b> The 0.02 s Gaussian smoothing scales 20 Hz by 0.04 (verified numerically), but removing it changes
 accuracy by {gap:+.1f} points, so the information NormWear uses for motor imagery survives it.</li>
-<li><b>Adaptation gap differs by model.</b> LaBraM's frozen probe and full fine-tuning differ by
-{(base["fullFT|broad_0.1-75"]["acc_mean"] - base["probe|broad_0.1-75"]["acc_mean"]) * 100:.1f} points on the same splits, while NormWear's frozen
-features already reach that level. Why one frozen representation transfers across subjects and another does not, and whether this can be
+<li><b>Adaptation gap differs by model.</b> On the same splits, frozen probe and full fine-tuning differ by
+{(base["fullFT|broad_0.1-75"]["acc_mean"] - base["probe|broad_0.1-75"]["acc_mean"]) * 100:.1f} points for LaBraM and
+{(base["cbramodFT|broad_0.1-75"]["acc_mean"] - base["cbramodProbe|broad_0.1-75"]["acc_mean"]) * 100:.1f} points for CBraMod, while NormWear's frozen
+features already reach fine-tuned LaBraM's level. Why one frozen representation transfers across subjects and another does not, and whether this can be
 predicted before fine-tuning, is the question I would most like to study next.</li>
 <li><b>Small code issue.</b> In <code>NormWearModel.get_embedding</code> (and <code>NormWear_API.get_embedding</code>), inputs above 256 Hz go to
 <code>torchaudio.Resample</code> as a NumPy array and raise an AttributeError, and inputs at or below 256 Hz other than 65 Hz are not resampled at all.
@@ -66,7 +69,7 @@ A 6-line patch makes 512, 200 and 65 Hz inputs all produce the same 65 Hz embedd
 <h2>What I could do next</h2>
 <ul>
 <li>Extend this to CHB-MIT seizure detection (SzCORE event scoring, 980 h) and BCIC-IV-2a, with NormWear fine-tuned as well as probed.</li>
-<li>Measure the frozen-vs-fine-tuned gap across EEG foundation models (LaBraM, CBraMod, NormWear) and test whether Fisher-based diagnostics predict it.</li>
+<li>Complete the frozen-vs-fine-tuned gap comparison by fine-tuning NormWear, and test whether Fisher-based diagnostics predict the gap across LaBraM, CBraMod and NormWear.</li>
 <li>Apply my pretraining-overlap audit (20 EEG foundation models, 142 reported results) to wearable PPG/ECG foundation models.</li>
 </ul>
 <p class="note">Code: heldout/normwear_cho2017.py in the repository above. Preliminary results; single run per split.</p>

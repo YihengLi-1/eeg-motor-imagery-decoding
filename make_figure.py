@@ -54,7 +54,7 @@ ax.text(len(MODELS) - 0.5, 50.4, "chance (50%)", color="#c0392b", fontsize=8, ha
 ax.set_xticks(x); ax.set_xticklabels([lab for _, lab in MODELS])
 ax.set_ylabel("Cross-subject accuracy (%)")
 ax.set_ylim(45, 90)
-ax.set_title("Cross-subject motor imagery: pretraining + matched band is what wins",
+ax.set_title("Cross-subject motor imagery: the input band, not pretraining, is what wins (EEGNet rerun 2026-11-01)",
              fontsize=11)
 ax.legend(title="Preprocessing band", loc="upper left")
 ax.spines[["top", "right"]].set_visible(False)

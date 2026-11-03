@@ -16,12 +16,12 @@ Both original datasets turned out to be in LaBraM's self-supervised pretraining 
 
 | Task | In LaBraM's pretraining corpus | Outside it |
 |---|---|---|
-| Motor imagery, accuracy (LaBraM vs. EEGNet) | PhysioNet, 50 subj.: **79.1% vs. 54.9%** | Cho2017, 52 subj.: **65.8% vs. 52.3%** |
-| Seizure detection, false alarms / 24 h (LaBraM vs. EEGNet, SzCORE) | Siena LOSO, 14 pat.: **7.7 vs. 26.4** | CHB-MIT, 23 pat.: **10.2 vs. 12.4** (event F1 0.18 vs. 0.17) |
+| Motor imagery, accuracy (LaBraM vs. EEGNet) | PhysioNet, 50 subj.: **79.1% vs. 82.2%** | Cho2017, 52 subj.: **65.8% vs. 70.7%** |
+| Seizure detection, false alarms / 24 h (LaBraM vs. EEGNet, SzCORE) | Siena LOSO, 14 pat.: **7.7 vs. 24.2** (event F1 0.36 vs. 0.18) | CHB-MIT, 23 pat.: **10.2 vs. 18.3** (event F1 0.18 vs. 0.14) |
 
-- The motor-imagery gain shrinks by almost half outside the corpus but holds, and it again needs LaBraM's 0.1–75 Hz pretraining band (8–30 Hz: 55.7%).
-- The seizure-detection advantage largely disappears as a pooled result. Per patient, LaBraM has the lower median false-alarm rate in both datasets, but not significantly; on CHB-MIT two patients produce most of its false alarms because a threshold chosen on validation patients does not transfer.
-- Averaging LaBraM and EEGNet helped only in the original 7-fold Siena scheme (event F1 0.37); it did not hold under leave-one-patient-out or on CHB-MIT. Distilling LaBraM into EEGNet did not keep its low false-alarm rate.
+- **Correction (2026-11-01).** Every EEGNet number before this date was produced under a PyTorch-MPS bug (grouped convolutions return wrong values when the batch size is a multiple of 32; `docs/mps_groupconv_bug.md`). Rerun with the fix, EEGNet trained from scratch is *above* fine-tuned LaBraM on both motor-imagery datasets (82.2 vs. 79.1 and 70.7 vs. 65.8), and matches fine-tuned CBraMod (82.3 / 71.4). The earlier "LaBraM leads by 24 / 13.5 points and the lead shrinks outside the corpus" result is withdrawn. Every model drops by a similar amount from PhysioNet to Cho2017, including a CBraMod trained from random initialisation (62.4% on Cho2017), so that drop is dataset difficulty, not overlap. LaBraM still needs its 0.1–75 Hz pretraining band (8–30 Hz: 48.8% / 55.7%).
+- For seizure detection LaBraM raises fewer false alarms than EEGNet on both datasets (3.1× fewer on Siena LOSO, 1.8× on CHB-MIT) at lower sensitivity; its pooled event F1 is higher on both. Per patient, its median false-alarm rate is lower on both datasets (Siena LOSO p = 0.20, CHB-MIT p = 0.04, Wilcoxon); on CHB-MIT two patients produce most of its false alarms because a threshold chosen on validation patients does not transfer.
+- Averaging LaBraM and EEGNet helped only in the original 7-fold Siena scheme (event F1 0.43); it did not hold under leave-one-patient-out or on CHB-MIT. Distilling LaBraM into EEGNet did not keep its low false-alarm rate.
 
 > 中文研究记录：[README.zh-CN.md](README.zh-CN.md)  
 > Full matched-comparison notes: [FINDINGS_labram_vs_eegnet.md](FINDINGS_labram_vs_eegnet.md)
@@ -42,7 +42,7 @@ The matched comparison used separate training data, a **5-subject validation coh
 
 | Model and protocol | Held-out result |
 |---|---:|
-| EEGNet, 8–30 Hz | 49.6% ± 6.5% |
+| EEGNet, 8–30 Hz | ~~49.6% ± 6.5%~~ (MPS bug; see the 4-split matrix below) |
 | LaBraM linear probe, 8–30 Hz | 50.9% ± 4.2% |
 | LaBraM full fine-tune, 8–30 Hz | 50.0% ± 7.2% |
 | LaBraM linear probe, 0.1–75 Hz | 54.2% ± 4.9% |
@@ -56,11 +56,11 @@ The table above is one subject split (Split A); its ±16.4% is variation across 
 
 | Model | 8–30 Hz | 0.1–75 Hz |
 |---|---:|---:|
-| EEGNet, end-to-end | 49.8% ± 0.3% | 54.9% ± 1.0% |
+| EEGNet, end-to-end | 50.2% ± 3.6% | **82.2% ± 1.5%** |
 | LaBraM linear probe | 50.5% ± 0.9% | 48.5% ± 2.3% |
-| **LaBraM full fine-tune** | 48.8% ± 0.8% | **79.1% ± 1.7%, kappa +0.58** |
+| LaBraM full fine-tune | 48.8% ± 0.8% | 79.1% ± 1.7%, kappa +0.58 |
 
-The original 78.4% sits in the middle of this distribution. Broadband input alone helps EEGNet only slightly (+5 points), so the large gain comes from the pretrained model given its own input band.
+The original 78.4% sits in the middle of LaBraM's distribution. EEGNet rows rerun 2026-11-01 after the MPS grouped-convolution fix (`docs/mps_groupconv_bug.md`): with broadband input, EEGNet trained from scratch reaches 82.2%, above fine-tuned LaBraM. The earlier reading that "broadband input alone helps EEGNet only slightly" was an artefact of the bug. The band matters for both models; the pretrained weights do not add accuracy over a from-scratch compact network here.
 
 ![Accuracy by band and model across 4 subject splits](figure_band_x_model.png)
 
@@ -69,7 +69,7 @@ The original 78.4% sits in the middle of this distribution. Broadband input alon
 - Split-level variance is small, but **subject-level variance is large**: within a split, 1–2 of 10 held-out subjects remain near chance.
 - Full fine-tuning reaches ~99.6% training accuracy; early stopping and the pretrained prior keep it generalizing, but overfitting is a real concern.
 - Four splits is still a small replication, and all runs use one dataset and one task.
-- **Pretraining overlap:** both PhysioNet Motor Movement/Imagery and the Siena Scalp EEG Database are in LaBraM's self-supervised pretraining corpus (Jiang et al., ICLR 2024, Appendix). LaBraM has therefore seen unlabeled recordings of the held-out test subjects, which EEGNet has not. "Held-out" here means held out from fine-tuning, the comparison favors LaBraM, and the motor-imagery gain may be partly inflated. On Cho2017, outside the corpus, the gain shrinks from 24 to 13.5 points but holds; see [the held-out replication](#held-out-replication-datasets-outside-labrams-pretraining-corpus).
+- **Pretraining overlap:** both PhysioNet Motor Movement/Imagery and the Siena Scalp EEG Database are in LaBraM's self-supervised pretraining corpus (Jiang et al., ICLR 2024, Appendix). LaBraM has therefore seen unlabeled recordings of the held-out test subjects, which EEGNet has not. "Held-out" here means held out from fine-tuning, and the comparison favors LaBraM. After the 2026-11-01 correction LaBraM has no motor-imagery gain over EEGNet to inflate (79.1 vs. 82.2 on PhysioNet, 65.8 vs. 70.7 on Cho2017); see [the held-out replication](#held-out-replication-datasets-outside-labrams-pretraining-corpus).
 
 ## Follow-up study: patient-independent seizure detection (SzCORE)
 
@@ -85,20 +85,20 @@ evaluated with the [SzCORE](https://arxiv.org/abs/2402.13005) protocol.
 
 | Pooled over all 14 test patients | Sensitivity | Precision | F1 (pooled) | F1 per fold | False alarms / 24 h |
 |---|---:|---:|---:|---:|---:|
-| EEGNet, trained from scratch (2,210 params) | **0.64** | 0.15 | 0.24 | **0.41 ± 0.29** | 29.6 |
-| LaBraM, full fine-tuning (5.8M params) | 0.34 | **0.23** | **0.27** | 0.27 ± 0.19 | **9.4** |
-| EEGNet distilled from LaBraM (1:5 background) | 0.36 | 0.08 | 0.13 | 0.25 ± 0.31 | 35.4 |
-| EEGNet distilled, 30× teacher-labelled background | 0.62 | 0.10 | 0.17 | 0.28 ± 0.26 | 45.3 |
-| **LaBraM + EEGNet probability average** | 0.53 | **0.28** | **0.37** | **0.44 ± 0.29** | 10.9 |
+| EEGNet, trained from scratch (2,210 params) | 0.43 | 0.11 | 0.18 | 0.23 ± 0.18 | 27.6 |
+| LaBraM, full fine-tuning (5.8M params) | 0.34 | 0.23 | 0.27 | 0.27 ± 0.19 | 9.4 |
+| EEGNet distilled from LaBraM (1:5 background) | 0.49 | 0.10 | 0.16 | 0.25 ± 0.30 | 36.8 |
+| EEGNet distilled, 30× teacher-labelled background | **0.70** | 0.11 | 0.20 | 0.27 ± 0.17 | 44.1 |
+| **LaBraM + EEGNet probability average** | 0.51 | **0.37** | **0.43** | **0.47 ± 0.21** | **7.0** |
 
 ![Sensitivity vs. false alarms per 24 h](seizure/figure_seizure_tradeoff.png)
 
 What this shows:
 
-- **The pretraining advantage is task-dependent.** Alone, LaBraM is a trade-off: about 3× fewer false alarms, about half the sensitivity.
-- **The two models make complementary errors.** Averaging their probabilities (weight, threshold and smoothing chosen on the validation patients; `seizure/ensemble.py`) keeps LaBraM's false-alarm rate (10.9 / 24 h) while recovering most of EEGNet's sensitivity, raising pooled F1 from 0.27 to 0.37.
-- **Failures are structured.** LaBraM caught 1 of 10 seizures of the only frontal-onset patient (EEGNet 5 of 10); two temporal-lobe patients (8 seizures) were missed by both models.
-- **Naive compression does not keep the advantage.** Distilling LaBraM into EEGNet (~11× faster on CPU, 5 vs. 54 ms per window) did not keep its low false-alarm rate, even with 30× more background data.
+- **Alone, LaBraM is a trade-off:** about 3× fewer false alarms (9.4 vs. 27.6 / 24 h) at lower sensitivity (0.34 vs. 0.43), and the higher pooled F1 (0.27 vs. 0.18). (All EEGNet rows rerun 2026-11-01 after the MPS grouped-convolution fix.)
+- **The two models make complementary errors.** Averaging their probabilities (weight, threshold and smoothing chosen on the validation patients; `seizure/ensemble.py`) keeps LaBraM's false-alarm rate (7.0 / 24 h) while recovering sensitivity (0.51), raising pooled F1 from 0.27 to 0.43.
+- **Failures are structured.** LaBraM caught 1 of 10 seizures of the only frontal-onset patient (EEGNet 2 of 10); two temporal-lobe patients (8 seizures) were missed by both models.
+- **Naive compression does not keep the advantage.** Distilling LaBraM into EEGNet (~9× faster on CPU, 5 vs. 48 ms per window) did not keep its low false-alarm rate (36.8 and 44.1 / 24 h), even with 30× more background data.
 - No model here is clinically usable, and fold-to-fold variance is large with 14 patients.
 
 An earlier run (`seizure/archive_v1/`) used class weights on top of 1:5 sampling and a single validation
@@ -117,22 +117,22 @@ LaBraM's appendix lists both PhysioNet Motor Movement/Imagery and the Siena Scal
 
 | Cho2017 accuracy, mean ± SD over 4 splits | 8–30 Hz | 0.1–75 Hz |
 |---|---:|---:|
-| EEGNet, from scratch | 52.1% ± 0.7% | 52.3% ± 0.6% |
+| EEGNet, from scratch | 66.6% ± 1.3% | **70.7% ± 2.6%** |
 | LaBraM linear probe | 51.3% ± 0.5% | 51.7% ± 0.5% |
-| **LaBraM full fine-tune** | 55.7% ± 3.2% | **65.8% ± 2.3%** |
+| LaBraM full fine-tune | 55.7% ± 3.2% | 65.8% ± 2.3% |
 
 Without the amplitude correction, LaBraM full fine-tuning reaches 66.5% ± 2.3%, so the scale choice does not matter. Results: `heldout/results_cho2017_matrix*.json`.
 
 | Seizure detection, SzCORE, pooled | Sens. | Prec. | Event F1 | FA / 24 h |
 |---|---:|---:|---:|---:|
-| Siena LOSO, EEGNet | 0.38 | 0.10 | 0.16 | 26.4 |
+| Siena LOSO, EEGNet | 0.40 | 0.12 | 0.18 | 24.2 |
 | Siena LOSO, LaBraM | 0.43 | 0.31 | 0.36 | 7.7 |
-| Siena LOSO, ensemble | 0.51 | 0.13 | 0.21 | 26.9 |
-| CHB-MIT, EEGNet | 0.35 | 0.11 | 0.17 | 12.4 |
+| Siena LOSO, ensemble | 0.51 | 0.12 | 0.19 | 30.1 |
+| CHB-MIT, EEGNet | 0.37 | 0.09 | 0.14 | 18.3 |
 | CHB-MIT, LaBraM | 0.31 | 0.12 | 0.18 | 10.2 |
-| CHB-MIT, ensemble | 0.32 | 0.10 | 0.15 | 13.1 |
+| CHB-MIT, ensemble | 0.33 | 0.10 | 0.15 | 14.3 |
 
-Per patient (Wilcoxon signed-rank), LaBraM's median false-alarm rate is lower on Siena LOSO (0.0 vs. 3.2 / 24 h, p = 0.16) and on CHB-MIT (0.4 vs. 3.0, p = 0.14; lower in 14 of 23 patients, higher in 6), and sensitivity does not differ (p ≥ 0.5). On CHB-MIT, two patients in one fold got a LaBraM threshold of 0.4 from the validation patients and produced 197 and 153 false alarms / 24 h, which is most of its pooled total.
+Per patient (Wilcoxon signed-rank), LaBraM's median false-alarm rate is lower on Siena LOSO (0.0 vs. 2.8 / 24 h, p = 0.20; lower in 7 of 14 patients, higher in 3) and on CHB-MIT (0.4 vs. 2.4, p = 0.04; lower in 14 of 23 patients, higher in 4), and sensitivity does not differ (p ≥ 0.35). On CHB-MIT, two patients in one fold got a LaBraM threshold of 0.4 from the validation patients and produced 197 and 153 false alarms / 24 h, which is most of its pooled total.
 
 ![Per-patient false alarms, LaBraM vs. EEGNet](seizure/figure_fa_scatter.png)
 
@@ -140,7 +140,7 @@ Per patient (Wilcoxon signed-rank), LaBraM's median false-alarm rate is lower on
 
 ## What changed the outcome
 
-With the conventional 8–30 Hz motor-imagery band, every method remained near chance. LaBraM was pretrained on broadband EEG; the change is consistent with sensitivity to its input distribution, and the replication matrix's broadband EEGNet baseline (54.9%) shows broadband input alone does not explain it. Restoring 0.1–75 Hz input while keeping the comparison subject-disjoint produced the large gain.
+With the conventional 8–30 Hz motor-imagery band, every method remained near chance on PhysioNet. Restoring 0.1–75 Hz input while keeping the comparison subject-disjoint produced the large gain, for the pretrained model and, after the 2026-11-01 correction, for EEGNet trained from scratch as well (82.2%). The band, not the pretraining, is what changed the outcome on this dataset.
 
 This creates a general evaluation lesson: **when transferring a pretrained model, preprocessing is part of the model contract.** A reasonable domain convention can still produce the wrong conclusion if it breaks that contract.
 

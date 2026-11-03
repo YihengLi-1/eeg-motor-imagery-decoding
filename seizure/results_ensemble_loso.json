@@ -1,25 +1,25 @@
 {
   "pooled": {
     "sensitivity": 0.5106382978723404,
-    "precision": 0.13186813186813187,
-    "f1": 0.2096069868995633,
-    "fp_per_24h": 26.889696931495408,
+    "precision": 0.11940298507462686,
+    "f1": 0.1935483870967742,
+    "fp_per_24h": 30.123268081485364,
     "n_seizures": 47,
     "hours": 141.02055555555555
   },
-  "mean_fold_f1": 0.3319434951013899,
-  "std_fold_f1": 0.36313435641295866,
+  "mean_fold_f1": 0.32975395531786506,
+  "std_fold_f1": 0.36348040286975486,
   "folds": [
     {
       "fold": 0,
       "w_labram": 0.75,
       "threshold": 0.7,
-      "smooth_s": 5,
+      "smooth_s": 10,
       "val_f1": 0.5454545454545454,
       "sensitivity": 0.0,
-      "precision": 0.0,
+      "precision": NaN,
       "f1": 0.0,
-      "fp_per_24h": 9.957358534055547,
+      "fp_per_24h": 0.0,
       "n_seizures": 1,
       "hours": 2.410277777777778
     },
@@ -51,9 +51,9 @@
     },
     {
       "fold": 3,
-      "w_labram": 0.5,
-      "threshold": 0.8,
-      "smooth_s": 20,
+      "w_labram": 0.25,
+      "threshold": 0.9,
+      "smooth_s": 10,
       "val_f1": 1.0,
       "sensitivity": 0.0,
       "precision": NaN,
@@ -66,20 +66,20 @@
       "fold": 4,
       "w_labram": 0.25,
       "threshold": 0.4,
-      "smooth_s": 10,
+      "smooth_s": 5,
       "val_f1": 1.0,
       "sensitivity": 1.0,
-      "precision": 0.017857142857142856,
-      "f1": 0.03508771929824561,
-      "fp_per_24h": 108.96958161826248,
+      "precision": 0.015267175572519083,
+      "f1": 0.03007518796992481,
+      "fp_per_24h": 127.79160026141692,
       "n_seizures": 2,
       "hours": 24.226944444444445
     },
     {
       "fold": 5,
       "w_labram": 0.25,
-      "threshold": 0.4,
-      "smooth_s": 5,
+      "threshold": 0.3,
+      "smooth_s": 20,
       "val_f1": 1.0,
       "sensitivity": 1.0,
       "precision": 1.0,
@@ -92,8 +92,8 @@
       "fold": 6,
       "w_labram": 0.25,
       "threshold": 0.3,
-      "smooth_s": 10,
-      "val_f1": 0.4,
+      "smooth_s": 20,
+      "val_f1": 0.631578947368421,
       "sensitivity": 1.0,
       "precision": 0.6666666666666666,
       "f1": 0.8,
@@ -104,20 +104,20 @@
     {
       "fold": 7,
       "w_labram": 0.75,
-      "threshold": 0.7,
-      "smooth_s": 20,
-      "val_f1": 0.5384615384615384,
+      "threshold": 0.6,
+      "smooth_s": 30,
+      "val_f1": 0.5217391304347826,
       "sensitivity": 1.0,
-      "precision": 0.2,
-      "f1": 0.33333333333333337,
-      "fp_per_24h": 14.234816813229813,
+      "precision": 0.18181818181818182,
+      "f1": 0.3076923076923077,
+      "fp_per_24h": 16.014168914883538,
       "n_seizures": 2,
       "hours": 13.488055555555556
     },
     {
       "fold": 8,
-      "w_labram": 0.25,
-      "threshold": 0.9,
+      "w_labram": 0.5,
+      "threshold": 0.8,
       "smooth_s": 5,
       "val_f1": 0.5,
       "sensitivity": 0.1,
@@ -142,14 +142,14 @@
     },
     {
       "fold": 10,
-      "w_labram": 0.75,
-      "threshold": 0.8,
+      "w_labram": 0.25,
+      "threshold": 0.6,
       "smooth_s": 30,
-      "val_f1": 0.625,
+      "val_f1": 0.7692307692307692,
       "sensitivity": 0.0,
       "precision": 0.0,
       "f1": 0.0,
-      "fp_per_24h": 23.859713720255904,
+      "fp_per_24h": 15.906475813503935,
       "n_seizures": 3,
       "hours": 6.035277777777778
     },
@@ -169,13 +169,13 @@
     {
       "fold": 12,
       "w_labram": 0.75,
-      "threshold": 0.8,
-      "smooth_s": 5,
-      "val_f1": 0.5714285714285715,
+      "threshold": 0.5,
+      "smooth_s": 20,
+      "val_f1": 0.4,
       "sensitivity": 0.0,
       "precision": 0.0,
       "f1": 0.0,
-      "fp_per_24h": 21.97914016789621,
+      "fp_per_24h": 27.47392520987026,
       "n_seizures": 1,
       "hours": 8.735555555555555
     },
@@ -196,7 +196,7 @@
   "per_subject": [
     {
       "tp": 0,
-      "fp": 1,
+      "fp": 0,
       "refTrue": 1,
       "hours": 2.410277777777778,
       "subject": "sub-11"
@@ -224,7 +224,7 @@
     },
     {
       "tp": 2,
-      "fp": 110,
+      "fp": 129,
       "refTrue": 2,
       "hours": 24.226944444444445,
       "subject": "sub-03"
@@ -245,7 +245,7 @@
     },
     {
       "tp": 2,
-      "fp": 8,
+      "fp": 9,
       "refTrue": 2,
       "hours": 13.488055555555556,
       "subject": "sub-01"
@@ -266,7 +266,7 @@
     },
     {
       "tp": 0,
-      "fp": 6,
+      "fp": 4,
       "refTrue": 3,
       "hours": 6.035277777777778,
       "subject": "sub-05"
@@ -280,7 +280,7 @@
     },
     {
       "tp": 0,
-      "fp": 8,
+      "fp": 10,
       "refTrue": 1,
       "hours": 8.735555555555555,
       "subject": "sub-07"
