@@ -1,16 +1,16 @@
 {
   "pooled_per_recording": {
-    "sensitivity": 0.5319148936170213,
-    "precision": 0.2808988764044944,
-    "f1": 0.3676470588235294,
-    "fp_per_24h": 10.892029136808267,
+    "sensitivity": 0.5106382978723404,
+    "precision": 0.36923076923076925,
+    "f1": 0.42857142857142855,
+    "fp_per_24h": 6.9777061657677955,
     "n_seizures": 47,
     "hours": 141.02055555555555
   },
   "per_recording": [
     {
       "tp": 1,
-      "fp": 10,
+      "fp": 8,
       "refTrue": 1,
       "hours": 2.2869444444444444,
       "subject": "sub-09",
@@ -18,7 +18,7 @@
     },
     {
       "tp": 1,
-      "fp": 12,
+      "fp": 6,
       "refTrue": 1,
       "hours": 2.3202777777777777,
       "subject": "sub-09",
@@ -26,7 +26,7 @@
     },
     {
       "tp": 1,
-      "fp": 2,
+      "fp": 1,
       "refTrue": 1,
       "hours": 2.2402777777777776,
       "subject": "sub-09",
@@ -34,7 +34,7 @@
     },
     {
       "tp": 1,
-      "fp": 5,
+      "fp": 4,
       "refTrue": 1,
       "hours": 2.410277777777778,
       "subject": "sub-11",
@@ -122,7 +122,7 @@
     },
     {
       "tp": 1,
-      "fp": 0,
+      "fp": 5,
       "refTrue": 1,
       "hours": 11.272222222222222,
       "subject": "sub-03",
@@ -146,7 +146,7 @@
     },
     {
       "tp": 2,
-      "fp": 5,
+      "fp": 0,
       "refTrue": 2,
       "hours": 13.488055555555556,
       "subject": "sub-01",
@@ -154,7 +154,7 @@
     },
     {
       "tp": 2,
-      "fp": 1,
+      "fp": 4,
       "refTrue": 2,
       "hours": 2.715,
       "subject": "sub-12",
@@ -170,7 +170,7 @@
     },
     {
       "tp": 1,
-      "fp": 5,
+      "fp": 3,
       "refTrue": 1,
       "hours": 2.8316666666666666,
       "subject": "sub-12",
@@ -281,7 +281,7 @@
       "recording": "sub-00_ses-01_task-szMonitoring_run-03_events.tsv"
     },
     {
-      "tp": 1,
+      "tp": 0,
       "fp": 0,
       "refTrue": 1,
       "hours": 0.5952777777777778,
@@ -306,7 +306,7 @@
     },
     {
       "tp": 0,
-      "fp": 1,
+      "fp": 4,
       "refTrue": 1,
       "hours": 1.3688888888888888,
       "subject": "sub-05",
@@ -314,7 +314,7 @@
     },
     {
       "tp": 0,
-      "fp": 9,
+      "fp": 0,
       "refTrue": 1,
       "hours": 8.735555555555555,
       "subject": "sub-07",
@@ -322,7 +322,7 @@
     },
     {
       "tp": 1,
-      "fp": 7,
+      "fp": 0,
       "refTrue": 1,
       "hours": 2.297222222222222,
       "subject": "sub-16",
@@ -330,7 +330,7 @@
     },
     {
       "tp": 1,
-      "fp": 1,
+      "fp": 0,
       "refTrue": 1,
       "hours": 2.5825,
       "subject": "sub-16",
