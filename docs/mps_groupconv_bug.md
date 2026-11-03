@@ -91,3 +91,17 @@ correct ablation for "does the pretraining help" (the EEGNet comparison answers 
 pretrained model better than a small purpose-built net; here it is not). LaBraM's random-init control still has no
 working recipe (collapses to a constant prediction on CPU and MPS; several learning rates, head init scales, warmup,
 AdamW and gradient clipping tried on 2026-10-31/11-01).
+
+## Second defect in the fix (found 2026-11-03)
+The 11-01 patch split a batch whose size is a multiple of 32 into two halves once. For batch 64 and 128 the halves
+(32, 64) are still multiples of 32, so the result stayed wrong: EEGNet forward vs CPU, max abs diff 0.23 at batch 64 and
+0.22 at batch 128 (correct at 16, 31, 32, 48, 50, 96). The self-check only tested batch 32, so it passed.
+Fix: the wrapper now splits recursively (`heldout/mps_groupconv.py`), and `self_check()` tests batch 32, 64 and 128.
+After the fix all of 32/64/128/256 agree with CPU (max diff ≤ 6e-8).
+
+Affected: everything that trained or evaluated EEGNet on MPS with batch 64 after 11-01, i.e. the seizure pipeline
+(`seizure/szcore_siena.py` trains EEGNet with batch 64 and computes probability traces with batch 64; `seizure/distill.py`
+trains the KD students with batch 64). The 11-01 seizure "rerun done" EEGNet / KD / KDbg30 / ensemble numbers are
+therefore still invalid. Rows backed up to `seizure/_backup_20261103_prerecursive/` (results JSONs, models, the 11-01 log)
+and removed; rerun with `seizure/run_rerun_1103.sh` (log `seizure/progress_rerun_1103.log`). Motor-imagery results
+(`step3d_matrix.py`, batch 32 for EEGNet) and the live bench / edge quantisation (batch 32) are not affected.

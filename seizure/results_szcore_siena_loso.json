@@ -391,6 +391,26 @@
     "n_seizures": 2,
     "hours": 4.879722222222222
   },
+  "summary": {
+    "EEGNet": {
+      "sensitivity": 0.3829787234042553,
+      "precision": 0.12,
+      "f1": 0.18274111675126906,
+      "fp_per_24h": 22.46481009466705,
+      "n_seizures": 47,
+      "hours": 141.02055555555555,
+      "n_folds": 14
+    },
+    "fullFT": {
+      "sensitivity": 0.425531914893617,
+      "precision": 0.3076923076923077,
+      "f1": 0.3571428571428572,
+      "fp_per_24h": 7.658457986818314,
+      "n_seizures": 47,
+      "hours": 141.02055555555555,
+      "n_folds": 14
+    }
+  },
   "EEGNet|fold0": {
     "fold": 0,
     "test": [
@@ -428,21 +448,21 @@
       "sub-06",
       "sub-14"
     ],
-    "threshold": 0.5,
-    "smooth_s": 20,
-    "best_val_f1": 0.19999999999999998,
+    "threshold": 0.3,
+    "smooth_s": 10,
+    "best_val_f1": 0.26666666666666666,
     "per_subject": [
       {
-        "tp": 0,
+        "tp": 1,
         "fp": 0,
         "refTrue": 3,
         "hours": 6.8475,
         "subject": "sub-09"
       }
     ],
-    "sensitivity": 0.0,
-    "precision": NaN,
-    "f1": 0.0,
+    "sensitivity": 0.3333333333333333,
+    "precision": 1.0,
+    "f1": 0.5,
     "fp_per_24h": 0.0,
     "n_seizures": 3,
     "hours": 6.8475
@@ -518,16 +538,16 @@
     "per_subject": [
       {
         "tp": 2,
-        "fp": 91,
+        "fp": 92,
         "refTrue": 2,
         "hours": 24.226944444444445,
         "subject": "sub-03"
       }
     ],
     "sensitivity": 1.0,
-    "precision": 0.021505376344086023,
-    "f1": 0.04210526315789474,
-    "fp_per_24h": 90.14756297510806,
+    "precision": 0.02127659574468085,
+    "f1": 0.04166666666666667,
+    "fp_per_24h": 91.13819553527408,
     "n_seizures": 2,
     "hours": 24.226944444444445
   },
@@ -569,21 +589,21 @@
       "sub-10"
     ],
     "threshold": 0.3,
-    "smooth_s": 20,
-    "best_val_f1": 0.5555555555555556,
+    "smooth_s": 5,
+    "best_val_f1": 0.4,
     "per_subject": [
       {
         "tp": 4,
-        "fp": 2,
+        "fp": 1,
         "refTrue": 4,
         "hours": 6.099166666666667,
         "subject": "sub-12"
       }
     ],
     "sensitivity": 1.0,
-    "precision": 0.6666666666666666,
-    "f1": 0.8,
-    "fp_per_24h": 7.869927585735756,
+    "precision": 0.8,
+    "f1": 0.888888888888889,
+    "fp_per_24h": 3.934963792867878,
     "n_seizures": 4,
     "hours": 6.099166666666667
   },
@@ -596,9 +616,9 @@
       "sub-10",
       "sub-13"
     ],
-    "threshold": 0.7,
-    "smooth_s": 10,
-    "best_val_f1": 0.33333333333333337,
+    "threshold": 0.9,
+    "smooth_s": 5,
+    "best_val_f1": 0.4,
     "per_subject": [
       {
         "tp": 2,
@@ -624,9 +644,9 @@
       "sub-13",
       "sub-05"
     ],
-    "threshold": 0.7,
+    "threshold": 0.8,
     "smooth_s": 10,
-    "best_val_f1": 0.23529411764705882,
+    "best_val_f1": 0.21052631578947367,
     "per_subject": [
       {
         "tp": 1,
@@ -680,8 +700,8 @@
       "sub-00",
       "sub-07"
     ],
-    "threshold": 0.8,
-    "smooth_s": 20,
+    "threshold": 0.7,
+    "smooth_s": 30,
     "best_val_f1": 0.7272727272727272,
     "per_subject": [
       {
@@ -782,25 +802,5 @@
     "fp_per_24h": 0.0,
     "n_seizures": 2,
     "hours": 4.879722222222222
-  },
-  "summary": {
-    "EEGNet": {
-      "sensitivity": 0.3617021276595745,
-      "precision": 0.11409395973154363,
-      "f1": 0.17346938775510204,
-      "fp_per_24h": 22.46481009466705,
-      "n_seizures": 47,
-      "hours": 141.02055555555555,
-      "n_folds": 14
-    },
-    "fullFT": {
-      "sensitivity": 0.425531914893617,
-      "precision": 0.3076923076923077,
-      "f1": 0.3571428571428572,
-      "fp_per_24h": 7.658457986818314,
-      "n_seizures": 47,
-      "hours": 141.02055555555555,
-      "n_folds": 14
-    }
   }
 }

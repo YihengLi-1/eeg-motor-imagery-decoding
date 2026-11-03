@@ -17,10 +17,10 @@ Both original datasets turned out to be in LaBraM's self-supervised pretraining 
 | Task | In LaBraM's pretraining corpus | Outside it |
 |---|---|---|
 | Motor imagery, accuracy (LaBraM vs. EEGNet) | PhysioNet, 50 subj.: **79.1% vs. 82.2%** | Cho2017, 52 subj.: **65.8% vs. 70.7%** |
-| Seizure detection, false alarms / 24 h (LaBraM vs. EEGNet, SzCORE) | Siena LOSO, 14 pat.: **7.7 vs. 24.2** (event F1 0.36 vs. 0.18) | CHB-MIT, 23 pat.: **10.2 vs. 18.3** (event F1 0.18 vs. 0.14) |
+| Seizure detection, false alarms / 24 h (LaBraM vs. EEGNet, SzCORE) | Siena LOSO, 14 pat.: **7.7 vs. 33.7** (event F1 0.36 vs. 0.16) | CHB-MIT, 23 pat.: **10.2 vs. 16.6** (event F1 0.18 vs. 0.13) |
 
 - **Correction (2026-11-01).** Every EEGNet number before this date was produced under a PyTorch-MPS bug (grouped convolutions return wrong values when the batch size is a multiple of 32; `docs/mps_groupconv_bug.md`). Rerun with the fix, EEGNet trained from scratch is *above* fine-tuned LaBraM on both motor-imagery datasets (82.2 vs. 79.1 and 70.7 vs. 65.8), and matches fine-tuned CBraMod (82.3 / 71.4). The earlier "LaBraM leads by 24 / 13.5 points and the lead shrinks outside the corpus" result is withdrawn. Every model drops by a similar amount from PhysioNet to Cho2017, including a CBraMod trained from random initialisation (62.4% on Cho2017), so that drop is dataset difficulty, not overlap. LaBraM still needs its 0.1–75 Hz pretraining band (8–30 Hz: 48.8% / 55.7%).
-- For seizure detection LaBraM raises fewer false alarms than EEGNet on both datasets (3.1× fewer on Siena LOSO, 1.8× on CHB-MIT) at lower sensitivity; its pooled event F1 is higher on both. Per patient, its median false-alarm rate is lower on both datasets (Siena LOSO p = 0.20, CHB-MIT p = 0.04, Wilcoxon); on CHB-MIT two patients produce most of its false alarms because a threshold chosen on validation patients does not transfer.
+- For seizure detection LaBraM raises fewer false alarms than EEGNet on both datasets (4.4× fewer on Siena LOSO, 1.6× on CHB-MIT) at lower sensitivity; its pooled event F1 is higher on both. Per patient, its median false-alarm rate is lower on both datasets (Siena LOSO p = 0.09, CHB-MIT p = 0.09, Wilcoxon; not significant on either); on CHB-MIT two patients produce most of its false alarms because a threshold chosen on validation patients does not transfer.
 - Averaging LaBraM and EEGNet helped only in the original 7-fold Siena scheme (event F1 0.43); it did not hold under leave-one-patient-out or on CHB-MIT. Distilling LaBraM into EEGNet did not keep its low false-alarm rate.
 
 > 中文研究记录：[README.zh-CN.md](README.zh-CN.md)  
@@ -85,20 +85,20 @@ evaluated with the [SzCORE](https://arxiv.org/abs/2402.13005) protocol.
 
 | Pooled over all 14 test patients | Sensitivity | Precision | F1 (pooled) | F1 per fold | False alarms / 24 h |
 |---|---:|---:|---:|---:|---:|
-| EEGNet, trained from scratch (2,210 params) | 0.43 | 0.11 | 0.18 | 0.23 ± 0.18 | 27.6 |
+| EEGNet, trained from scratch (2,210 params) | 0.45 | 0.11 | 0.18 | 0.27 ± 0.26 | 28.1 |
 | LaBraM, full fine-tuning (5.8M params) | 0.34 | 0.23 | 0.27 | 0.27 ± 0.19 | 9.4 |
-| EEGNet distilled from LaBraM (1:5 background) | 0.49 | 0.10 | 0.16 | 0.25 ± 0.30 | 36.8 |
-| EEGNet distilled, 30× teacher-labelled background | **0.70** | 0.11 | 0.20 | 0.27 ± 0.17 | 44.1 |
-| **LaBraM + EEGNet probability average** | 0.51 | **0.37** | **0.43** | **0.47 ± 0.21** | **7.0** |
+| EEGNet distilled from LaBraM (1:5 background) | 0.36 | 0.08 | 0.12 | 0.24 ± 0.28 | 35.7 |
+| EEGNet distilled, 30× teacher-labelled background | **0.62** | 0.09 | 0.16 | 0.31 ± 0.24 | 50.4 |
+| **LaBraM + EEGNet probability average** | 0.51 | **0.41** | **0.46** | **0.54 ± 0.28** | **5.8** |
 
 ![Sensitivity vs. false alarms per 24 h](seizure/figure_seizure_tradeoff.png)
 
 What this shows:
 
-- **Alone, LaBraM is a trade-off:** about 3× fewer false alarms (9.4 vs. 27.6 / 24 h) at lower sensitivity (0.34 vs. 0.43), and the higher pooled F1 (0.27 vs. 0.18). (All EEGNet rows rerun 2026-11-01 after the MPS grouped-convolution fix.)
-- **The two models make complementary errors.** Averaging their probabilities (weight, threshold and smoothing chosen on the validation patients; `seizure/ensemble.py`) keeps LaBraM's false-alarm rate (7.0 / 24 h) while recovering sensitivity (0.51), raising pooled F1 from 0.27 to 0.43.
+- **Alone, LaBraM is a trade-off:** about 3× fewer false alarms (9.4 vs. 28.1 / 24 h) at lower sensitivity (0.34 vs. 0.45), and the higher pooled F1 (0.27 vs. 0.18). (All EEGNet rows rerun 2026-11-03 after the second, recursive MPS grouped-convolution fix; the 2026-11-01 rerun was still wrong at batch 64.)
+- **The two models make complementary errors.** Averaging their probabilities (weight, threshold and smoothing chosen on the validation patients; `seizure/ensemble.py`) keeps LaBraM's false-alarm rate (5.8 / 24 h) while recovering sensitivity (0.51), raising pooled F1 from 0.27 to 0.46.
 - **Failures are structured.** LaBraM caught 1 of 10 seizures of the only frontal-onset patient (EEGNet 2 of 10); two temporal-lobe patients (8 seizures) were missed by both models.
-- **Naive compression does not keep the advantage.** Distilling LaBraM into EEGNet (~9× faster on CPU, 5 vs. 48 ms per window) did not keep its low false-alarm rate (36.8 and 44.1 / 24 h), even with 30× more background data.
+- **Naive compression does not keep the advantage.** Distilling LaBraM into EEGNet (~9× faster on CPU, 5 vs. 48 ms per window) did not keep its low false-alarm rate (35.7 and 50.4 / 24 h), even with 30× more background data.
 - No model here is clinically usable, and fold-to-fold variance is large with 14 patients.
 
 An earlier run (`seizure/archive_v1/`) used class weights on top of 1:5 sampling and a single validation
@@ -125,14 +125,14 @@ Without the amplitude correction, LaBraM full fine-tuning reaches 66.5% ± 2.3%,
 
 | Seizure detection, SzCORE, pooled | Sens. | Prec. | Event F1 | FA / 24 h |
 |---|---:|---:|---:|---:|
-| Siena LOSO, EEGNet | 0.40 | 0.12 | 0.18 | 24.2 |
+| Siena LOSO, EEGNet | 0.45 | 0.10 | 0.16 | 33.7 |
 | Siena LOSO, LaBraM | 0.43 | 0.31 | 0.36 | 7.7 |
-| Siena LOSO, ensemble | 0.51 | 0.12 | 0.19 | 30.1 |
-| CHB-MIT, EEGNet | 0.37 | 0.09 | 0.14 | 18.3 |
+| Siena LOSO, ensemble | 0.51 | 0.12 | 0.20 | 28.9 |
+| CHB-MIT, EEGNet | 0.33 | 0.08 | 0.13 | 16.6 |
 | CHB-MIT, LaBraM | 0.31 | 0.12 | 0.18 | 10.2 |
-| CHB-MIT, ensemble | 0.33 | 0.10 | 0.15 | 14.3 |
+| CHB-MIT, ensemble | 0.34 | 0.10 | 0.15 | 14.5 |
 
-Per patient (Wilcoxon signed-rank), LaBraM's median false-alarm rate is lower on Siena LOSO (0.0 vs. 2.8 / 24 h, p = 0.20; lower in 7 of 14 patients, higher in 3) and on CHB-MIT (0.4 vs. 2.4, p = 0.04; lower in 14 of 23 patients, higher in 4), and sensitivity does not differ (p ≥ 0.35). On CHB-MIT, two patients in one fold got a LaBraM threshold of 0.4 from the validation patients and produced 197 and 153 false alarms / 24 h, which is most of its pooled total.
+Per patient (Wilcoxon signed-rank), LaBraM's median false-alarm rate is lower on Siena LOSO (0.0 vs. 8.0 / 24 h, p = 0.09; lower in 7 of 14 patients, higher in 2) and on CHB-MIT (0.4 vs. 2.5, p = 0.09; lower in 13 of 23 patients, higher in 6), but neither difference is significant, and sensitivity does not differ (p ≥ 0.19). On CHB-MIT, two patients in one fold got a LaBraM threshold of 0.4 from the validation patients and produced 197 and 153 false alarms / 24 h, which is most of its pooled total.
 
 ![Per-patient false alarms, LaBraM vs. EEGNet](seizure/figure_fa_scatter.png)
 

@@ -1,4 +1,17 @@
 {
+  "summary": {
+    "sensitivity": 0.3617021276595745,
+    "precision": 0.10303030303030303,
+    "f1": 0.16037735849056603,
+    "fp_per_24h": 25.18781737886912,
+    "n_seizures": 47,
+    "hours": 141.02055555555555,
+    "n_folds": 7,
+    "student_params": 2210,
+    "teacher_params": 5818138,
+    "student_cpu_ms_per_window": 5.686652995185189,
+    "teacher_cpu_ms_per_window": 81.77070529200137
+  },
   "KD|fold0": {
     "fold": 0,
     "test": [
@@ -36,8 +49,8 @@
     "hours": 9.257777777777779,
     "student_params": 2210,
     "teacher_params": 5818138,
-    "student_cpu_ms_per_window": 5.095625864669273,
-    "teacher_cpu_ms_per_window": 47.65525325516743
+    "student_cpu_ms_per_window": 5.686652995185189,
+    "teacher_cpu_ms_per_window": 81.77070529200137
   },
   "KD|fold1": {
     "fold": 1,
@@ -49,9 +62,9 @@
       "sub-11",
       "sub-09"
     ],
-    "threshold": 0.99,
+    "threshold": 0.3,
     "smooth_s": 10,
-    "best_val_f1": 0.4,
+    "best_val_f1": 0.4444444444444445,
     "per_subject": [
       {
         "tp": 0,
@@ -61,23 +74,23 @@
         "subject": "sub-06"
       },
       {
-        "tp": 0,
+        "tp": 1,
         "fp": 0,
         "refTrue": 4,
         "hours": 20.46388888888889,
         "subject": "sub-14"
       }
     ],
-    "sensitivity": 0.0,
-    "precision": NaN,
-    "f1": 0.0,
+    "sensitivity": 0.1111111111111111,
+    "precision": 1.0,
+    "f1": 0.19999999999999998,
     "fp_per_24h": 0.0,
     "n_seizures": 9,
     "hours": 32.53666666666667,
     "student_params": 2210,
     "teacher_params": 5818138,
-    "student_cpu_ms_per_window": 4.97463085957861,
-    "teacher_cpu_ms_per_window": 47.58564453125776
+    "student_cpu_ms_per_window": 4.8350149742570165,
+    "teacher_cpu_ms_per_window": 92.23124283804889
   },
   "KD|fold2": {
     "fold": 2,
@@ -95,7 +108,7 @@
     "per_subject": [
       {
         "tp": 2,
-        "fp": 81,
+        "fp": 82,
         "refTrue": 2,
         "hours": 24.226944444444445,
         "subject": "sub-03"
@@ -109,15 +122,15 @@
       }
     ],
     "sensitivity": 1.0,
-    "precision": 0.047058823529411764,
-    "f1": 0.0898876404494382,
-    "fp_per_24h": 66.23133268979615,
+    "precision": 0.046511627906976744,
+    "f1": 0.08888888888888888,
+    "fp_per_24h": 67.04900346374424,
     "n_seizures": 4,
     "hours": 29.351666666666667,
     "student_params": 2210,
     "teacher_params": 5818138,
-    "student_cpu_ms_per_window": 5.041095484254281,
-    "teacher_cpu_ms_per_window": 47.67525346869661
+    "student_cpu_ms_per_window": 8.679793619497408,
+    "teacher_cpu_ms_per_window": 91.65175846404357
   },
   "KD|fold3": {
     "fold": 3,
@@ -156,8 +169,8 @@
     "hours": 19.587222222222223,
     "student_params": 2210,
     "teacher_params": 5818138,
-    "student_cpu_ms_per_window": 4.898842885268095,
-    "teacher_cpu_ms_per_window": 48.167130640346535
+    "student_cpu_ms_per_window": 5.007565104582075,
+    "teacher_cpu_ms_per_window": 61.04724153677429
   },
   "KD|fold4": {
     "fold": 4,
@@ -169,9 +182,9 @@
       "sub-11",
       "sub-09"
     ],
-    "threshold": 0.3,
-    "smooth_s": 5,
-    "best_val_f1": 0.4285714285714285,
+    "threshold": 0.99,
+    "smooth_s": 10,
+    "best_val_f1": 0.4,
     "per_subject": [
       {
         "tp": 1,
@@ -181,23 +194,23 @@
         "subject": "sub-10"
       },
       {
-        "tp": 3,
-        "fp": 14,
+        "tp": 0,
+        "fp": 2,
         "refTrue": 3,
         "hours": 8.665,
         "subject": "sub-13"
       }
     ],
-    "sensitivity": 0.3076923076923077,
-    "precision": 0.2222222222222222,
-    "f1": 0.2580645161290323,
-    "fp_per_24h": 12.26638001845636,
+    "sensitivity": 0.07692307692307693,
+    "precision": 0.3333333333333333,
+    "f1": 0.125,
+    "fp_per_24h": 1.7523400026366227,
     "n_seizures": 13,
     "hours": 27.391944444444444,
     "student_params": 2210,
     "teacher_params": 5818138,
-    "student_cpu_ms_per_window": 5.030508677312658,
-    "teacher_cpu_ms_per_window": 47.542321833437505
+    "student_cpu_ms_per_window": 5.183024520495867,
+    "teacher_cpu_ms_per_window": 59.39091623440618
   },
   "KD|fold5": {
     "fold": 5,
@@ -209,13 +222,13 @@
       "sub-11",
       "sub-09"
     ],
-    "threshold": 0.95,
+    "threshold": 0.9,
     "smooth_s": 10,
     "best_val_f1": 0.4,
     "per_subject": [
       {
         "tp": 1,
-        "fp": 11,
+        "fp": 13,
         "refTrue": 3,
         "hours": 6.035277777777778,
         "subject": "sub-05"
@@ -229,15 +242,15 @@
       }
     ],
     "sensitivity": 0.125,
-    "precision": 0.08333333333333333,
-    "f1": 0.1,
-    "fp_per_24h": 28.448275862068964,
+    "precision": 0.07142857142857142,
+    "f1": 0.09090909090909091,
+    "fp_per_24h": 33.62068965517241,
     "n_seizures": 8,
     "hours": 9.280000000000001,
     "student_params": 2210,
     "teacher_params": 5818138,
-    "student_cpu_ms_per_window": 5.148451604024255,
-    "teacher_cpu_ms_per_window": 47.86220638015948
+    "student_cpu_ms_per_window": 5.023904296952726,
+    "teacher_cpu_ms_per_window": 75.9748899739255
   },
   "KD|fold6": {
     "fold": 6,
@@ -249,35 +262,35 @@
       "sub-11",
       "sub-09"
     ],
-    "threshold": 0.3,
+    "threshold": 0.5,
     "smooth_s": 30,
     "best_val_f1": 0.22222222222222224,
     "per_subject": [
       {
         "tp": 1,
-        "fp": 45,
+        "fp": 32,
         "refTrue": 1,
         "hours": 8.735555555555555,
         "subject": "sub-07"
       },
       {
         "tp": 2,
-        "fp": 18,
+        "fp": 14,
         "refTrue": 2,
         "hours": 4.879722222222222,
         "subject": "sub-16"
       }
     ],
     "sensitivity": 1.0,
-    "precision": 0.045454545454545456,
-    "f1": 0.08695652173913045,
-    "fp_per_24h": 111.051718861573,
+    "precision": 0.061224489795918366,
+    "f1": 0.11538461538461538,
+    "fp_per_24h": 81.08538202591045,
     "n_seizures": 3,
     "hours": 13.615277777777777,
     "student_params": 2210,
     "teacher_params": 5818138,
-    "student_cpu_ms_per_window": 5.0755677084453055,
-    "teacher_cpu_ms_per_window": 47.50018055741142
+    "student_cpu_ms_per_window": 5.305644968757406,
+    "teacher_cpu_ms_per_window": 73.27870833372192
   },
   "KDbg30|fold0": {
     "fold": 0,
@@ -291,7 +304,7 @@
     ],
     "threshold": 0.3,
     "smooth_s": 10,
-    "best_val_f1": 0.2222222222222222,
+    "best_val_f1": 0.23076923076923078,
     "per_subject": [
       {
         "tp": 1,
@@ -316,8 +329,8 @@
     "hours": 9.257777777777779,
     "student_params": 2210,
     "teacher_params": 5818138,
-    "student_cpu_ms_per_window": 4.972931421737788,
-    "teacher_cpu_ms_per_window": 49.76833680727092
+    "student_cpu_ms_per_window": 5.032416229369119,
+    "teacher_cpu_ms_per_window": 62.879470270975915
   },
   "KDbg30|fold1": {
     "fold": 1,
@@ -331,33 +344,33 @@
     ],
     "threshold": 0.3,
     "smooth_s": 5,
-    "best_val_f1": 0.30769230769230765,
+    "best_val_f1": 0.4444444444444445,
     "per_subject": [
       {
         "tp": 0,
-        "fp": 3,
+        "fp": 0,
         "refTrue": 5,
         "hours": 12.072777777777778,
         "subject": "sub-06"
       },
       {
         "tp": 1,
-        "fp": 6,
+        "fp": 5,
         "refTrue": 4,
         "hours": 20.46388888888889,
         "subject": "sub-14"
       }
     ],
     "sensitivity": 0.1111111111111111,
-    "precision": 0.1,
-    "f1": 0.10526315789473685,
-    "fp_per_24h": 6.638664071304169,
+    "precision": 0.16666666666666666,
+    "f1": 0.13333333333333333,
+    "fp_per_24h": 3.6881467062800946,
     "n_seizures": 9,
     "hours": 32.53666666666667,
     "student_params": 2210,
     "teacher_params": 5818138,
-    "student_cpu_ms_per_window": 5.028775177076265,
-    "teacher_cpu_ms_per_window": 50.74760590105143
+    "student_cpu_ms_per_window": 4.905162760527067,
+    "teacher_cpu_ms_per_window": 83.69734548917525
   },
   "KDbg30|fold2": {
     "fold": 2,
@@ -375,7 +388,7 @@
     "per_subject": [
       {
         "tp": 2,
-        "fp": 133,
+        "fp": 147,
         "refTrue": 2,
         "hours": 24.226944444444445,
         "subject": "sub-03"
@@ -389,15 +402,15 @@
       }
     ],
     "sensitivity": 1.0,
-    "precision": 0.029197080291970802,
-    "f1": 0.05673758865248227,
-    "fp_per_24h": 108.75021293509738,
+    "precision": 0.026490066225165563,
+    "f1": 0.05161290322580646,
+    "fp_per_24h": 120.19760377037079,
     "n_seizures": 4,
     "hours": 29.351666666666667,
     "student_params": 2210,
     "teacher_params": 5818138,
-    "student_cpu_ms_per_window": 4.976021916869892,
-    "teacher_cpu_ms_per_window": 49.35459331773018
+    "student_cpu_ms_per_window": 5.9456145833488945,
+    "teacher_cpu_ms_per_window": 95.4696501721628
   },
   "KDbg30|fold3": {
     "fold": 3,
@@ -410,34 +423,34 @@
       "sub-09"
     ],
     "threshold": 0.3,
-    "smooth_s": 30,
-    "best_val_f1": 0.5714285714285715,
+    "smooth_s": 10,
+    "best_val_f1": 0.6666666666666666,
     "per_subject": [
       {
         "tp": 4,
-        "fp": 0,
+        "fp": 2,
         "refTrue": 4,
         "hours": 6.099166666666667,
         "subject": "sub-12"
       },
       {
         "tp": 2,
-        "fp": 0,
+        "fp": 1,
         "refTrue": 2,
         "hours": 13.488055555555556,
         "subject": "sub-01"
       }
     ],
     "sensitivity": 1.0,
-    "precision": 1.0,
-    "f1": 1.0,
-    "fp_per_24h": 0.0,
+    "precision": 0.6666666666666666,
+    "f1": 0.8,
+    "fp_per_24h": 3.6758657855177694,
     "n_seizures": 6,
     "hours": 19.587222222222223,
     "student_params": 2210,
     "teacher_params": 5818138,
-    "student_cpu_ms_per_window": 4.9747200522081885,
-    "teacher_cpu_ms_per_window": 50.59332226543726
+    "student_cpu_ms_per_window": 5.016220703206879,
+    "teacher_cpu_ms_per_window": 62.90090169265265
   },
   "KDbg30|fold4": {
     "fold": 4,
@@ -449,9 +462,9 @@
       "sub-11",
       "sub-09"
     ],
-    "threshold": 0.99,
+    "threshold": 0.9,
     "smooth_s": 10,
-    "best_val_f1": 0.28571428571428575,
+    "best_val_f1": 0.4,
     "per_subject": [
       {
         "tp": 1,
@@ -462,22 +475,22 @@
       },
       {
         "tp": 0,
-        "fp": 4,
+        "fp": 1,
         "refTrue": 3,
         "hours": 8.665,
         "subject": "sub-13"
       }
     ],
     "sensitivity": 0.07692307692307693,
-    "precision": 0.2,
-    "f1": 0.1111111111111111,
-    "fp_per_24h": 3.5046800052732454,
+    "precision": 0.5,
+    "f1": 0.13333333333333336,
+    "fp_per_24h": 0.8761700013183114,
     "n_seizures": 13,
     "hours": 27.391944444444444,
     "student_params": 2210,
     "teacher_params": 5818138,
-    "student_cpu_ms_per_window": 4.990511937345825,
-    "teacher_cpu_ms_per_window": 50.75661501541617
+    "student_cpu_ms_per_window": 5.03161892144514,
+    "teacher_cpu_ms_per_window": 65.8246028645711
   },
   "KDbg30|fold5": {
     "fold": 5,
@@ -491,7 +504,7 @@
     ],
     "threshold": 0.3,
     "smooth_s": 10,
-    "best_val_f1": 0.4,
+    "best_val_f1": 0.36363636363636365,
     "per_subject": [
       {
         "tp": 2,
@@ -502,22 +515,22 @@
       },
       {
         "tp": 5,
-        "fp": 0,
+        "fp": 1,
         "refTrue": 5,
         "hours": 3.2447222222222223,
         "subject": "sub-00"
       }
     ],
     "sensitivity": 0.875,
-    "precision": 0.15555555555555556,
-    "f1": 0.26415094339622647,
-    "fp_per_24h": 98.2758620689655,
+    "precision": 0.15217391304347827,
+    "f1": 0.2592592592592593,
+    "fp_per_24h": 100.86206896551724,
     "n_seizures": 8,
     "hours": 9.280000000000001,
     "student_params": 2210,
     "teacher_params": 5818138,
-    "student_cpu_ms_per_window": 5.300677083444801,
-    "teacher_cpu_ms_per_window": 51.19243077600307
+    "student_cpu_ms_per_window": 4.872274958567384,
+    "teacher_cpu_ms_per_window": 80.15569227609376
   },
   "KDbg30|fold6": {
     "fold": 6,
@@ -529,47 +542,34 @@
       "sub-11",
       "sub-09"
     ],
-    "threshold": 0.99,
-    "smooth_s": 30,
-    "best_val_f1": 0.25,
+    "threshold": 0.98,
+    "smooth_s": 5,
+    "best_val_f1": 0.28571428571428575,
     "per_subject": [
       {
-        "tp": 0,
-        "fp": 10,
+        "tp": 1,
+        "fp": 46,
         "refTrue": 1,
         "hours": 8.735555555555555,
         "subject": "sub-07"
       },
       {
-        "tp": 1,
-        "fp": 1,
+        "tp": 2,
+        "fp": 8,
         "refTrue": 2,
         "hours": 4.879722222222222,
         "subject": "sub-16"
       }
     ],
-    "sensitivity": 0.3333333333333333,
-    "precision": 0.08333333333333333,
-    "f1": 0.13333333333333333,
-    "fp_per_24h": 19.389982658369888,
+    "sensitivity": 1.0,
+    "precision": 0.05263157894736842,
+    "f1": 0.1,
+    "fp_per_24h": 95.18718759563399,
     "n_seizures": 3,
     "hours": 13.615277777777777,
     "student_params": 2210,
     "teacher_params": 5818138,
-    "student_cpu_ms_per_window": 5.067077254958956,
-    "teacher_cpu_ms_per_window": 51.15659028100102
-  },
-  "summary": {
-    "sensitivity": 0.40425531914893614,
-    "precision": 0.09844559585492228,
-    "f1": 0.15833333333333335,
-    "fp_per_24h": 29.612704215697477,
-    "n_seizures": 47,
-    "hours": 141.02055555555555,
-    "n_folds": 7,
-    "student_params": 2210,
-    "teacher_params": 5818138,
-    "student_cpu_ms_per_window": 5.095625864669273,
-    "teacher_cpu_ms_per_window": 47.65525325516743
+    "student_cpu_ms_per_window": 5.319067494686654,
+    "teacher_cpu_ms_per_window": 64.06343706779201
   }
 }

@@ -14,7 +14,9 @@ def _wrap(name):
     orig = _orig[name]
     def conv(input, weight, bias=None, stride=1, padding=0, dilation=1, groups=1):
         if groups > 1 and input.device.type == "mps" and input.shape[0] % 32 == 0 and input.shape[0] > 0:
-            return torch.cat([orig(c, weight, bias, stride, padding, dilation, groups) for c in input.chunk(2)])
+            # split recursively: halves of 64/128/256 are still multiples of 32 (fixed 2026-11-03; the one-level
+            # split left batch 64 and 128 wrong, see docs/mps_groupconv_bug.md "Second defect")
+            return torch.cat([conv(c, weight, bias, stride, padding, dilation, groups) for c in input.chunk(2)])
         return orig(input, weight, bias, stride, padding, dilation, groups)
     conv.__name__ = name
     return conv
@@ -23,18 +25,19 @@ F.conv1d = _wrap("conv1d")
 F.conv2d = _wrap("conv2d")
 
 def self_check():
-    """Depthwise conv at batch 32: patched MPS result must match CPU (forward and weight-grad). Raises on failure."""
+    """Depthwise conv at batch 32, 64 and 128: patched MPS result must match CPU (forward and weight-grad). Raises on failure."""
     if not torch.backends.mps.is_available():
         return "mps unavailable; patch inert"
-    torch.manual_seed(0)
-    conv = torch.nn.Conv2d(8, 16, (64, 1), groups=8, bias=False)
-    x = torch.randn(32, 8, 64, 101, requires_grad=True)
-    ref = conv(x); ref.square().mean().backward(); gref = conv.weight.grad.clone(); conv.weight.grad = None
-    cm = conv.to("mps"); xm = x.detach().to("mps").requires_grad_(True)
-    out = cm(xm); out.square().mean().backward()
-    fd = float((ref - out.cpu()).abs().max()); gd = float((gref - cm.weight.grad.cpu()).abs().max()) / float(gref.abs().max())
-    if fd > 1e-3 or gd > 1e-3:
-        raise RuntimeError(f"mps_groupconv: patched grouped conv still disagrees with CPU (fwd {fd:.2e}, grad rel {gd:.2e})")
+    for n in (64, 128, 32):                        # 32 last: its tensors feed the "bug present" check below
+        torch.manual_seed(0)
+        conv = torch.nn.Conv2d(8, 16, (64, 1), groups=8, bias=False)
+        x = torch.randn(n, 8, 64, 101, requires_grad=True)
+        ref = conv(x); ref.square().mean().backward(); gref = conv.weight.grad.clone(); conv.weight.grad = None
+        cm = conv.to("mps"); xm = x.detach().to("mps").requires_grad_(True)
+        out = cm(xm); out.square().mean().backward()
+        fd = float((ref - out.cpu()).abs().max()); gd = float((gref - cm.weight.grad.cpu()).abs().max()) / float(gref.abs().max())
+        if fd > 1e-3 or gd > 1e-3:
+            raise RuntimeError(f"mps_groupconv: patched grouped conv still disagrees with CPU at batch {n} (fwd {fd:.2e}, grad rel {gd:.2e})")
     # confirm the bug is real on this torch (unpatched) so we know the patch is still needed
     raw = _orig["conv2d"](xm.detach(), cm.weight.detach(), None, 1, 0, 1, 8)
     bug = float((ref.detach() - raw.cpu()).abs().max()) > 1e-3
